@@ -1,0 +1,309 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class restaurant extends CI_Controller {
+
+    function __construct() {
+
+
+        parent::__construct();
+
+        $this->load->helper(array('form', 'url'));
+
+        $this->load->library('session');
+
+
+        $this->load->helper('date');
+    }
+
+    public function index() {
+        $this->load->model('restaurant_model');
+        $this->load->model('restaurant_branches_model');
+        $user_id = $this->session->userdata('user_id');
+        $data['user_data'] = $this->ion_auth->user()->row();
+
+        $lat = $this->input->post('lat');
+        $lng = $this->input->post('lng');
+        $lat = !empty($lat) && is_numeric($lat) ? $lat : 'NULL';
+        $lng = !empty($lng) && is_numeric($lng) ? $lng : 'NULL';
+        if (!empty($lat) && !empty($lng)) {
+            $this->load->model('restaurant_branches_model');
+            $restaurants = $this->restaurant_branches_model->get_near_branches($lat, $lng);
+            $data['my_restaurant'] = $restaurants;
+
+        }
+
+        $data['folder_name'] = 'restaurant';
+        $data['file_name'] = 'my_restaurant';
+        $data['header_name'] = 'header_user';
+        $data['nav_name'] = 'nav_main';
+        $this->load->view('index', $data);
+    }
+
+
+
+    public function add_menu() {
+        $this->load->model('restaurant_model');
+        $this->load->model('user_menu_categories_model');
+        $this->load->model('restaurant_menu_model');
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $restaurant_id = $this->uri->segment(3);
+        if ($this->input->post('add_restaurant_menu')) {
+            $cat_data = $_POST;
+            for ($i = 0; $i < sizeof($cat_data['name']); $i++) {
+
+                $menu_data['name'] = $cat_data['name'][$i];
+                $menu_data['color_code'] = $cat_data['color_code'][$i];
+                $menu_data['restaurant_id'] = $restaurant_id;
+                $upload_path = 'uploads/restaurantimages/restaurant_categories/';
+                if (!is_dir($upload_path)) {
+                    mkdir($upload_path, 0777, TRUE);
+                }
+                if (!empty($_FILES['image']['name'][$i]) && $_FILES['image']['error'][$i] == 0) {
+                    $type = explode(".", $_FILES['image']['name'][$i]);
+                    $_FILES['image']['name'][$i] = $this->random_string() . "." . $type[1];
+                    move_uploaded_file($_FILES['image']['tmp_name'][$i], $upload_path . $_FILES['image']['name'][$i]);
+                    $menu_data['image'] = base_url() . $upload_path . $_FILES['image']['name'][$i];
+                }
+                if (!empty($_FILES['logo']['name'][$i]) && $_FILES['logo']['error'][$i] == 0) {
+                    $type = explode(".", $_FILES['logo']['name'][$i]);
+                    $_FILES['logo']['name'][$i] = $this->random_string() . "." . $type[1];
+                    move_uploaded_file($_FILES['logo']['tmp_name'][$i], $upload_path . $_FILES['logo']['name'][$i]);
+                    $menu_data['logo'] = base_url() . $upload_path . $_FILES['logo']['name'][$i];
+                }
+
+
+                $category_id = $this->user_menu_categories_model->create($menu_data);
+                $menu['category_id'] = $category_id;
+                $menu['restaurant_id'] = $restaurant_id;
+                $this->restaurant_menu_model->create($menu);
+            }
+            redirect('restaurant/add_menu_items/' . $restaurant_id . '');
+        }
+        $data['restaurant_detail'] = $this->restaurant_model->get_by_id($restaurant_id);
+        $data['restaurant_id'] = $restaurant_id;
+        $data['folder_name'] = 'restaurant';
+        $data['file_name'] = 'add_menu';
+        $data['header_name'] = 'header_user';
+        $data['nav_name'] = 'nav_main';
+        $this->load->view('index', $data);
+    }
+
+    public function add_menu_items() {
+        $this->load->model('restaurant_model');
+        $this->load->model('user_menu_categories_model');
+        $this->load->model('restaurant_menu_model');
+        $this->load->model('restaurant_menu_items_model');
+        $this->load->model('restaurant_menu_images_model');
+        $this->load->model('restaurant_menu_attr_model');
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $restaurant_id = $this->uri->segment(3);
+        if ($this->input->post('add_restaurant_menu_items')) {
+            $item_data = $_POST;
+            $cat_item_data['menu_id'] = $item_data['menu_id'];
+            $cat_item_data['name'] = $item_data['name'];
+            $cat_item_data['price'] = $item_data['price'];
+            $cat_item_data['description'] = $item_data['description'];
+            $item_id = $this->restaurant_menu_items_model->create($cat_item_data);
+            $upload_path = 'uploads/restaurantimages/restaurant_categories/items/';
+            if (!is_dir($upload_path)) {
+                mkdir($upload_path, 0777, TRUE);
+            }
+            for ($i = 0; $i < sizeof($_FILES['image_url']['name']); $i++) {
+                if (!empty($_FILES['image_url']['name'][$i]) && $_FILES['image_url']['error'][$i] == 0) {
+                    $type = explode(".", $_FILES['image_url']['name'][$i]);
+                    $_FILES['image_url']['name'][$i] = $this->random_string() . "." . $type[1];
+                    move_uploaded_file($_FILES['image_url']['tmp_name'][$i], $upload_path . $_FILES['image_url']['name'][$i]);
+                    $images['image_url'] = base_url() . $upload_path . $_FILES['image_url']['name'][$i];
+                    $images['item_id'] = $item_id;
+                    $this->restaurant_menu_images_model->create($images);
+                }
+            }
+            redirect('restaurant/restaurant_detail/' . $restaurant_id . '');
+        }
+        $data['restaurant_detail'] = $this->restaurant_model->get_by_id($restaurant_id);
+        $data['restaurant_categories'] = $this->user_menu_categories_model->get_by_restaurant_id($restaurant_id);
+        $data['folder_name'] = 'restaurant';
+        $data['file_name'] = 'add_cat_items';
+        $data['header_name'] = 'header_user';
+        $data['nav_name'] = 'nav_main';
+        $this->load->view('index', $data);
+    }
+
+    public function get_all_social_companies() {
+        $this->load->model('socail_account_model');
+        $data = $this->socail_account_model->get_all();
+        echo json_encode($data);
+    }
+
+    public function add_item_attribute() {
+        $this->load->model('restaurant_model');
+        $this->load->model('user_menu_categories_model');
+        $this->load->model('restaurant_menu_model');
+        $this->load->model('restaurant_menu_items_model');
+        $this->load->model('restaurant_menu_images_model');
+        $this->load->model('restaurant_menu_attr_model');
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $restaurant_id = $this->uri->segment(3);
+        $item_id = $this->uri->segment(4);
+        if ($this->input->post('add_restaurant_menu_item_attr')) {
+            $attr_data = $_POST;
+//            echo '<pre>';
+//            print_r($attr_data);
+//            exit();
+            if ($attr_data['parent'] == 1) {
+                $item_attr_data['item_id'] = $attr_data['item_id'];
+                $item_attr_data['attribute_name'] = $attr_data['attribute_name'];
+                $item_attr_data['attribute_value'] = $attr_data['attribute_value'];
+                $item_attr_data['parent'] = $attr_data['parent'];
+                $upload_path = 'uploads/restaurantimages/restaurant_categories/cat_items/item_attr/';
+                if (!is_dir($upload_path)) {
+                    mkdir($upload_path, 0777, TRUE);
+                }
+                if (!empty($_FILES['userfile']['name']) && $_FILES['userfile']['error'] == 0) {
+                    $type = explode(".", $_FILES['userfile']['name']);
+                    $_FILES['userfile']['name'] = $this->random_string() . "." . $type[1];
+                    move_uploaded_file($_FILES['userfile']['tmp_name'], $upload_path . $_FILES['userfile']['name']);
+                    $item_attr_data['item_attr_image'] = base_url() . $upload_path . $_FILES['userfile']['name'];
+                }
+            } else {
+                $item_attr_data['item_id'] = $attr_data['item_id'];
+                $item_attr_data['attribute_name'] = $attr_data['attribute_name'];
+                $item_attr_data['attribute_value'] = "NULL";
+                $item_attr_data['parent'] = $attr_data['parent'];
+                $upload_path = 'uploads/restaurantimages/restaurant_categories/cat_items/item_attr/';
+                if (!is_dir($upload_path)) {
+                    mkdir($upload_path, 0777, TRUE);
+                }
+                if (!empty($_FILES['userfile']['name']) && $_FILES['userfile']['error'] == 0) {
+                    $type = explode(".", $_FILES['userfile']['name']);
+                    $_FILES['userfile']['name'] = $this->random_string() . "." . $type[1];
+                    move_uploaded_file($_FILES['userfile']['tmp_name'], $upload_path . $_FILES['userfile']['name']);
+                    $item_attr_data['item_attr_image'] = base_url() . $upload_path . $_FILES['userfile']['name'];
+                }
+            }
+            $this->restaurant_menu_attr_model->create($item_attr_data);
+            redirect('restaurant/item_detail/' . $restaurant_id . '/' . $item_id . '');
+        }
+        $data['item_detail'] = $this->restaurant_menu_items_model->get_by_item_id($item_id);
+        $data['folder_name'] = 'restaurant';
+        $data['file_name'] = 'add_item_attr';
+        $data['header_name'] = 'header_user';
+        $data['nav_name'] = 'nav_main';
+        $this->load->view('index', $data);
+    }
+
+    public function restaurant_detail() {
+        $this->load->model('restaurant_model');
+        $this->load->model('restaurant_menu_model');
+        $this->load->model('user_menu_categories_model');
+        $this->load->model('restaurant_timing_model');
+        $this->load->model('restaurant_social_acc_model');
+        $this->load->model('restaurant_mobile_no_model');
+        $this->load->model('restaurant_phone_no_model');
+        $this->load->model('restaurant_email_model');
+
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $restaurant_id = $this->uri->segment(3);
+        $data['restaurants'] = $this->restaurant_model->get_restaurants();
+        $data['restaurant_detail'] = $this->restaurant_model->get_by_id($restaurant_id);
+
+        $data['res_mobile'] =$this->restaurant_mobile_no_model->get_by_id($restaurant_id);
+        $data['res_phone'] =$this->restaurant_phone_no_model->get_by_id($restaurant_id);
+        $data['res_email'] =$this->restaurant_email_model->get_by_id($restaurant_id);
+
+        $data['restaurant_categories'] = $this->user_menu_categories_model->get_by_restaurant_id($restaurant_id);
+        $data['restaurant_items'] = $this->restaurant_model->get_limited_by_restaurant_id($restaurant_id);
+        $data['restaurant_timing'] = $this->restaurant_timing_model->get_by_restaurant_id($restaurant_id);
+        $data['socail_acc'] = $this->restaurant_social_acc_model->get_by_id($restaurant_id);
+
+        $data['folder_name'] = 'restaurant';
+        $data['file_name'] = 'restaurant_detail';
+        $data['header_name'] = 'header_user';
+        $data['nav_name'] = 'nav_main';
+        $this->load->view('index', $data);
+    }
+
+    public function category_detail() {
+        $this->load->model('user_menu_categories_model');
+        $this->load->model('restaurant_model');
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $category_id = $this->uri->segment(3);
+        $restaurant_id = $this->uri->segment(4);
+        $data['restaurants'] = $this->restaurant_model->get_restaurants();
+        $data['restaurant_categories'] = $this->user_menu_categories_model->get_by_restaurant_id($restaurant_id);
+        $data['category'] = $this->user_menu_categories_model->get_by_id($category_id);
+        $data['categories_itmes'] = $this->user_menu_categories_model->get_category_item_by_id($category_id);
+        $data['folder_name'] = 'restaurant';
+        $data['file_name'] = 'category_detail';
+        $data['header_name'] = 'header_user';
+        $data['nav_name'] = 'nav_main';
+        $this->load->view('index', $data);
+    }
+
+    public function category_listing() {
+        $this->load->model('user_menu_categories_model');
+        $this->load->model('restaurant_model');
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $data['restaurant_id'] = $this->uri->segment(3);
+//        $restaurant_id = $this->uri->segment(4);
+        $data['category'] = $this->user_menu_categories_model->get_by_restaurant_id($data['restaurant_id']);
+        $data['restaurants'] = $this->restaurant_model->get_restaurants();
+
+        $data['folder_name'] = 'restaurant';
+        $data['file_name'] = 'category_listing';
+        $data['header_name'] = 'header_user';
+        $data['nav_name'] = 'nav_main';
+        $this->load->view('index', $data);
+    }
+
+    public function item_detail() {
+        $this->load->model('restaurant_model');
+        $this->load->model('restaurant_menu_model');
+        $this->load->model('user_menu_categories_model');
+        $this->load->model('restaurant_menu_images_model');
+        $this->load->model('restaurant_menu_items_model');
+        $this->load->model('restaurant_timing_model');
+        $this->load->model('restaurant_menu_attr_model');
+        $this->load->model('restaurant_mobile_no_model');
+        $this->load->model('restaurant_phone_no_model');
+        $this->load->model('restaurant_email_model');
+
+
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $restaurant_id = $this->uri->segment(3);
+        $item_id = $this->uri->segment(4);
+        $data['restaurant_detail'] = $this->restaurant_model->get_by_id($restaurant_id);
+        $data['restaurants'] = $this->restaurant_model->get_restaurants();
+        $data['restaurant_categories'] = $this->user_menu_categories_model->get_by_restaurant_id($restaurant_id);
+        $data['restaurant_item_detail'] = $this->restaurant_menu_items_model->get_by_item_id($item_id);
+        $data['restaurant_menu_attr'] = $this->restaurant_menu_attr_model->get_by_id($item_id);
+        $data['items_images'] = $this->restaurant_menu_images_model->get_images_by_item_id($item_id);
+        $data['restaurant_timing'] = $this->restaurant_timing_model->get_by_restaurant_id($restaurant_id);
+        $data['res_mobile'] =$this->restaurant_mobile_no_model->get_by_id($restaurant_id);
+        $data['res_phone'] =$this->restaurant_phone_no_model->get_by_id($restaurant_id);
+        $data['res_email'] =$this->restaurant_email_model->get_by_id($restaurant_id);
+
+        $data['restaurant_id'] = $restaurant_id;
+        $data['item_id'] = $item_id;
+        $data['folder_name'] = 'restaurant';
+        $data['file_name'] = 'item_detail';
+        $data['header_name'] = 'header_user';
+        $data['nav_name'] = 'nav_main';
+        $this->load->view('index', $data);
+    }
+
+    public function random_string($length = 5) {
+        $key = '';
+        $keys = array_merge(range(0, 9), range('a', 'z'));
+
+        for ($i = 0; $i < $length; $i++) {
+            $key .= $keys[array_rand($keys)];
+        }
+
+        return $key;
+    }
+
+}
