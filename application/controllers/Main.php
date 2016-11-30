@@ -18,9 +18,15 @@ class main extends CI_Controller {
         $data['file_name'] = 'index';
         $data['header_name'] = 'header';
         $data['nav_name'] = 'nav_main';
-        $data['restaurant'] = $this->restaurant_model->get_all_restaurant();
+        $data['restaurant'] = $this->restaurant_model->get_featured_restaurant_location();
+        $data['cusine_type'] = $this->restaurant_model->get_most_use_tags();
+        $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location();
+        
+        $data['popular_restaurants'] = $this->restaurant_model->get_popular_restaurants_location();
+        
+        
         $data['restaurants_places'] = $this->restaurant_model->get_restaurants();
-        $data['categories'] = $this->cuisine_type_model->get_all();
+        //$data['categories'] = $this->cuisine_type_model->get_all();
         $this->load->view('index', $data);
     }
 
