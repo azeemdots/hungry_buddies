@@ -185,11 +185,13 @@ class Restaurant_model extends CI_Model {
     //--------------------get popular restaurant-----------------------------------------------
     public function get_featured_restaurant_location()
     {
-        $this->db->select('restaurant.id AS restaurant_id,restaurant.name AS restaurant_name ,restaurant.logo_url AS logo_url,restaurant.cover_image_url AS cover_image_url ,restaurant.description AS description,restaurant.website_address AS website_address,restaurant.server AS restaurant_server,restaurant.min_price AS restaurant_min_price,restaurant.max_price AS restaurant_max_price,restaurant.min_order AS restaurant_min_order,restaurant.delivery_charges AS delivery_charges,restaurant.restaurant_discount AS restaurant_discount,hb_countries.country_name as country_name,cities.city_name as city_name,COUNT(restaurant_comments.restaurant_id) AS restaurant_reviews');
+        $this->db->select('restaurant.id AS restaurant_id,restaurant.name AS restaurant_name ,restaurant.logo_url AS logo_url,restaurant.cover_image_url AS cover_image_url ,restaurant.description AS description,restaurant.website_address AS website_address,restaurant.server AS restaurant_server,restaurant.min_price AS restaurant_min_price,restaurant.max_price AS restaurant_max_price,restaurant.min_order AS restaurant_min_order,restaurant.delivery_charges AS delivery_charges,restaurant.restaurant_discount AS restaurant_discount,hb_countries.country_name as country_name,cities.city_name as city_name,cuisine_type.name as cousine_name,COUNT(restaurant_comments.restaurant_id) AS restaurant_reviews');
             $this->db->from('restaurant');
             $this->db->join("restaurant_comments", "restaurant.id =restaurant_comments.restaurant_id", "LEFT");
             $this->db->join("hb_countries", "hb_countries.country_id=restaurant.country_id", "LEFT");
             $this->db->join("cities", "restaurant.city_id = cities.city_id", "LEFT");
+            $this->db->join("restaurant_cuisine_type", "restaurant_cuisine_type.restaurant_id =restaurant.id", "LEFT");
+            $this->db->join("cuisine_type", "cuisine_type.id =restaurant_cuisine_type.cuisine_type_id", "LEFT");
             $this->db->group_by('restaurant.id');
             $this->db->order_by('restaurant_reviews', 'desc');  
             $this->db->limit(4,0);
@@ -226,11 +228,13 @@ class Restaurant_model extends CI_Model {
     
     public function get_papular_restaurant_location()
     {
-         $this->db->select('restaurant.id AS restaurant_id,restaurant.name AS restaurant_name ,restaurant.logo_url AS logo_url,restaurant.cover_image_url AS cover_image_url ,restaurant.description AS description,restaurant.website_address AS website_address,restaurant.server AS restaurant_server,restaurant.min_price AS restaurant_min_price,restaurant.max_price AS restaurant_max_price,restaurant.min_order AS restaurant_min_order,restaurant.delivery_charges AS delivery_charges,restaurant.restaurant_discount AS restaurant_discount,hb_countries.country_name as country_name,cities.city_name as city_name,COUNT(restaurant_comments.restaurant_id) AS restaurant_reviews');
+         $this->db->select('restaurant.id AS restaurant_id,restaurant.name AS restaurant_name ,restaurant.logo_url AS logo_url,restaurant.cover_image_url AS cover_image_url ,restaurant.description AS description,restaurant.website_address AS website_address,restaurant.server AS restaurant_server,restaurant.min_price AS restaurant_min_price,restaurant.max_price AS restaurant_max_price,restaurant.min_order AS restaurant_min_order,restaurant.delivery_charges AS delivery_charges,restaurant.restaurant_discount AS restaurant_discount,hb_countries.country_name as country_name,cities.city_name as city_name,cuisine_type.name as cousine_name,COUNT(restaurant_comments.restaurant_id) AS restaurant_reviews');
             $this->db->from('restaurant');
             $this->db->join("restaurant_comments", "restaurant.id =restaurant_comments.restaurant_id", "LEFT");
             $this->db->join("hb_countries", "hb_countries.country_id=restaurant.country_id", "LEFT");
             $this->db->join("cities", "restaurant.city_id = cities.city_id", "LEFT");
+            $this->db->join("restaurant_cuisine_type", "restaurant_cuisine_type.restaurant_id =restaurant.id", "LEFT");
+            $this->db->join("cuisine_type", "cuisine_type.id =restaurant_cuisine_type.cuisine_type_id", "LEFT");
             $this->db->group_by('restaurant.id');
             $this->db->order_by('restaurant_reviews', 'desc');  
             $this->db->limit(4,0);
@@ -248,13 +252,12 @@ class Restaurant_model extends CI_Model {
     public function get_popular_restaurants_location($country=0,$city=0)
     {
         $this->db->select('restaurant.id AS restaurant_id,restaurant.name AS restaurant_name ,restaurant.logo_url AS logo_url,restaurant.cover_image_url AS cover_image_url ,restaurant.description AS description,restaurant.website_address AS website_address,restaurant.server AS restaurant_server,restaurant.min_price AS restaurant_min_price,restaurant.max_price AS restaurant_max_price,restaurant.min_order AS restaurant_min_order,restaurant.delivery_charges AS delivery_charges,restaurant.restaurant_discount AS restaurant_discount,COUNT(restaurant_comments.restaurant_id) AS restaurant_reviews');
-            $this->db->from('restaurant');
-            $this->db->join("restaurant_comments", "restaurant.id =restaurant_comments.restaurant_id", "LEFT");
-            $this->db->group_by('restaurant.id');
-            $this->db->order_by('restaurant_reviews', 'desc');  
-            $this->db->limit(6,0);
-            $query = $this->db->get();
-
+        $this->db->from('restaurant');
+        $this->db->join("restaurant_comments", "restaurant.id =restaurant_comments.restaurant_id", "LEFT");
+        $this->db->group_by('restaurant.id');
+        $this->db->order_by('restaurant_reviews', 'desc');  
+        $this->db->limit(6,0);
+        $query = $this->db->get();
             if ($query->num_rows() < 1) {
                 return null;
             } else {
@@ -280,5 +283,22 @@ class Restaurant_model extends CI_Model {
     }
     
     
+    
+    public function get_most_user_by_reviews()
+    {
+        $this->db->select('users.id AS user_id, users.username AS username, users.first_name AS first_name, users.last_name AS last_name, users.user_image_url AS user_image, users.cover_image_url AS cover_image_url ,hb_countries.country_name as country_name,COUNT(restaurant_comments.user_id) AS user_comments');
+        $this->db->from('users');
+        $this->db->join("restaurant_comments", "users.id=restaurant_comments.user_id", "LEFT");
+        $this->db->join("hb_countries", "hb_countries.country_id=users.country", "LEFT");
+        $this->db->group_by('users.id');
+        $this->db->order_by('user_comments', 'desc');  
+        $this->db->limit(4,0);
+        $query = $this->db->get();
+            if ($query->num_rows() < 1) {
+                return null;
+            } else {
+                return $query->result();
+            }
+    }
     
 }

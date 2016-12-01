@@ -207,13 +207,12 @@ class restaurant extends CI_Controller {
 
         $data['user_data'] = $this->ion_auth->user()->row();
         $restaurant_id = $this->uri->segment(3);
+        
         $data['restaurants'] = $this->restaurant_model->get_restaurants();
         $data['restaurant_detail'] = $this->restaurant_model->get_by_id($restaurant_id);
-
         $data['res_mobile'] =$this->restaurant_mobile_no_model->get_by_id($restaurant_id);
         $data['res_phone'] =$this->restaurant_phone_no_model->get_by_id($restaurant_id);
         $data['res_email'] =$this->restaurant_email_model->get_by_id($restaurant_id);
-
         $data['restaurant_categories'] = $this->user_menu_categories_model->get_by_restaurant_id($restaurant_id);
         $data['restaurant_items'] = $this->restaurant_model->get_limited_by_restaurant_id($restaurant_id);
         $data['restaurant_timing'] = $this->restaurant_timing_model->get_by_restaurant_id($restaurant_id);
@@ -221,7 +220,7 @@ class restaurant extends CI_Controller {
 
         $data['folder_name'] = 'restaurant';
         $data['file_name'] = 'restaurant_detail';
-        $data['header_name'] = 'header_user';
+        $data['header_name'] = 'header';
         $data['nav_name'] = 'nav_main';
         $this->load->view('index', $data);
     }

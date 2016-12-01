@@ -11,6 +11,8 @@ class main extends CI_Controller {
         $this->load->model('cuisine_type_model');
         $this->load->model('user_preference_model');
         $this->load->model('user_selected_tags_model');
+        $this->load->model('restaurant_search');
+        $this->load->model('hb_countries_model');
     }
 
     function index() {        
@@ -21,11 +23,10 @@ class main extends CI_Controller {
         $data['restaurant'] = $this->restaurant_model->get_featured_restaurant_location();
         $data['cusine_type'] = $this->restaurant_model->get_most_use_tags();
         $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location();
-        
         $data['popular_restaurants'] = $this->restaurant_model->get_popular_restaurants_location();
-        
-        
         $data['restaurants_places'] = $this->restaurant_model->get_restaurants();
+        $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews();
+        $data['all_countries'] = $this->hb_countries_model->get_all();
         //$data['categories'] = $this->cuisine_type_model->get_all();
         $this->load->view('index', $data);
     }
@@ -337,7 +338,6 @@ class main extends CI_Controller {
             $data['users_data'] = $this->ion_auth->users()->result();
             //$data['user_data'] = $this->ion_auth->user()->row();
             $this->session->set_flashdata('success', "Unfollow Successfully ");
-
             $view = $this->load->view('main/my_buddies_unfollow', $data,true);
             print_r($view);
         }
@@ -345,7 +345,64 @@ class main extends CI_Controller {
 
     }
 
+public function search_result() {
+                $data['keyword']= $this->input->post('keyword_search');
+                $data['location']= $this->input->post('search_location');
+  
+            
+//              echo "<pre>";                
+//              print_r($this->restaurant_search->get_restaurant_by_location( $location ));
+//              exit;                        
+ 
 
+            $data['folder_name'] = 'main';
+            $data['file_name'] = 'search_restaurant';
+            $data['header_name'] = 'header_inner';
+            $data['nav_name'] = 'nav_main';  
+            
+            if(isset($data['keyword'])) {
+            $data['restaurant_keyword']= $this->restaurant_search->get_restaurant_by_keyword($data['keyword']);
+            }
+            
+            if($data['location']){
+            $data['restaurant_keyword']= $this->restaurant_search->get_restaurant_by_location($data['location']);
+            } 
+            
+            if (isset($data['keyword']) AND isset($data['location'])){
+            $data['restaurant_keyword']= $this->restaurant_search->get_restaurant_by_name_location( $data['keyword'], $data['location'] );
+            }
+            
+            $this->load->view('index', $data); 
+                                              
+    }
+
+
+    public function restaurant_sort()
+    {
+        $keyword= $this->input->post('restaurant_sort');
+        if($keyword=1)
+        {
+             $data['restaurant_keyword']= $this->restaurant_search->get_latest_restaurant();
+        }
+        if($keyword=2)
+        {
+            $data['restaurant_keyword']= $this->restaurant_search->get_oldest_restaurant();
+        }
+       if($keyword=3)
+        {
+            $data['restaurant_keyword']= $this->restaurant_search->get_maxprice_restaurant();
+        }
+        if($keyword=4)
+        {
+           $data['restaurant_keyword']= $this->restaurant_search->get_minprice_restaurant();
+        } 
+        
+            $data['folder_name'] = 'main';
+            $data['file_name'] = 'search_restaurant';
+            $data['header_name'] = 'header_inner';
+            $data['nav_name'] = 'nav_main'; 
+            $this->load->view('index', $data); 
+    }
 
 
 }
