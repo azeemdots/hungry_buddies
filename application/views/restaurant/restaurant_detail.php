@@ -15,7 +15,7 @@
                                             <address>
                                                 <div><?php if(!empty($restaurant_detail->name)) { echo $restaurant_detail->name; } ?></div>
                                                 <div><?php if(!empty($restaurant_detail->country_name)) { echo $restaurant_detail->country_name; } ?></div>
-                                                <div><?php echo $restaurant_branch[0]->branch_name; ?></div>
+                                                <div><?php if(!empty($restaurant_branch[0]->branch_name)) echo $restaurant_branch[0]->branch_name; ?></div>
                                                 <figure>
                                                          <?php if(!empty($res_mobile)): ?>
                                                         <?php foreach($res_mobile as $mobile_no): ?>
