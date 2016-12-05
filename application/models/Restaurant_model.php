@@ -301,4 +301,42 @@ class Restaurant_model extends CI_Model {
             }
     }
     
+    
+    public function get_restaurant_reviews($id)
+    {
+        $this->db->select('restaurant.id AS restaurant_id,restaurant_comments.id AS comments_id,restaurant_comments.date AS coments_date,restaurant_comments.comment AS rec_comments,restaurant_comments.rating AS user_rating,users.first_name AS first_name,users.last_name AS last_name,users.user_image_url AS user_image');
+        $this->db->from('restaurant');
+        $this->db->join("restaurant_comments", "restaurant.id=restaurant_comments.restaurant_id", "LEFT");
+        $this->db->join("users", "users.id=restaurant_comments.user_id", "LEFT");
+        $this->db->where('restaurant_id', $id);
+        $this->db->order_by('coments_date', 'desc');  
+        $query = $this->db->get();
+        
+            if ($query->num_rows() < 1) {
+                return null;
+            } else {
+                return $query->result();
+            }
+    }
+    
+    public function add_user_comment($post){
+     $comment = $this->input->post('review_message');
+     $rating = $this->input->post('score_value');
+     $date= $this->input->post('date');
+     $user_id= $this->input->post('user_id');
+     $restaurant_id= $this->input->post('restaurant_id');
+     
+     $data = array(
+         'user_id' => $user_id,
+         'comment' => $comment,
+         'date'    => $date,
+         'rating'  => $rating,
+         'restaurant_id' => $restaurant_id        
+     );
+     
+     $query= $this->db->insert('restaurant_comments', $data);
+     return $query;	
+     
+    }
+    
 }

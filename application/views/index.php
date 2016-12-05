@@ -34,12 +34,8 @@ $page_name = $file_name;
     <li>Add a Restaurant</li>
     <li>Claim your Listing</li>
     <li>Business Login</li>
-    <li>Restaurant Widgets</li>
     <li>Guidelines</li>
     <li>Advertise</li>
-    <li>Order</li>
-    <li>Base (POS)</li>
-     <li>White label</li>
    </ul>
   </div>
   <div class="col-md-2">

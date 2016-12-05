@@ -40,7 +40,7 @@
                             
                             <!-- /.form-group -->
                             <div class="form-group">
-                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                <button type="submit" name="submit" id="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                             </div>
                             <!-- /.form-group -->
                         </div>
@@ -79,16 +79,14 @@
                                             <div class="inner">
                                                 <div class="content">
                                                     <dl>
-                                                        <dt>Bedrooms</dt>
+                                                        <dt>Like</dt>
                                                         <dd>2</dd>
-                                                        <dt>Bathrooms</dt>
+                                                        <dt>Tried</dt>
                                                         <dd>2</dd>
-                                                        <dt>Area</dt>
-                                                        <dd>240m<sup>2</sup></dd>
-                                                        <dt>Garages</dt>
+                                                        <dt>Bookmark</dt>
+                                                        <dd>2</dd>
+                                                        <dt>Comments</dt>
                                                         <dd>1</dd>
-                                                        <dt>Build Year</dt>
-                                                        <dd>1990</dd>
                                                     </dl>
                                                 </div>
                                             </div>
@@ -157,10 +155,10 @@
                                                 </div>
                                             </div>
                                             <div class="item-specific">
-                                                <span title="Bedrooms"><img src="assets/img/bedrooms.png" alt="">2</span>
-                                                <span title="Bathrooms"><img src="assets/img/bathrooms.png" alt="">2</span>
-                                                <span title="Area"><img src="assets/img/area.png" alt="">240m<sup>2</sup></span>
-                                                <span title="Garages"><img src="assets/img/garages.png" alt="">1</span>
+                                                <span title="Like"><img src="assets/img/bedrooms.png" alt="">2</span>
+                                                <span title="Bookmarks"><img src="assets/img/bathrooms.png" alt="">2</span>
+                                                <span title="tried"><img src="assets/img/area.png" alt="">2</span>
+                                                <span title="comments"><img src="assets/img/garages.png" alt="">1</span>
                                             </div>
                                             <div class="icon">
                                                 <i class="fa fa-thumbs-up"></i>
@@ -234,10 +232,10 @@
                                                 </div>
                                             </div>
                                             <div class="item-specific">
-                                                <span title="Bedrooms"><img src="assets/img/bedrooms.png" alt="">2</span>
-                                                <span title="Bathrooms"><img src="assets/img/bathrooms.png" alt="">2</span>
-                                                <span title="Area"><img src="assets/img/area.png" alt="">240m<sup>2</sup></span>
-                                                <span title="Garages"><img src="assets/img/garages.png" alt="">1</span>
+                                                <span title="Like"><img src="assets/img/bedrooms.png" alt="">2</span>
+                                                <span title="Bookmarks"><img src="assets/img/bathrooms.png" alt="">2</span>
+                                                <span title="tried"><img src="assets/img/area.png" alt="">2</span>
+                                                <span title="comments"><img src="assets/img/garages.png" alt="">1</span>
                                             </div>
                                             <div class="icon">
                                                 <i class="fa fa-thumbs-up"></i>

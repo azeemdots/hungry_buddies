@@ -1,45 +1,34 @@
 <!--Sub Header-->
-            <section class="sub-header">
-                <div class="search-bar horizontal collapse" id="redefine-search-form"></div>
-                <!-- /.search-bar -->
-                <div class="breadcrumb-wrapper">
-                    <div class="container">
-                        
-                        <ol class="breadcrumb">
-                            <li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
-                            <li><a href="#">Page</a></li>
-                            <li class="active">Detail</li>
-                        </ol>
-                        <!-- /.breadcrumb-->
-                    </div>
-                    <!-- /.container-->
-                </div>
-                <!-- /.breadcrumb-wrapper-->
-            </section>
-            <!--end Sub Header-->
             
+            <!--end Sub Header-->
+             <!-- Main List Restaurant gird view----->    
             <div id="page-content">
                 <section class="container">
                     <div class="">
                         <!--Content-->
                         <div class="">
                             <header>
-                                <h1 class="page-title">Listing</h1>
+                                <h1 class="page-title">Search Result</h1>
                             </header>
                             <figure class="filter clearfix">
                                 <div class="buttons pull-left">
                                     <a href="#" class="btn icon active" onclick="return girdsection()"><i class="fa fa-th"></i>Grid</a>
                                     <a href="#" class="btn icon" onclick="return listsection()"><i class="fa fa-th-list"></i>List</a>
                                 </div>
+                                
+                                <div class="buttons pull-left" style="margin-left: 200px;">
+                                    <button class="btn icon" onclick="return girdOpenRestaurant()"><strong>Open</strong></button>
+                                    <button class="btn icon" onclick="return girdNearRestaurant()"><strong>Under 5 Miles</strong></button>
+                                    <button class="btn icon" onclick="return girdDiscountRestaurant()"><strong>Discount</strong></button>
+                                </div>
                                 <div class="pull-right">
                                     <aside class="sorting">
                                         <span>Sorting</span>
                                         <div class="form-group">
-                                            <select class="framed" id="restaurant_sort" name="sort">
+                                            <select class="framed" id="restaurant_sort" name="sort" onchange="return loadGirdRestaurant()">
+                                                <option value="0">Select Sorting Option</option>
                                                 <option value="1">Date - Newest First</option>
                                                 <option value="2">Date - Oldest First</option>
-                                                <option value="3">Price - Highest First</option>
-                                                <option value="4">Price - Lowest First</option>
                                             </select>
                                         </div>
                                         <!-- /.form-group -->
@@ -71,7 +60,7 @@
                                         <div class="item">
                                             <div class="image">
                                                 <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
-                                                <a href="item-detail.html">
+                                                <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>">
                                                     <div class="overlay">
                                                         <div class="inner">
                                                             <div class="content">
@@ -81,10 +70,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-specific">
-                                                        <span title="Bedrooms"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
-                                                        <span title="Bathrooms"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
-                                                        <span title="Area"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
-                                                        <span title="Garages"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
+                                                        <span title="Like"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
+                                                        <span title="BookMarks"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
+                                                        <span title="Tried"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
+                                                        <span title="Comments"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="fa fa-thumbs-up"></i>
@@ -93,7 +82,7 @@
                                                 </a>
                                             </div>
                                             <div class="wrapper">
-                                                <a href="item-detail.html"><h3><?php echo $row->restaurant_name; ?></h3></a>
+                                                <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>"><h3><?php echo $row->restaurant_name; ?></h3></a>
                                                 <figure><?php echo $row->city_name.",".$row->country_name; ?></figure>
                                                 <div class="info">
                                                     <div class="type">
@@ -138,230 +127,39 @@
                     </div>
                 </section>
             </div>
+             <!------Main List Restaurant gird view end----->  
 
-
-
-    <div id="page-content1" style="display:none;">
-                <section class="container">
-                    <div class="row">
-                        <!--Content-->
-                        <div class="col-md-9">
-                            <header>
-                                <h1 class="page-title">Listing</h1>
-                            </header>
-                            <figure class="filter clearfix">
-                                <div class="buttons pull-left">
-                                    <a href="#" class="btn icon active" onclick="return girdsection()"><i class="fa fa-th"></i>Grid</a>
-                                    <a href="#" class="btn icon" onclick="return listsection()"><i class="fa fa-th-list"></i>List</a>
-                                </div>
-                                <div class="pull-right">
-                                    <aside class="sorting">
-                                        <span>Sorting</span>
-                                        <div class="form-group">
-                                            <select class="framed" name="sort">
-                                                <option value="">Date - Newest First</option>
-                                                <option value="1">Date - Oldest First</option>
-                                                <option value="2">Price - Highest First</option>
-                                                <option value="3">Price - Lowest First</option>
-                                            </select>
-                                        </div>
-                                        <!-- /.form-group -->
-                                    </aside>
-                                </div>
-                            </figure>
-
-                            <!--Listing List-->
-                            <section class="block listing">
-                                <?php 
-                                    if(!empty($restaurant_keyword))
-                                    {
-                                      foreach($restaurant_keyword as $rows)  
-                                      {
-                                 ?>
-                            <?php
-                            $imagename = "";
-                            $url = @getimagesize($rows->logo_url);
-                            if (@!is_array($url)) {
-                                $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
-                            } else {
-                                $imagesname = $rows->logo_url;
-                            }
-                            ?>
-                                <div class="item list">
-                                    <div class="image">
-                                        <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
-                                        <a href="item-detail.html">
-                                            <div class="overlay">
-                                                <div class="inner">
-                                                    <div class="content">
-                                                        <h4>Description</h4>
-                                                        <p><?php echo $rows->description ?> </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="item-specific">
-                                                <span title="Bedrooms"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
-                                                <span title="Bathrooms"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
-                                                <span title="Area"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
-                                                <span title="Garages"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
-                                            </div>
-                                            <div class="icon">
-                                                <i class="fa fa-thumbs-up"></i>
-                                            </div>
-                                            <img src="<?php echo $imagesname; ?>" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="wrapper">
-                                        <a href="item-detail.html"><h3><?php echo $rows->restaurant_name ?></h3></a>
-                                        <figure><?php echo $rows->city_name.",".$rows->country_name ?></figure>
-                                        <div class="info">
-                                            <div class="type">
-                                                 <i><?php echo $rows->restaurant_reviews; ?></i>
-                                                        <span>Reviews</span>
-                                            </div>
-                                            <div class="rating" data-rating="4"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <?php
-                                      }
-                                    }
-                                else {
-                                    echo "<h2>"."Result Not Found"."</h2>";
-                                }
-                                ?>
-                                
-                                <!-- /.item-->
-                            </section>
-                            <!--end Listing List-->
-                            <!--Pagination-->
-<!--                            <nav>
-                                <ul class="pagination pull-right">
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#" class="previous"><i class="fa fa-angle-left"></i></a></li>
-                                    <li><a href="#" class="next"><i class="fa fa-angle-right"></i></a></li>
-                                </ul>
-                            </nav>-->
-                            <!--end Pagination-->
-                        </div>
-                        <!--Sidebar-->
-                        <div class="col-md-3" style="margin-top:100px;">
-                            <aside id="sidebar">
-                                <section>
-                                    <header><h2>New Places</h2></header>
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Cash Cow Restaurante</h3>
-                                        <figure>63 Birch Street</figure>
-                                        <div class="wrapper">
-                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/1.jpg" alt=""></div>
-                                            <div class="info">
-                                                <div class="type">
-                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
-                                                </div>
-                                                <div class="rating" data-rating="4"></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <!--/.item-horizontal small-->
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Blue Chilli</h3>
-                                        <figure>2476 Whispering Pines Circle</figure>
-                                        <div class="wrapper">
-                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/2.jpg" alt=""></div>
-                                            <div class="info">
-                                                <div class="type">
-                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
-                                                </div>
-                                                <div class="rating" data-rating="3"></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <!--/.item-horizontal small-->
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Eddie’s Fast Food</h3>
-                                        <figure>4365 Bruce Street</figure>
-                                        <div class="wrapper">
-                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/3.jpg" alt=""></div>
-                                            <div class="info">
-                                                <div class="type">
-                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
-                                                </div>
-                                                <div class="rating" data-rating="5"></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <!--/.item-horizontal small-->
-                                </section>
-                                <section>
-                                    <a href="#"><img src="<?php echo base_url(); ?>assets/img/ad-banner-sidebar.png" alt=""></a>
-                                </section>
-                                <section>
-                                    <header><h2>Categories</h2></header>
-                                    <ul class="bullets">
-                                        <li><a href="#" >Restaurant</a></li>
-                                        <li><a href="#" >Steak House & Grill</a></li>
-                                        <li><a href="#" >Fast Food</a></li>
-                                        <li><a href="#" >Breakfast</a></li>
-                                        <li><a href="#" >Winery</a></li>
-                                        <li><a href="#" >Bar & Lounge</a></li>
-                                        <li><a href="#" >Pub</a></li>
-                                    </ul>
-                                </section>
-                                <section>
-                                    <header><h2>Events</h2></header>
-                                    <div class="form-group">
-                                        <select class="framed" name="events">
-                                            <option value="">Select Your City</option>
-                                            <option value="1">London</option>
-                                            <option value="2">New York</option>
-                                            <option value="3">Barcelona</option>
-                                            <option value="4">Moscow</option>
-                                            <option value="5">Tokyo</option>
-                                        </select>
-                                    </div>
-                                    <!-- /.form-group -->
-                                </section>
-                            </aside>
-                            <!-- /#sidebar-->
-                        </div>
-                        <!-- /.col-md-3-->
-                        <!--end Sidebar-->
-                    </div>
-                </section>
-            </div>
+         
             
             
-            
-            
-      <!-- ajax gird view----->       
-     <div id="page-content-gird-latest" style="display:none;">
+      <!-- Latest Restaurant gird----->       
+     <div id="page-content-gird-latests" style="display:none;">
                 <section class="container">
                     <div class="">
                         <!--Content-->
                         <div class="">
                             <header>
-                                <h1 class="page-title">Listing</h1>
+                                <h1 class="page-title">Latest Restaurant Search Results</h1>
                             </header>
                             <figure class="filter clearfix">
                                 <div class="buttons pull-left">
                                     <a href="#" class="btn icon active" onclick="return girdsection()"><i class="fa fa-th"></i>Grid</a>
                                     <a href="#" class="btn icon" onclick="return listsection()"><i class="fa fa-th-list"></i>List</a>
                                 </div>
+                                
+                                <div class="buttons pull-left" style="margin-left: 200px;">
+                                    <button class="btn icon" onclick="return girdOpenRestaurant()"><strong>Open</strong></button>
+                                    <button class="btn icon" onclick="return girdNearRestaurant()"><strong>Under 5 Miles</strong></button>
+                                    <button class="btn icon" onclick="return girdDiscountRestaurant()"><strong>Discount</strong></button>
+                                </div>
                                 <div class="pull-right">
                                     <aside class="sorting">
                                         <span>Sorting</span>
                                         <div class="form-group">
-                                            <select class="framed" name="sort">
-                                                <option value="">Date - Newest First</option>
-                                                <option value="1">Date - Oldest First</option>
-                                                <option value="2">Price - Highest First</option>
-                                                <option value="3">Price - Lowest First</option>
+                                            <select class="framed" id="restaurant_latest_sort" name="sort" onchange="return loadlatestGirdRestaurant()">
+                                                <option value="0">Select Sorting Option</option>
+                                                <option value="1">Date - Newest First</option>
+                                                <option value="2">Date - Oldest First</option>
                                             </select>
                                         </div>
                                         <!-- /.form-group -->
@@ -374,9 +172,9 @@
                                 <div class="row">
                                     
                                     <?php 
-                                    if(!empty($restaurant_keyword))
+                                    if(!empty($latest_restaurant))
                                     {
-                                      foreach($restaurant_keyword as $row)  
+                                      foreach($latest_restaurant as $row)  
                                       {
                                         
                                  ?>
@@ -393,7 +191,7 @@
                                         <div class="item">
                                             <div class="image">
                                                 <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
-                                                <a href="item-detail.html">
+                                                <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>">
                                                     <div class="overlay">
                                                         <div class="inner">
                                                             <div class="content">
@@ -403,10 +201,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="item-specific">
-                                                        <span title="Bedrooms"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
-                                                        <span title="Bathrooms"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
-                                                        <span title="Area"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
-                                                        <span title="Garages"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
+                                                        <span title="Like"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
+                                                        <span title="BookMarks"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
+                                                        <span title="Tried"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
+                                                        <span title="Comments"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="fa fa-thumbs-up"></i>
@@ -415,7 +213,7 @@
                                                 </a>
                                             </div>
                                             <div class="wrapper">
-                                                <a href="item-detail.html"><h3><?php echo $row->restaurant_name; ?></h3></a>
+                                                <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>"><h3><?php echo $row->restaurant_name; ?></h3></a>
                                                 <figure><?php echo $row->city_name.",".$row->country_name; ?></figure>
                                                 <div class="info">
                                                     <div class="type">
@@ -462,29 +260,558 @@
             </div>       
     
      
-     
-     <div id="page-content1-list-latest" style="display:none;">
+      
+    <!-------latest restaurant gird end----------->
+    
+    
+    <!--- old restaurant in gird------>
+      <div id="page-content-gird-old" style="display:none;">
                 <section class="container">
-                    <div class="row">
+                    <div class="">
                         <!--Content-->
-                        <div class="col-md-9">
+                        <div class="">
                             <header>
-                                <h1 class="page-title">Listing</h1>
+                                <h1 class="page-title">Latest Restaurant Search Results</h1>
                             </header>
                             <figure class="filter clearfix">
                                 <div class="buttons pull-left">
                                     <a href="#" class="btn icon active" onclick="return girdsection()"><i class="fa fa-th"></i>Grid</a>
                                     <a href="#" class="btn icon" onclick="return listsection()"><i class="fa fa-th-list"></i>List</a>
                                 </div>
+                                <div class="buttons pull-left" style="margin-left: 200px;">
+                                    <button class="btn icon" onclick="return girdOpenRestaurant()"><strong>Open</strong></button>
+                                    <button class="btn icon" onclick="return girdNearRestaurant()"><strong>Under 5 Miles</strong></button>
+                                    <button class="btn icon" onclick="return girdDiscountRestaurant()"><strong>Discount</strong></button>
+                                </div>
                                 <div class="pull-right">
                                     <aside class="sorting">
                                         <span>Sorting</span>
                                         <div class="form-group">
-                                            <select class="framed" name="sort">
-                                                <option value="">Date - Newest First</option>
-                                                <option value="1">Date - Oldest First</option>
-                                                <option value="2">Price - Highest First</option>
-                                                <option value="3">Price - Lowest First</option>
+                                            <select class="framed" id="restaurant_old_sort" name="sort" onchange="return loadOldGirdRestaurant()">
+                                                <option value="0">Select Sorting Option</option>
+                                                <option value="1">Date - Newest First</option>
+                                                <option value="2">Date - Oldest First</option>
+                                            </select>
+                                        </div>
+                                        <!-- /.form-group -->
+                                    </aside>
+                                </div>
+                            </figure>
+
+                            <!--Listing Grid-->
+                            <section class="block equal-height">
+                                <div class="row">
+                                    
+                                    <?php 
+                                    if(!empty($old_restaurant))
+                                    {
+                                      foreach($old_restaurant as $row)  
+                                      {
+                                        
+                                 ?>
+                            <?php
+                            $imagename = "";
+                            $url = @getimagesize($row->logo_url);
+                            if (@!is_array($url)) {
+                                $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                            } else {
+                                $imagesname = $row->logo_url;
+                            }
+                            ?>
+                                    <div class="col-md-3 col-sm-4">
+                                        <div class="item">
+                                            <div class="image">
+                                                <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
+                                                <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>">
+                                                    <div class="overlay">
+                                                        <div class="inner">
+                                                            <div class="content">
+                                                                <h4>Description</h4>
+                                                                <p><?php echo $row->description; ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-specific">
+                                                        <span title="Like"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
+                                                        <span title="BookMarks"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
+                                                        <span title="Tried"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
+                                                        <span title="Comments"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
+                                                    </div>
+                                                    <div class="icon">
+                                                        <i class="fa fa-thumbs-up"></i>
+                                                    </div>
+                                                    <img src="<?php echo $imagesname; ?>" alt="" width="263" height="196">
+                                                </a>
+                                            </div>
+                                            <div class="wrapper">
+                                                <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>"><h3><?php echo $row->restaurant_name; ?></h3></a>
+                                                <figure><?php echo $row->city_name.",".$row->country_name; ?></figure>
+                                                <div class="info">
+                                                    <div class="type">
+                                                        <i><?php echo $row->restaurant_reviews; ?></i>
+                                                        <span>Reviews</span>
+                                                    </div>
+                                                    <div class="rating" data-rating="4"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.item-->
+                                    </div>
+                                    
+                                <?php
+                                    }
+                                    } // end if empty sucess
+                                else 
+                                    { ?>
+                                    
+                                    <div style=" margin-left: 30px;" > Result Not Found </div>
+                                         
+                               <?php }
+                                    ?>
+                                                                      
+                                </div>
+                                <!--/.row-->
+                            </section>
+                            <!--end Listing Grid-->
+                            <!--Pagination-->
+<!--                            <nav>
+                                <ul class="pagination pull-right">
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#" class="previous"><i class="fa fa-angle-left"></i></a></li>
+                                    <li><a href="#" class="next"><i class="fa fa-angle-right"></i></a></li>
+                                </ul>
+                            </nav>-->
+                            <!--end Pagination-->
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+      
+      <!------old restaurant gird end----->
+      
+      
+      
+      <!------- open restaurant gird view------------------------------------------->
+      <div id="page-content-gird-open" style="display:none;">
+                <section class="container">
+                    <div class="">
+                        <!--Content-->
+                        <div class="">
+                            <header>
+                                <h1 class="page-title">Open Restaurant Search Results</h1>
+                            </header>
+                            <figure class="filter clearfix">
+                                <div class="buttons pull-left">
+                                    <a href="#" class="btn icon active" onclick="return girdsection()"><i class="fa fa-th"></i>Grid</a>
+                                    <a href="#" class="btn icon" onclick="return listsection()"><i class="fa fa-th-list"></i>List</a>
+                                </div>
+                                <div class="buttons pull-left" style="margin-left: 200px;">
+                                    <button class="btn icon" onclick="return girdOpenRestaurant()"><strong>Open</strong></button>
+                                    <button class="btn icon" onclick="return girdNearRestaurant()"><strong>Under 5 Miles</strong></button>
+                                    <button class="btn icon" onclick="return girdDiscountRestaurant()"><strong>Discount</strong></button>
+                                </div>
+                                <div class="pull-right">
+                                    <aside class="sorting">
+                                        <span>Sorting</span>
+                                        <div class="form-group">
+                                            <select class="framed" id="restaurant_latest_sort" name="sort" onchange="return loadlatestGirdRestaurant()">
+                                                <option value="0">Select Sorting Option</option>
+                                                <option value="1">Date - Newest First</option>
+                                                <option value="2">Date - Oldest First</option>
+                                            </select>
+                                        </div>
+                                        <!-- /.form-group -->
+                                    </aside>
+                                </div>
+                            </figure>
+
+                            <!--Listing Grid-->
+                            <section class="block equal-height">
+                                <div class="row">
+                                    
+                                    <?php 
+                                    if(!empty($open_restaurant))
+                                    {
+                                      foreach($open_restaurant as $row)  
+                                      {
+                                        
+                                 ?>
+                            <?php
+                            $imagename = "";
+                            $url = @getimagesize($row->logo_url);
+                            if (@!is_array($url)) {
+                                $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                            } else {
+                                $imagesname = $row->logo_url;
+                            }
+                            ?>
+                                    <div class="col-md-3 col-sm-4">
+                                        <div class="item">
+                                            <div class="image">
+                                                <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
+                                                <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>">
+                                                    <div class="overlay">
+                                                        <div class="inner">
+                                                            <div class="content">
+                                                                <h4>Description</h4>
+                                                                <p><?php echo $row->description; ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-specific">
+                                                        <span title="Like"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
+                                                        <span title="BookMarks"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
+                                                        <span title="Tried"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
+                                                        <span title="Comments"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
+                                                    </div>
+                                                    <div class="icon">
+                                                        <i class="fa fa-thumbs-up"></i>
+                                                    </div>
+                                                    <img src="<?php echo $imagesname; ?>" alt="" width="263" height="196">
+                                                </a>
+                                            </div>
+                                            <div class="wrapper">
+                                                <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>"><h3><?php echo $row->restaurant_name; ?></h3></a>
+                                                <figure><?php echo $row->city_name.",".$row->country_name; ?></figure>
+                                                <div class="info">
+                                                    <div class="type">
+                                                        <i><?php echo $row->restaurant_reviews; ?></i>
+                                                        <span>Reviews</span>
+                                                    </div>
+                                                    <div class="rating" data-rating="4"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.item-->
+                                    </div>
+                                    
+                                <?php
+                                    }
+                                    } // end if empty sucess
+                                else 
+                                    { ?>
+                                    
+                                    <div style=" margin-left: 30px;" > Result Not Found </div>
+                                         
+                               <?php }
+                                    ?>
+                                                                      
+                                </div>
+                                <!--/.row-->
+                            </section>
+                            <!--end Listing Grid-->
+                            <!--Pagination-->
+<!--                            <nav>
+                                <ul class="pagination pull-right">
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#" class="previous"><i class="fa fa-angle-left"></i></a></li>
+                                    <li><a href="#" class="next"><i class="fa fa-angle-right"></i></a></li>
+                                </ul>
+                            </nav>-->
+                            <!--end Pagination-->
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+      
+      
+      <!---------------open restaurant gird view end------------------------------->
+      
+      
+      <!----------------------discount restaurant gird---------------------------->
+      <div id="page-content-gird-discount" style="display:none;">
+                <section class="container">
+                    <div class="">
+                        <!--Content-->
+                        <div class="">
+                            <header>
+                                <h1 class="page-title">Open Restaurant Search Results</h1>
+                            </header>
+                            <figure class="filter clearfix">
+                                <div class="buttons pull-left">
+                                    <a href="#" class="btn icon active" onclick="return girdsection()"><i class="fa fa-th"></i>Grid</a>
+                                    <a href="#" class="btn icon" onclick="return listsection()"><i class="fa fa-th-list"></i>List</a>
+                                </div>
+                                <div class="buttons pull-left" style="margin-left: 200px;">
+                                    <button class="btn icon" onclick="return girdOpenRestaurant()"><strong>Open</strong></button>
+                                    <button class="btn icon" onclick="return girdNearRestaurant()"><strong>Under 5 Miles</strong></button>
+                                    <button class="btn icon" onclick="return girdDiscountRestaurant()"><strong>Discount</strong></button>
+                                </div>
+                                <div class="pull-right">
+                                    <aside class="sorting">
+                                        <span>Sorting</span>
+                                        <div class="form-group">
+                                            <select class="framed" id="restaurant_latest_sort" name="sort" onchange="return loadlatestGirdRestaurant()">
+                                                <option value="0">Select Sorting Option</option>
+                                                <option value="1">Date - Newest First</option>
+                                                <option value="2">Date - Oldest First</option>
+                                            </select>
+                                        </div>
+                                        <!-- /.form-group -->
+                                    </aside>
+                                </div>
+                            </figure>
+
+                            <!--Listing Grid-->
+                            <section class="block equal-height">
+                                <div class="row">
+                                    
+                                    <?php 
+                                    if(!empty($discount_restaurant))
+                                    {
+                                      foreach($discount_restaurant as $row)  
+                                      {
+                                        
+                                 ?>
+                            <?php
+                            $imagename = "";
+                            $url = @getimagesize($row->logo_url);
+                            if (@!is_array($url)) {
+                                $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                            } else {
+                                $imagesname = $row->logo_url;
+                            }
+                            ?>
+                                    <div class="col-md-3 col-sm-4">
+                                        <div class="item">
+                                            <div class="image">
+                                                <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
+                                                <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>">
+                                                    <div class="overlay">
+                                                        <div class="inner">
+                                                            <div class="content">
+                                                                <h4>Description</h4>
+                                                                <p><?php echo $row->description; ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-specific">
+                                                        <span title="Like"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
+                                                        <span title="BookMarks"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
+                                                        <span title="Tried"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
+                                                        <span title="Comments"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
+                                                    </div>
+                                                    <div class="icon">
+                                                        <i class="fa fa-thumbs-up"></i>
+                                                    </div>
+                                                    <img src="<?php echo $imagesname; ?>" alt="" width="263" height="196">
+                                                </a>
+                                            </div>
+                                            <div class="wrapper">
+                                                <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>"><h3><?php echo $row->restaurant_name; ?></h3></a>
+                                                <figure><?php echo $row->city_name.",".$row->country_name; ?></figure>
+                                                <div class="info">
+                                                    <div class="type">
+                                                        <i><?php echo $row->restaurant_reviews; ?></i>
+                                                        <span>Reviews</span>
+                                                    </div>
+                                                    <div class="rating" data-rating="4"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.item-->
+                                    </div>
+                                    
+                                <?php
+                                    }
+                                    } // end if empty sucess
+                                else 
+                                    { ?>
+                                    
+                                    <div style=" margin-left: 30px;" > Result Not Found </div>
+                                         
+                               <?php }
+                                    ?>
+                                                                      
+                                </div>
+                                <!--/.row-->
+                            </section>
+                            <!--end Listing Grid-->
+                            <!--Pagination-->
+<!--                            <nav>
+                                <ul class="pagination pull-right">
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#" class="previous"><i class="fa fa-angle-left"></i></a></li>
+                                    <li><a href="#" class="next"><i class="fa fa-angle-right"></i></a></li>
+                                </ul>
+                            </nav>-->
+                            <!--end Pagination-->
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+      
+      
+      <!----------------------dicount restaurant gird view end------------------->
+      
+      <!-------------------near by restaurant---------------------------------->
+      <div id="page-content-gird-near" style="display:none;">
+                <section class="container">
+                    <div class="">
+                        <!--Content-->
+                        <div class="">
+                            <header>
+                                <h1 class="page-title">Open Restaurant Search Results</h1>
+                            </header>
+                            <figure class="filter clearfix">
+                                <div class="buttons pull-left">
+                                    <a href="#" class="btn icon active" onclick="return girdsection()"><i class="fa fa-th"></i>Grid</a>
+                                    <a href="#" class="btn icon" onclick="return listsection()"><i class="fa fa-th-list"></i>List</a>
+                                </div>
+                                <div class="buttons pull-left" style="margin-left: 200px;">
+                                    <button class="btn icon" onclick="return girdOpenRestaurant()"><strong>Open</strong></button>
+                                    <button class="btn icon" onclick="return girdNearRestaurant()"><strong>Under 5 Miles</strong></button>
+                                    <button class="btn icon" onclick="return girdDiscountRestaurant()"><strong>Discount</strong></button>
+                                </div>
+                                <div class="pull-right">
+                                    <aside class="sorting">
+                                        <span>Sorting</span>
+                                        <div class="form-group">
+                                            <select class="framed" id="restaurant_latest_sort" name="sort" onchange="return loadlatestGirdRestaurant()">
+                                                <option value="0">Select Sorting Option</option>
+                                                <option value="1">Date - Newest First</option>
+                                                <option value="2">Date - Oldest First</option>
+                                            </select>
+                                        </div>
+                                        <!-- /.form-group -->
+                                    </aside>
+                                </div>
+                            </figure>
+
+                            <!--Listing Grid-->
+                            <section class="block equal-height">
+                                <div class="row">
+                                    
+                                    <?php 
+                                    if(!empty($near_restaurant))
+                                    {
+                                      foreach($near_restaurant as $row)  
+                                      {
+                                        
+                                 ?>
+                            <?php
+                            $imagename = "";
+                            $url = @getimagesize($row->logo_url);
+                            if (@!is_array($url)) {
+                                $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                            } else {
+                                $imagesname = $row->logo_url;
+                            }
+                            ?>
+                                    <div class="col-md-3 col-sm-4">
+                                        <div class="item">
+                                            <div class="image">
+                                                <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
+                                                <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>">
+                                                    <div class="overlay">
+                                                        <div class="inner">
+                                                            <div class="content">
+                                                                <h4>Description</h4>
+                                                                <p><?php echo $row->description; ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-specific">
+                                                        <span title="Like"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
+                                                        <span title="BookMarks"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
+                                                        <span title="Tried"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
+                                                        <span title="Comments"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
+                                                    </div>
+                                                    <div class="icon">
+                                                        <i class="fa fa-thumbs-up"></i>
+                                                    </div>
+                                                    <img src="<?php echo $imagesname; ?>" alt="" width="263" height="196">
+                                                </a>
+                                            </div>
+                                            <div class="wrapper">
+                                                <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id; ?>"><h3><?php echo $row->restaurant_name; ?></h3></a>
+                                                <figure><?php echo $row->city_name.",".$row->country_name; ?></figure>
+                                                <div class="info">
+                                                    <div class="type">
+                                                        <i><?php echo $row->restaurant_reviews; ?></i>
+                                                        <span>Reviews</span>
+                                                    </div>
+                                                    <div class="rating" data-rating="4"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.item-->
+                                    </div>
+                                    
+                                <?php
+                                    }
+                                    } // end if empty sucess
+                                else 
+                                    { ?>
+                                    
+                                    <div style=" margin-left: 30px;" > Result Not Found </div>
+                                         
+                               <?php }
+                                    ?>
+                                                                      
+                                </div>
+                                <!--/.row-->
+                            </section>
+                            <!--end Listing Grid-->
+                            <!--Pagination-->
+<!--                            <nav>
+                                <ul class="pagination pull-right">
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#" class="previous"><i class="fa fa-angle-left"></i></a></li>
+                                    <li><a href="#" class="next"><i class="fa fa-angle-right"></i></a></li>
+                                </ul>
+                            </nav>-->
+                            <!--end Pagination-->
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+      
+      
+      <!-------------------end near by restaurant------------------------------>
+      
+      
+      
+      
+      <!-- Main List Restaurant List view----->    
+    <div id="page-content1" style="display:none;">
+                <section class="container">
+                    <div class="row">
+                        <!--Content-->
+                        <div class="col-md-9">
+                            <header>
+                                <h1 class="page-title">Search Result Listing</h1>
+                            </header>
+                            <figure class="filter clearfix">
+                                <div class="buttons pull-left">
+                                    <a href="#" class="btn icon active" onclick="return girdsection()"><i class="fa fa-th"></i>Grid</a>
+                                    <a href="#" class="btn icon" onclick="return listsection()"><i class="fa fa-th-list"></i>List</a>
+                                </div>
+                                <div class="buttons pull-left" style="margin-left: 97px;">
+                                    <button class="btn icon" onclick="return girdOpenRestaurant()"><strong>Open</strong></button>
+                                    <button class="btn icon" onclick="return girdNearRestaurant()"><strong>Under 5 Miles</strong></button>
+                                    <button class="btn icon" onclick="return girdDiscountRestaurant()"><strong>Discount</strong></button>
+                                </div>
+                                <div class="pull-right">
+                                    <aside class="sorting">
+                                        <span>Sorting</span>
+                                        <div class="form-group">
+                                            <select class="framed" id="list_sort" name="sort" onchange="return loadListRestaurant()">
+                                                <option value="0">Select Sorting Option</option>
+                                                <option value="1">Date - Newest First</option>
+                                                <option value="2">Date - Oldest First</option>
                                             </select>
                                         </div>
                                         <!-- /.form-group -->
@@ -512,7 +839,7 @@
                                 <div class="item list">
                                     <div class="image">
                                         <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
-                                        <a href="item-detail.html">
+                                        <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $rows->restaurant_id ?>">
                                             <div class="overlay">
                                                 <div class="inner">
                                                     <div class="content">
@@ -522,11 +849,11 @@
                                                 </div>
                                             </div>
                                             <div class="item-specific">
-                                                <span title="Bedrooms"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
-                                                <span title="Bathrooms"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
-                                                <span title="Area"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
-                                                <span title="Garages"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
-                                            </div>
+                                                        <span title="Like"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
+                                                        <span title="BookMarks"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
+                                                        <span title="Tried"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
+                                                        <span title="Comments"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
+                                                    </div>
                                             <div class="icon">
                                                 <i class="fa fa-thumbs-up"></i>
                                             </div>
@@ -534,7 +861,7 @@
                                         </a>
                                     </div>
                                     <div class="wrapper">
-                                        <a href="item-detail.html"><h3><?php echo $rows->restaurant_name ?></h3></a>
+                                        <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $rows->restaurant_id ?>"><h3><?php echo $rows->restaurant_name ?></h3></a>
                                         <figure><?php echo $rows->city_name.",".$rows->country_name ?></figure>
                                         <div class="info">
                                             <div class="type">
@@ -605,7 +932,7 @@
                                     </a>
                                     <!--/.item-horizontal small-->
                                     <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Eddie’s Fast Food</h3>
+                                        <h3>Eddieâ€™s Fast Food</h3>
                                         <figure>4365 Bruce Street</figure>
                                         <div class="wrapper">
                                             <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/3.jpg" alt=""></div>
@@ -657,45 +984,778 @@
                     </div>
                 </section>
             </div>
- <script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.js"></script>
+            
+   <!------Main List Restaurant List view end----->  
+      
+      
+     <!--- Latest restaurant in list------>
+     <div id="page-content1-list-latest" style="display:none;">
+                <section class="container">
+                    <div class="row">
+                        <!--Content-->
+                        <div class="col-md-9">
+                            <header>
+                                <h1 class="page-title">Latest Search Result Listing </h1>
+                            </header>
+                            <figure class="filter clearfix">
+                                <div class="buttons pull-left">
+                                    <a href="#" class="btn icon active" onclick="return girdsection()"><i class="fa fa-th"></i>Grid</a>
+                                    <a href="#" class="btn icon" onclick="return listsection()"><i class="fa fa-th-list"></i>List</a>
+                                </div>
+                                <div class="buttons pull-left" style="margin-left: 97px;">
+                                    <button class="btn icon" onclick="return girdOpenRestaurant()"><strong>Open</strong></button>
+                                    <button class="btn icon" onclick="return girdNearRestaurant()"><strong>Under 5 Miles</strong></button>
+                                    <button class="btn icon" onclick="return girdDiscountRestaurant()"><strong>Discount</strong></button>
+                                </div>
+                                <div class="pull-right">
+                                    <aside class="sorting">
+                                        <span>Sorting</span>
+                                        <div class="form-group">
+                                            <select class="framed" id="list_latest_sort" name="sort" onchange="return loadListLatestRestaurant()">
+                                                <option value="0">Select Sorting Option</option>
+                                                <option value="1">Date - Newest First</option>
+                                                <option value="2">Date - Oldest First</option>
+                                            </select>
+                                        </div>
+                                        <!-- /.form-group -->
+                                    </aside>
+                                </div>
+                            </figure>
+
+                            <!--Listing List-->
+                            <section class="block listing">
+                                <?php 
+                                    if(!empty($latest_restaurant))
+                                    {
+                                      foreach($latest_restaurant as $rows)  
+                                      {
+                                 ?>
+                            <?php
+                            $imagename = "";
+                            $url = @getimagesize($rows->logo_url);
+                            if (@!is_array($url)) {
+                                $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                            } else {
+                                $imagesname = $rows->logo_url;
+                            }
+                            ?>
+                                <div class="item list">
+                                    <div class="image">
+                                        <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
+                                        <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $rows->restaurant_id ?>">
+                                            <div class="overlay">
+                                                <div class="inner">
+                                                    <div class="content">
+                                                        <h4>Description</h4>
+                                                        <p><?php echo $rows->description ?> </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="item-specific">
+                                                        <span title="Like"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
+                                                        <span title="BookMarks"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
+                                                        <span title="Tried"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
+                                                        <span title="Comments"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
+                                                    </div>
+                                            <div class="icon">
+                                                <i class="fa fa-thumbs-up"></i>
+                                            </div>
+                                            <img src="<?php echo $imagesname; ?>" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="wrapper">
+                                        <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $rows->restaurant_id ?>"><h3><?php echo $rows->restaurant_name ?></h3></a>
+                                        <figure><?php echo $rows->city_name.",".$rows->country_name ?></figure>
+                                        <div class="info">
+                                            <div class="type">
+                                                 <i><?php echo $rows->restaurant_reviews; ?></i>
+                                                        <span>Reviews</span>
+                                            </div>
+                                            <div class="rating" data-rating="4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <?php
+                                      }
+                                    }
+                                else {
+                                    echo "<h2>"."Result Not Found"."</h2>";
+                                }
+                                ?>
+                                
+                                <!-- /.item-->
+                            </section>
+                            <!--end Listing List-->
+                            <!--Pagination-->
+<!--                            <nav>
+                                <ul class="pagination pull-right">
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#" class="previous"><i class="fa fa-angle-left"></i></a></li>
+                                    <li><a href="#" class="next"><i class="fa fa-angle-right"></i></a></li>
+                                </ul>
+                            </nav>-->
+                            <!--end Pagination-->
+                        </div>
+                        <!--Sidebar-->
+                        <div class="col-md-3" style="margin-top:100px;">
+                            <aside id="sidebar">
+                                <section>
+                                    <header><h2>New Places</h2></header>
+                                    <a href="item-detail.html" class="item-horizontal small">
+                                        <h3>Cash Cow Restaurante</h3>
+                                        <figure>63 Birch Street</figure>
+                                        <div class="wrapper">
+                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/1.jpg" alt=""></div>
+                                            <div class="info">
+                                                <div class="type">
+                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                    <span>Restaurant</span>
+                                                </div>
+                                                <div class="rating" data-rating="4"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!--/.item-horizontal small-->
+                                    <a href="item-detail.html" class="item-horizontal small">
+                                        <h3>Blue Chilli</h3>
+                                        <figure>2476 Whispering Pines Circle</figure>
+                                        <div class="wrapper">
+                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/2.jpg" alt=""></div>
+                                            <div class="info">
+                                                <div class="type">
+                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                    <span>Restaurant</span>
+                                                </div>
+                                                <div class="rating" data-rating="3"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!--/.item-horizontal small-->
+                                    <a href="item-detail.html" class="item-horizontal small">
+                                        <h3>Eddieâ€™s Fast Food</h3>
+                                        <figure>4365 Bruce Street</figure>
+                                        <div class="wrapper">
+                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/3.jpg" alt=""></div>
+                                            <div class="info">
+                                                <div class="type">
+                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                    <span>Restaurant</span>
+                                                </div>
+                                                <div class="rating" data-rating="5"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!--/.item-horizontal small-->
+                                </section>
+                                <section>
+                                    <a href="#"><img src="<?php echo base_url(); ?>assets/img/ad-banner-sidebar.png" alt=""></a>
+                                </section>
+                                <section>
+                                    <header><h2>Categories</h2></header>
+                                    <ul class="bullets">
+                                        <li><a href="#" >Restaurant</a></li>
+                                        <li><a href="#" >Steak House & Grill</a></li>
+                                        <li><a href="#" >Fast Food</a></li>
+                                        <li><a href="#" >Breakfast</a></li>
+                                        <li><a href="#" >Winery</a></li>
+                                        <li><a href="#" >Bar & Lounge</a></li>
+                                        <li><a href="#" >Pub</a></li>
+                                    </ul>
+                                </section>
+                                <section>
+                                    <header><h2>Events</h2></header>
+                                    <div class="form-group">
+                                        <select class="framed" name="events">
+                                            <option value="">Select Your City</option>
+                                            <option value="1">London</option>
+                                            <option value="2">New York</option>
+                                            <option value="3">Barcelona</option>
+                                            <option value="4">Moscow</option>
+                                            <option value="5">Tokyo</option>
+                                        </select>
+                                    </div>
+                                    <!-- /.form-group -->
+                                </section>
+                            </aside>
+                            <!-- /#sidebar-->
+                        </div>
+                        <!-- /.col-md-3-->
+                        <!--end Sidebar-->
+                    </div>
+                </section>
+            </div>
+    <!------Latest restaurant in list end----->
+      
+      
+      
+      
+      
+      
+    <!--- old restaurant in list------>
+     <div id="page-content1-list-old" style="display:none;">
+                <section class="container">
+                    <div class="row">
+                        <!--Content-->
+                        <div class="col-md-9">
+                            <header>
+                                <h1 class="page-title">Oldest Search Result Listing</h1>
+                            </header>
+                            <figure class="filter clearfix">
+                                <div class="buttons pull-left">
+                                    <a href="#" class="btn icon active" onclick="return girdsection()"><i class="fa fa-th"></i>Grid</a>
+                                    <a href="#" class="btn icon" onclick="return listsection()"><i class="fa fa-th-list"></i>List</a>
+                                </div>
+                                <div class="buttons pull-left" style="margin-left: 97px;">
+                                    <button class="btn icon" onclick="return girdOpenRestaurant()"><strong>Open</strong></button>
+                                    <button class="btn icon" onclick="return girdNearRestaurant()"><strong>Under 5 Miles</strong></button>
+                                    <button class="btn icon" onclick="return girdDiscountRestaurant()"><strong>Discount</strong></button>
+                                </div>
+                                <div class="pull-right">
+                                    <aside class="sorting">
+                                        <span>Sorting</span>
+                                        <div class="form-group">
+                                            <select class="framed" id="list_old_sort" name="sort" onchange="return loadListOldRestaurant()">
+                                                <option value="0">Select Sorting Option</option>
+                                                <option value="1">Date - Newest First</option>
+                                                <option value="2">Date - Oldest First</option>
+                                            </select>
+                                        </div>
+                                        <!-- /.form-group -->
+                                    </aside>
+                                </div>
+                            </figure>
+
+                            <!--Listing List-->
+                            <section class="block listing">
+                                <?php 
+                                    if(!empty($old_restaurant))
+                                    {
+                                      foreach($old_restaurant as $rows)  
+                                      {
+                                 ?>
+                            <?php
+                            $imagename = "";
+                            $url = @getimagesize($rows->logo_url);
+                            if (@!is_array($url)) {
+                                $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                            } else {
+                                $imagesname = $rows->logo_url;
+                            }
+                            ?>
+                                <div class="item list">
+                                    <div class="image">
+                                        <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
+                                        <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $rows->restaurant_id ?>">
+                                            <div class="overlay">
+                                                <div class="inner">
+                                                    <div class="content">
+                                                        <h4>Description</h4>
+                                                        <p><?php echo $rows->description ?> </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="item-specific">
+                                                        <span title="Like"><img src="<?php echo base_url(); ?>assets/img/bedrooms.png" alt="">2</span>
+                                                        <span title="BookMarks"><img src="<?php echo base_url(); ?>assets/img/bathrooms.png" alt="">2</span>
+                                                        <span title="Tried"><img src="<?php echo base_url(); ?>assets/img/area.png" alt="">240m<sup>2</sup></span>
+                                                        <span title="Comments"><img src="<?php echo base_url(); ?>assets/img/garages.png" alt="">1</span>
+                                                    </div>
+                                            <div class="icon">
+                                                <i class="fa fa-thumbs-up"></i>
+                                            </div>
+                                            <img src="<?php echo $imagesname; ?>" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="wrapper">
+                                        <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $rows->restaurant_id ?>"><h3><?php echo $rows->restaurant_name ?></h3></a>
+                                        <figure><?php echo $rows->city_name.",".$rows->country_name ?></figure>
+                                        <div class="info">
+                                            <div class="type">
+                                                 <i><?php echo $rows->restaurant_reviews; ?></i>
+                                                        <span>Reviews</span>
+                                            </div>
+                                            <div class="rating" data-rating="4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <?php
+                                      }
+                                    }
+                                else {
+                                    echo "<h2>"."Result Not Found"."</h2>";
+                                }
+                                ?>
+                                
+                                <!-- /.item-->
+                            </section>
+                            <!--end Listing List-->
+                            <!--Pagination-->
+<!--                            <nav>
+                                <ul class="pagination pull-right">
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#" class="previous"><i class="fa fa-angle-left"></i></a></li>
+                                    <li><a href="#" class="next"><i class="fa fa-angle-right"></i></a></li>
+                                </ul>
+                            </nav>-->
+                            <!--end Pagination-->
+                        </div>
+                        <!--Sidebar-->
+                        <div class="col-md-3" style="margin-top:100px;">
+                            <aside id="sidebar">
+                                <section>
+                                    <header><h2>New Places</h2></header>
+                                    <a href="item-detail.html" class="item-horizontal small">
+                                        <h3>Cash Cow Restaurante</h3>
+                                        <figure>63 Birch Street</figure>
+                                        <div class="wrapper">
+                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/1.jpg" alt=""></div>
+                                            <div class="info">
+                                                <div class="type">
+                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                    <span>Restaurant</span>
+                                                </div>
+                                                <div class="rating" data-rating="4"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!--/.item-horizontal small-->
+                                    <a href="item-detail.html" class="item-horizontal small">
+                                        <h3>Blue Chilli</h3>
+                                        <figure>2476 Whispering Pines Circle</figure>
+                                        <div class="wrapper">
+                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/2.jpg" alt=""></div>
+                                            <div class="info">
+                                                <div class="type">
+                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                    <span>Restaurant</span>
+                                                </div>
+                                                <div class="rating" data-rating="3"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!--/.item-horizontal small-->
+                                    <a href="item-detail.html" class="item-horizontal small">
+                                        <h3>Eddieâ€™s Fast Food</h3>
+                                        <figure>4365 Bruce Street</figure>
+                                        <div class="wrapper">
+                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/3.jpg" alt=""></div>
+                                            <div class="info">
+                                                <div class="type">
+                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                    <span>Restaurant</span>
+                                                </div>
+                                                <div class="rating" data-rating="5"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!--/.item-horizontal small-->
+                                </section>
+                                <section>
+                                    <a href="#"><img src="<?php echo base_url(); ?>assets/img/ad-banner-sidebar.png" alt=""></a>
+                                </section>
+                                <section>
+                                    <header><h2>Categories</h2></header>
+                                    <ul class="bullets">
+                                        <li><a href="#" >Restaurant</a></li>
+                                        <li><a href="#" >Steak House & Grill</a></li>
+                                        <li><a href="#" >Fast Food</a></li>
+                                        <li><a href="#" >Breakfast</a></li>
+                                        <li><a href="#" >Winery</a></li>
+                                        <li><a href="#" >Bar & Lounge</a></li>
+                                        <li><a href="#" >Pub</a></li>
+                                    </ul>
+                                </section>
+                                <section>
+                                    <header><h2>Events</h2></header>
+                                    <div class="form-group">
+                                        <select class="framed" name="events">
+                                            <option value="">Select Your City</option>
+                                            <option value="1">London</option>
+                                            <option value="2">New York</option>
+                                            <option value="3">Barcelona</option>
+                                            <option value="4">Moscow</option>
+                                            <option value="5">Tokyo</option>
+                                        </select>
+                                    </div>
+                                    <!-- /.form-group -->
+                                </section>
+                            </aside>
+                            <!-- /#sidebar-->
+                        </div>
+                        <!-- /.col-md-3-->
+                        <!--end Sidebar-->
+                    </div>
+                </section>
+            </div>
+    <!------Old restaurant in list end----->  
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
 
  <script>
     function girdsection()
     {
           $("#page-content").show();
           $("#page-content1").hide();
+          $("#page-content-gird-latests").hide();
+          $("#page-content-gird-old").hide();
+          $("#page-content1-list-latest").hide();
+          $("#page-content1-list-old").hide();
+          $("#page-content-gird-open").hide(); 
+          $("#page-content-gird-discount").hide();
+          $("#page-content-gird-near").hide();
+          
     }
     
     function listsection()
     {
          $("#page-content1").show();
          $("#page-content").hide();
-        
+         $("#page-content-gird-latests").hide();
+         $("#page-content-gird-old").hide();
+         $("#page-content1-list-latest").hide();
+         $("#page-content1-list-old").hide();
+         $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
     }
             
  </script>    
  <script>
-     $(document).ready(function(){
-   $( "#restaurant_sort" ).change(function(){
-        var restaurant_sort=document.getElementById('restaurant_sort').value;
-        $.ajax({
-            type:'POST',
-            url:"<?php echo base_url(); ?>main/restaurant_sort",
-            data:'restaurant_sort='+restaurant_sort,
-            success:function(data){
-                $("#page-content-gird-latest").show();
-                $("#page-content1").hide();
-                $("#page-content").hide();
-                
-                
-            }
-        }); 
-    });
-});  
-  
+  function loadGirdRestaurant()
+  {
+      var restaurant_id=document.getElementById('restaurant_sort').value;
+     if(restaurant_id==1)
+     {
+         $("#page-content-gird-latests").show();
+         $("#page-content-gird-old").hide(); 
+         $("#page-content").hide();
+         $("#page-content1").hide();
+         $("#page-content1-list-latest").hide();
+         $("#page-content1-list-old").hide();
+         $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }else if(restaurant_id==2)
+     { 
+        $("#page-content-gird-old").show(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").hide();
+        $("#page-content1").hide();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").hide();
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }else
+     {
+        $("#page-content-gird-old").hide(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").show();
+        $("#page-content1").hide();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").hide();
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }
+         
+      
+  }
+ </script>
+ 
+ <script>
+  function loadlatestGirdRestaurant()
+  {
+      var restaurant_id=document.getElementById('restaurant_latest_sort').value;
+     if(restaurant_id==1)
+     {
+         $("#page-content-gird-latests").show();
+         $("#page-content-gird-old").hide(); 
+         $("#page-content").hide();
+         $("#page-content1").hide();
+         $("#page-content1-list-latest").hide();
+         $("#page-content1-list-old").hide();
+         $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }else if(restaurant_id==2)
+     { 
+        $("#page-content-gird-old").show(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").hide();
+        $("#page-content1").hide();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").hide();
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }else
+     {
+        $("#page-content-gird-old").hide(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").show();
+        $("#page-content1").hide();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").hide();
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }
+         
+      
+  }
  </script>
  
  
+ <script>
+  function loadOldGirdRestaurant()
+  {
+      var restaurant_id=document.getElementById('restaurant_old_sort').value;
+     if(restaurant_id==1)
+     {
+         $("#page-content-gird-latests").show();
+         $("#page-content-gird-old").hide(); 
+         $("#page-content").hide();
+         $("#page-content1").hide();
+         $("#page-content1-list-latest").hide();
+         $("#page-content1-list-old").hide();
+         $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }else if(restaurant_id==2)
+     { 
+        $("#page-content-gird-old").show(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").hide();
+        $("#page-content1").hide();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").hide();
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }else
+     {
+        $("#page-content-gird-old").hide(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").show();
+        $("#page-content1").hide();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").hide();
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }
+         
+      
+  }
+ </script>
+ 
+ 
+ 
+ 
+ <script>
+  function loadListRestaurant()
+  {
+      
+      var restaurant_id=document.getElementById('list_sort').value;
+     if(restaurant_id==1)
+     {
+         $("#page-content-gird-latests").hide();
+         $("#page-content-gird-old").hide(); 
+         $("#page-content").hide();
+         $("#page-content1").hide();
+         $("#page-content1-list-latest").show();
+         $("#page-content1-list-old").hide();
+         $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }else if(restaurant_id==2)
+     { 
+        $("#page-content-gird-old").hide(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").hide();
+        $("#page-content1").hide();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").show();
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }else
+     {
+        $("#page-content-gird-old").hide(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").hide();
+        $("#page-content1").show();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").hide();
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }
+        
+        
+        
+  }
+ </script>
+ 
+ 
+ <script>
+  function loadListLatestRestaurant()
+  {
+      
+      var restaurant_id=document.getElementById('list_latest_sort').value;
+     if(restaurant_id==1)
+     {  
+         $("#page-content-gird-latests").hide();
+         $("#page-content-gird-old").hide(); 
+         $("#page-content").hide();
+         $("#page-content1").hide();
+         $("#page-content1-list-latest").show();
+         $("#page-content1-list-old").hide();
+         $("#page-content-gird-open").hide(); 
+         $("#page-content-gird-discount").hide();
+         $("#page-content-gird-near").hide();
+     }else if(restaurant_id==2)
+     { 
+        $("#page-content-gird-old").hide(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").hide();
+        $("#page-content1").hide();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").show();
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }else
+     {
+        $("#page-content-gird-old").hide(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").hide();
+        $("#page-content1").show();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").hide();
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }
+        
+        
+        
+  }
+ </script>
+ 
+ 
+ <script>
+  function loadListOldRestaurant()
+  {
+      
+      var restaurant_id=document.getElementById('list_old_sort').value;
+     if(restaurant_id==1)
+     {
+         $("#page-content-gird-latests").hide();
+         $("#page-content-gird-old").hide(); 
+         $("#page-content").hide();
+         $("#page-content1").hide();
+         $("#page-content1-list-latest").show();
+         $("#page-content1-list-old").hide();
+         $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }else if(restaurant_id==2)
+     { 
+        $("#page-content-gird-old").hide(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").hide();
+        $("#page-content1").hide();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").show();
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }else
+     {
+        $("#page-content-gird-old").hide(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").hide();
+        $("#page-content1").show();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").hide();
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-near").hide();
+     }
+        
+  }
+ </script>
+ 
+ <script>
+  function girdOpenRestaurant()
+  {   
+        $("#page-content-gird-open").show(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-old").hide(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").hide();
+        $("#page-content1").hide();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").hide();
+        $("#page-content-gird-near").hide();
+  }
+ </script>
+ 
+ <script>
+ function girdDiscountRestaurant()
+ {
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").show();
+        $("#page-content-gird-old").hide(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").hide();
+        $("#page-content1").hide();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").hide();
+        $("#page-content-gird-near").hide();
+ }
+ 
+ 
+ 
+ </script>
+ 
+ <script>
+ function girdNearRestaurant()
+ {
+        $("#page-content-gird-open").hide(); 
+        $("#page-content-gird-discount").hide();
+        $("#page-content-gird-old").hide(); 
+        $("#page-content-gird-latests").hide();
+        $("#page-content").hide();
+        $("#page-content1").hide();
+        $("#page-content1-list-latest").hide();
+        $("#page-content1-list-old").hide();
+        $("#page-content-gird-near").show();
+ }
+ 
+ 
+ 
+ </script>
  
  
  <script>

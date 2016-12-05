@@ -15,7 +15,7 @@ class main extends CI_Controller {
         $this->load->model('hb_countries_model');
     }
 
-    function index() {        
+    public function index() {        
         $data['folder_name'] = 'main';
         $data['file_name'] = 'index';
         $data['header_name'] = 'header';
@@ -344,17 +344,22 @@ class main extends CI_Controller {
 
 
     }
+    
+    
+    
+    public function welcome_user()
+    {
+        $data['folder_name'] = 'main';
+        $data['file_name'] = 'register_success';
+        $data['header_name'] = 'header';
+        $data['nav_name'] = 'nav_main';
+        $this->load->view('index', $data);
+    }
 
-public function search_result() {
-                $data['keyword']= $this->input->post('keyword_search');
-                $data['location']= $this->input->post('search_location');
-  
-            
-//              echo "<pre>";                
-//              print_r($this->restaurant_search->get_restaurant_by_location( $location ));
-//              exit;                        
- 
-
+    public function search_result() {
+        
+            $data['keyword']= $this->input->post('keyword_search');
+            $data['location']= $this->input->post('search_location');
             $data['folder_name'] = 'main';
             $data['file_name'] = 'search_restaurant';
             $data['header_name'] = 'header_inner';
@@ -362,39 +367,59 @@ public function search_result() {
             
             if(isset($data['keyword'])) {
             $data['restaurant_keyword']= $this->restaurant_search->get_restaurant_by_keyword($data['keyword']);
+            $data['latest_restaurant']= $this->restaurant_search->get_latest_restaurant_by_keyword($data['keyword']);
+            $data['old_restaurant']= $this->restaurant_search->get_oldest_restaurant_by_keyword($data['keyword']);
+            $data['open_restaurant']= $this->restaurant_search->get_open_restaurant_by_keyword($data['keyword']);
+            $data['discount_restaurant']= $this->restaurant_search->get_discount_restaurant_by_keyword($data['keyword']);
+            $data['near_restaurant']= $this->restaurant_search->get_near_restaurant_by_keyword($data['keyword']);
             }
             
             if($data['location']){
             $data['restaurant_keyword']= $this->restaurant_search->get_restaurant_by_location($data['location']);
-            } 
-            
+            $data['latest_restaurant']= $this->restaurant_search->get_latest_restaurant_by_location($data['location']);
+            $data['old_restaurant']= $this->restaurant_search->get_oldest_restaurant_by_location($data['location']);
+            $data['open_restaurant']= $this->restaurant_search->get_open_restaurant_by_location($data['location']);
+            $data['discount_restaurant']= $this->restaurant_search->get_discount_restaurant_by_location($data['location']);
+            $data['near_restaurant']= $this->restaurant_search->get_near_restaurant_by_location($data['location']);
+            }
             if (isset($data['keyword']) AND isset($data['location'])){
             $data['restaurant_keyword']= $this->restaurant_search->get_restaurant_by_name_location( $data['keyword'], $data['location'] );
+            $data['latest_restaurant']= $this->restaurant_search->get_latest_restaurant_by_keylocation($data['keyword'], $data['location']);
+            $data['old_restaurant']= $this->restaurant_search->get_oldest_restaurant_by_keylocation($data['keyword'], $data['location']);
+            $data['open_restaurant']= $this->restaurant_search->get_open_restaurant_by_keylocation($data['keyword'], $data['location']);
+            $data['discount_restaurant']= $this->restaurant_search->get_discount_restaurant_by_keylocation($data['keyword'], $data['location']);
+            $data['near_restaurant']= $this->restaurant_search->get_near_restaurant_by_keylocation($data['keyword'], $data['location']);
             }
             
             $this->load->view('index', $data); 
-                                              
+                                       
     }
+    
+    
+    
 
 
-    public function restaurant_sort()
+    public function restaurants_sort()
     {
         $keyword= $this->input->post('restaurant_sort');
-        if($keyword=1)
+            
+        if($keyword==1)
         {
-             $data['restaurant_keyword']= $this->restaurant_search->get_latest_restaurant();
+           $data['restaurant_search']= $this->restaurant_search->get_latest_restaurant();
         }
-        if($keyword=2)
+        else if($keyword==2)
         {
-            $data['restaurant_keyword']= $this->restaurant_search->get_oldest_restaurant();
+           
+            $data['restaurant_search']= $this->restaurant_search->get_oldest_restaurant();
         }
-       if($keyword=3)
+      else if($keyword==3)
         {
-            $data['restaurant_keyword']= $this->restaurant_search->get_maxprice_restaurant();
+        
+            $data['restaurant_search']= $this->restaurant_search->get_maxprice_restaurant();
         }
-        if($keyword=4)
+       else if($keyword==4)
         {
-           $data['restaurant_keyword']= $this->restaurant_search->get_minprice_restaurant();
+           $data['restaurant_search']= $this->restaurant_search->get_minprice_restaurant();
         } 
         
             $data['folder_name'] = 'main';
@@ -404,5 +429,18 @@ public function search_result() {
             $this->load->view('index', $data); 
     }
 
+    
 
+     public function restaurant_sort()
+    { 
+       $this->load->model('restaurant_search');
+       $data['restaurant_keyword']= $this->restaurant_search->get_latest_restaurant();
+       $data['folder_name'] = 'main';
+       $data['file_name'] = 'search_restaurant';
+       $data['header_name'] = 'header_inner';
+       $data['nav_name'] = 'nav_main'; 
+       $view=$this->load->view('index', $data,True); 
+      
+      
+    }
 }
