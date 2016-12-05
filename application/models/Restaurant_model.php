@@ -185,9 +185,11 @@ class Restaurant_model extends CI_Model {
     //--------------------get popular restaurant-----------------------------------------------
     public function get_featured_restaurant_location()
     {
-        $this->db->select('restaurant.id AS restaurant_id,restaurant.name AS restaurant_name ,restaurant.logo_url AS logo_url,restaurant.cover_image_url AS cover_image_url ,restaurant.description AS description,restaurant.website_address AS website_address,restaurant.server AS restaurant_server,restaurant.min_price AS restaurant_min_price,restaurant.max_price AS restaurant_max_price,restaurant.min_order AS restaurant_min_order,restaurant.delivery_charges AS delivery_charges,restaurant.restaurant_discount AS restaurant_discount,hb_countries.country_name as country_name,cities.city_name as city_name,cuisine_type.name as cousine_name,COUNT(restaurant_comments.restaurant_id) AS restaurant_reviews');
+            $this->db->select('restaurant.id AS restaurant_id,restaurant.name AS restaurant_name ,restaurant.logo_url AS logo_url,restaurant.cover_image_url AS cover_image_url ,restaurant.description AS description,restaurant.website_address AS website_address,restaurant.server AS restaurant_server,restaurant.min_price AS restaurant_min_price,restaurant.max_price AS restaurant_max_price,restaurant.min_order AS restaurant_min_order,restaurant.delivery_charges AS delivery_charges,restaurant.restaurant_discount AS restaurant_discount,hb_countries.country_name as country_name,cities.city_name as city_name,cuisine_type.name as cousine_name,COUNT(restaurant_comments.restaurant_id) AS restaurant_reviews,COUNT(restaurant_page_share.restaurant_id) AS restaurant_page_share,COUNT(restaurant_page_visit.restaurant_id) AS restaurant_page_visit');
             $this->db->from('restaurant');
             $this->db->join("restaurant_comments", "restaurant.id =restaurant_comments.restaurant_id", "LEFT");
+            $this->db->join("restaurant_page_share", "restaurant.id =restaurant_page_share.restaurant_id", "LEFT");
+            $this->db->join("restaurant_page_visit", "restaurant.id =restaurant_page_visit.restaurant_id", "LEFT");
             $this->db->join("hb_countries", "hb_countries.country_id=restaurant.country_id", "LEFT");
             $this->db->join("cities", "restaurant.city_id = cities.city_id", "LEFT");
             $this->db->join("restaurant_cuisine_type", "restaurant_cuisine_type.restaurant_id =restaurant.id", "LEFT");
