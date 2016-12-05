@@ -339,4 +339,19 @@ class Restaurant_model extends CI_Model {
      
     }
     
+    function get_restaurant_branches_by_id($id)
+ {
+  $this->db->select('*');
+  $this->db->from('restaurant_branches');
+  $this->db->where('restaurant_id', $id);
+  $query = $this->db->get();
+
+  if($query->num_rows()<1){
+   return null;
+  }
+  else{
+   return $query->result();
+  }
+ }
+    
 }
