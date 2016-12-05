@@ -224,7 +224,8 @@ class restaurant extends CI_Controller {
         $data['restaurant_items'] = $this->restaurant_model->get_limited_by_restaurant_id($restaurant_id);
         $data['restaurant_timing'] = $this->restaurant_timing_model->get_by_restaurant_id($restaurant_id);
         $data['socail_acc'] = $this->restaurant_social_acc_model->get_by_id($restaurant_id);
-
+        $data['restaurant_tag'] = $this->restaurant_selected_tags_model->get_by_id($restaurant_id);
+        $data['restaurant_branch'] = $this->restaurant_model->get_restaurant_branches_by_id($restaurant_id);
         
         $data['featured_restaurant'] = $this->restaurant_model->get_featured_restaurant_location();
         $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews();

@@ -1,16 +1,11 @@
-<!--Page Content-->
+        <!--Page Content-->
             <div id="page-content">
                 <section class="container">
                     <div class="row">
                         <!--Item Detail Content-->
                         <div class="col-md-9">
                             <section class="block" id="main-content">
-                                <header class="page-title">
-                                    <div class="title">
-                                        <h1><?php if(!empty($restaurant_detail->name)) { echo $restaurant_detail->name; } ?> </h1>                                      
-                                    </div>                                   
-                                </header>
-                                
+                                                                
                                 <div class="row">
                                     <!--Detail Sidebar-->
                                     <aside class="col-md-4 col-sm-4" id="detail-sidebar">
@@ -20,7 +15,7 @@
                                             <address>
                                                 <div><?php if(!empty($restaurant_detail->name)) { echo $restaurant_detail->name; } ?></div>
                                                 <div><?php if(!empty($restaurant_detail->country_name)) { echo $restaurant_detail->country_name; } ?></div>
-                                                <div>Granada Hills, CA 91344</div>
+                                                <div><?php echo $restaurant_branch[0]->branch_name; ?></div>
                                                 <figure>
                                                          <?php if(!empty($res_mobile)): ?>
                                                         <?php foreach($res_mobile as $mobile_no): ?>
@@ -82,9 +77,76 @@
                                                if(!empty($cuisine_type)){
                                                foreach ($cuisine_type as $cuisine) { ?>
                                                    <li><?php echo $cuisine->tag_name; ?></li>
-                                               <?php } } ?>
+                                               <?php } } else{ ?>
+                                                   <p>No Category Selected</p>
+                                               <?php } ?>
                                            </ul>
                                         </section>
+                                          
+                                        <?php if(!empty($restaurant_tag)){ ?>
+                                          <br>
+                                          <section>                                         
+                                           <header><h2>Restaurant Tags</h2></header>
+                                           <ul class="bullets">
+                                               <?php
+                                              
+                                               foreach ($restaurant_tag as $tag) { ?>
+                                                   <li><?php echo $tag->tag; ?></li>
+                                               <?php } ?>
+                                           </ul>
+                                        </section>
+                                        <?php } ?>  
+
+                                          <?php if(!empty($socail_acc) AND $socail_acc[0]->link !=""){ ?>
+                                            <br>                                            
+                                        <section>                                         
+                                           <header><h2>Socia Links</h2></header>                                           
+                                           <ul class="list-inline">
+                                            <?php foreach($socail_acc as $social) {?>  
+                                            <?php
+                                            $social_class= "";
+                                                if($social->social_acc_id == 1)
+                                                {
+                                                    $social_class = 'fa-facebook';
+                                                }
+                                                else if($social->social_acc_id == 2)
+                                                {
+                                                    $social_class = 'fa-twitter';
+                                                }
+                                                else if($social->social_acc_id == 3)
+                                                {
+                                                    $social_class = 'fa-instagram';
+                                                }
+                                                else if($social->social_acc_id == 4)
+                                                {
+                                                    $social_class = 'fa-google-plus';
+                                                }
+                                                else if($social->social_acc_id == 5)
+                                                {
+                                                    $social_class = 'fa-snapchat';
+                                                }
+                                                else if($social->social_acc_id == 6)
+                                                {
+                                                    $social_class = 'fa-youtube';
+                                                }
+                                                else if($social->social_acc_id == 7)
+                                                {
+                                                    $social_class = 'fa-pinterest';
+                                                }
+                                                else if($social->social_acc_id == 8)
+                                                {
+                                                    $social_class = 'fa-flickr';
+                                                }
+                                                else if($social->social_acc_id == 9)
+                                                {
+                                                    $social_class = 'fa-tumblr';
+                                                }
+                                            ?>
+                                            <li><a href="<?php echo $social->link; ?>" target="_blank"><i class="fa <?php echo $social_class; ?>"></i></a></li>                                  
+                                            <?php } ?>
+                                           </ul>                                       
+                                        </section>
+                                            <?php } ?>
                                           
                                           
                                        
@@ -92,12 +154,32 @@
                                     <!--end Detail Sidebar-->
                                     <!--Content-->
                                     <div class="col-md-8 col-sm-8">
-                                        <section>
-                                            
+                                        <section>  
+
+                                            <header class="page-title">
+                                                <div class="title">
+                                                    <h1><?php if(!empty($restaurant_detail->name)) { echo $restaurant_detail->name; } ?> </h1>                                      
+                                                </div>                                   
+                                            </header>
+
+                                            <div class="restaurant-logo" style="margin-bottom: 20px;">
+                                                <?php
+                                                $logo_image = "";                                                
+                                                if (!empty($restaurant_detail->logo_url)) {
+                                                    $logo_image = $restaurant_detail->logo_url;
+                                                } else {    
+                                                    $logo_image = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                                                }
+                                                ?>
+                                                <img src="<?php echo $logo_image; ?>" alt="logo" width="200" height="150">
+                                            </div>
+                                      
+
                                            
                                             <?php if(!empty($promotion_banners)){ ?>
                                             <article class="item-gallery">
                                                 
+                                            <div id="cage"> 
                                                 <div class="owl-carousel item-slider">
                                                     <?php
                                                     $count_banner=1;
@@ -109,6 +191,8 @@
                                                     }//end foreach
                                                     ?>
                                                 </div>
+                                            </div> 
+
                                                 <!-- /.item-slider -->
                                                 <div class="thumbnails">
                                                 <?php if($promotion_banners >= 5){ ?>
@@ -119,7 +203,7 @@
                                                     <?php
                                                     $count_banner=1;
                                                     foreach($promotion_banners as $banner){ ?>
-                                                            <a href="#<?php echo $count_banner; ?>" id="thumbnail-<?php echo $count_banner;?>" <?php if($count_banner==1){ ?>class="active"<?php } ?>><img src="<?php echo $banner->image_url; ?>" alt="" width="85" height="65"></a>
+                                                            <a href="#<?php echo $count_banner; ?>" onclick="show_logo()" id="thumbnail-<?php echo $count_banner;?>" <?php if($count_banner==1){ ?>class="active"<?php } ?>><img src="<?php echo $banner->image_url; ?>" alt="" width="85" height="65"></a>
                                                         <!--<a href="#2" id="thumbnail-2"><img src="assets/img/items/2.jpg" alt=""></a> -->
                                                             
                                                        <?php 
@@ -128,6 +212,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <script type="text/javascript">
+                                                function show_logo(){
+                                                    $(".restaurant-logo").hide(); 
+                                                    $("#cage").show();                                                     
+                                                }
+                                                </script>
                                                 
                                             </article>
                                             <?php } //end if condition for banners ?>
@@ -224,7 +315,7 @@
 
                                         </section>
                                         
-                                           <?php // echo "<pre>"; print_r($featured_restaurant); exit; ?>                                     
+                                           <?php // echo "<pre>"; print_r($restaurant_branch); exit; ?>                                     
                                         <!--Reviews-->
                                         <section class="block" id="reviews">
                                             <header class="clearfix">
