@@ -204,6 +204,9 @@ class restaurant extends CI_Controller {
         $this->load->model('restaurant_mobile_no_model');
         $this->load->model('restaurant_phone_no_model');
         $this->load->model('restaurant_email_model');
+        $this->load->model('restaurant_cuisine_type_model');
+        $this->load->model('restaurant_promotional_banner_model');
+        $this->load->model('restaurant_selected_tags_model');
 
         $data['user_data'] = $this->ion_auth->user()->row();
         $restaurant_id = $this->uri->segment(3);
@@ -214,13 +217,23 @@ class restaurant extends CI_Controller {
         $data['res_phone'] =$this->restaurant_phone_no_model->get_by_id($restaurant_id);
         $data['res_email'] =$this->restaurant_email_model->get_by_id($restaurant_id);
         $data['restaurant_categories'] = $this->user_menu_categories_model->get_by_restaurant_id($restaurant_id);
+        $data['promotion_banners']=  $this->restaurant_promotional_banner_model->get_by_restaurant_id($restaurant_id);
+        $data['cuisine_type'] = $this->restaurant_cuisine_type_model->get_by_restaurant_id($restaurant_id);
+        $data['most_used_tags'] =$this->restaurant_selected_tags_model->get_most_use_tags(); 
+        $data['restaurant_review'] = $this->restaurant_model->get_restaurant_reviews($restaurant_id);
         $data['restaurant_items'] = $this->restaurant_model->get_limited_by_restaurant_id($restaurant_id);
         $data['restaurant_timing'] = $this->restaurant_timing_model->get_by_restaurant_id($restaurant_id);
         $data['socail_acc'] = $this->restaurant_social_acc_model->get_by_id($restaurant_id);
+        $data['restaurant_tag'] = $this->restaurant_selected_tags_model->get_by_id($restaurant_id);
+        $data['restaurant_branch'] = $this->restaurant_model->get_restaurant_branches_by_id($restaurant_id);
+
+        
+        $data['featured_restaurant'] = $this->restaurant_model->get_featured_restaurant_location();
+        $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews();
 
         $data['folder_name'] = 'restaurant';
         $data['file_name'] = 'restaurant_detail';
-        $data['header_name'] = 'header';
+        $data['header_name'] = 'header_inner';
         $data['nav_name'] = 'nav_main';
         $this->load->view('index', $data);
     }
@@ -303,6 +316,20 @@ class restaurant extends CI_Controller {
         }
 
         return $key;
+    }
+    
+    public function add_user_review() {              
+        $review= $this->input->post();
+        $restaurant_id= $this->input->post('restaurant_id');
+        
+        $this->load->model('restaurant_model');
+        
+        if($this->restaurant_model->add_user_comment($review)) 
+            {
+            redirect('restaurant/restaurant_detail'."/".$restaurant_id);
+            } else {
+                echo "coment not inserted";
+            }
     }
 
 }

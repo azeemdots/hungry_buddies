@@ -1,49 +1,11 @@
-<!--Sub Header-->
-<section class="sub-header">
-    <div class="search-bar horizontal collapse" id="redefine-search-form"></div>
-    <!-- /.search-bar -->
-    <div class="breadcrumb-wrapper">
-        <div class="container">
-            <div class="redefine-search">
-                <a href="#redefine-search-form" class="inner" data-toggle="collapse" aria-expanded="false" aria-controls="redefine-search-form">
-                    <span class="icon"></span>
-                    <span>Redefine Search</span>
-                </a>
-            </div>
-            <ol class="breadcrumb">
-                <li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
-                <li><a href="#">Page</a></li>
-                <li class="active">Detail</li>
-            </ol>
-            <!-- /.breadcrumb-->
-        </div>
-        <!-- /.container-->
-    </div>
-    <!-- /.breadcrumb-wrapper-->
-</section>
-<!--end Sub Header-->
-
-<!--Page Content-->
-<div id="page-content">
-
-                <div id="map-detail"></div>
+        <!--Page Content-->
+            <div id="page-content">
                 <section class="container">
                     <div class="row">
                         <!--Item Detail Content-->
                         <div class="col-md-9">
                             <section class="block" id="main-content">
-                                <header class="page-title">
-                                    <div class="title">
-                                        <h1>Max Five Lounge</h1>
-                                        <figure>63 Birch Street</figure>
-                                    </div>
-                                    <div class="info">
-                                        <div class="type">
-                                            <i><img src="assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                            <span>Restaurant</span>
-                                        </div>
-                                    </div>
-                                </header>
+                                                                
                                 <div class="row">
                                     <!--Detail Sidebar-->
                                     <aside class="col-md-4 col-sm-4" id="detail-sidebar">
@@ -51,22 +13,34 @@
                                         <section>
                                             <header><h3>Contact</h3></header>
                                             <address>
-                                                <div>Max Five Lounge</div>
-                                                <div>63 Birch Street</div>
-                                                <div>Granada Hills, CA 91344</div>
+                                                <div><?php if(!empty($restaurant_detail->name)) { echo $restaurant_detail->name; } ?></div>
+                                                <div><?php if(!empty($restaurant_detail->country_name)) { echo $restaurant_detail->country_name; } ?></div>
+                                                <div><?php echo $restaurant_branch[0]->branch_name; ?></div>
                                                 <figure>
-                                                    <div class="info">
-                                                        <i class="fa fa-mobile"></i>
-                                                        <span>818-832-5258</span>
+                                                         <?php if(!empty($res_mobile)): ?>
+                                                        <?php foreach($res_mobile as $mobile_no): ?>
+                                                    <div class="info">                                                      
+                                                        <i class="fa fa-mobile"></i>  
+                                                        <span><?php echo $mobile_no->mobile_no; ?></span>                                                        
                                                     </div>
-                                                    <div class="info">
-                                                        <i class="fa fa-phone"></i>
-                                                        <span>+1 123 456 789</span>
+                                                    <?php endforeach; 
+                                                              endif;?>
+                                                    
+                                                    <?php if(!empty($res_phone)): ?>
+                                                        <?php foreach($res_phone as $phone_no): ?>
+                                                    <div class="info">                                                        
+                                                       <i class="fa fa-phone"></i>
+                                                        <span><?php echo $phone_no->phone_no; ?></span>                                                       
                                                     </div>
+                                                        <?php endforeach; 
+                                                              endif;?>
+                                                    
+                                                    <?php if(!empty($restaurant_detail->website_address)): ?>
                                                     <div class="info">
                                                         <i class="fa fa-globe"></i>
-                                                        <a href="#">www.maxfivelounge.com</a>
+                                                        <a href="<?php echo $restaurant_detail->website_address; ?>" target="_blank"><?php echo $restaurant_detail->website_address; ?></a>     
                                                     </div>
+                                                    <?php endif; ?>
                                                 </figure>
                                             </address>
                                         </section>
@@ -78,97 +52,188 @@
                                         </section>
                                         <!--end Rating-->
                                         <!--Events-->
+                                        
                                         <section>
-                                            <header><h3>Events</h3></header>
-                                            <figure>
-                                                <div class="expandable-content collapsed show-60" id="detail-sidebar-event">
-                                                    <div class="content">
-                                                        <p>Maecenas purus sapien, pellentesque non consectetur eu, rhoncus in mauris.
-                                                            Duis et nisl metus. Sed ut pulvinar mauris, bibendum ullamcorper ex.
-                                                            Aliquam vitae ante diam. Nam eu blandit odio. Cras erat lorem, iaculis eu nulla eu, sodales aliquam eros.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <a href="#" class="show-more expand-content" data-expand="#detail-sidebar-event" >Show More</a>
-                                            </figure>
+                                           <header><h2>Opening Hours</h2></header>
+                                           
+                                            <?php if(!empty($restaurant_timing)){ ?>                                          
+                                            <ul style="list-style-type:none">
+                                            
+                                            <?php foreach( $restaurant_timing as $timing){ ?>    
+                                                <li><b><?php echo $timing->day;  ?>:</b> <?= $timing->start_time; ?> - <?=$timing->end_time; ?></li>                                               
+                                            <?php } ?>
+                                            </ul>
+                                            <?php } else {?>
+                                                <p>Not Available</p>
+                                            <?php } ?>
                                         </section>
-                                        <!--end Events-->
-                                        <!--Contact Form-->
-                                        <section>
-                                            <header><h3>Contact Form</h3></header>
-                                            <figure>
-                                                <form id="item-detail-form" role="form" method="post" action="?">
-                                                    <div class="form-group">
-                                                        <label for="item-detail-name">Name</label>
-                                                        <input type="text" class="form-control framed" id="item-detail-name" name="item-detail-name" required="">
-                                                    </div>
-                                                    <!-- /.form-group -->
-                                                    <div class="form-group">
-                                                        <label for="item-detail-email">Email</label>
-                                                        <input type="email" class="form-control framed" id="item-detail-email" name="item-detail-email" required="">
-                                                    </div>
-                                                    <!-- /.form-group -->
-                                                    <div class="form-group">
-                                                        <label for="item-detail-message">Message</label>
-                                                        <textarea class="form-control framed" id="item-detail-message" name="item-detail-message"  rows="3" required=""></textarea>
-                                                    </div>
-                                                    <!-- /.form-group -->
-                                                    <div class="form-group">
-                                                        <button type="submit" class="btn framed icon">Send<i class="fa fa-angle-right"></i></button>
-                                                    </div>
-                                                    <!-- /.form-group -->
-                                                </form>
-                                            </figure>
+                                        
+                                          <!--sidebar categories-->
+                                          <br>
+                                        <section>                                         
+                                           <header><h2>Categories</h2></header>
+                                           <ul class="bullets">
+                                               <?php
+                                               if(!empty($cuisine_type)){
+                                               foreach ($cuisine_type as $cuisine) { ?>
+                                                   <li><?php echo $cuisine->tag_name; ?></li>
+                                               <?php } } else{ ?>
+                                                   <p>No Category Selected</p>
+                                               <?php } ?>
+                                           </ul>
                                         </section>
-                                        <!--end Contact Form-->
+                                          
+                                        <?php if(!empty($restaurant_tag)){ ?>
+                                          <br>
+                                          <section>                                         
+                                           <header><h2>Restaurant Tags</h2></header>
+                                           <ul class="bullets">
+                                               <?php
+                                              
+                                               foreach ($restaurant_tag as $tag) { ?>
+                                                   <li><?php echo $tag->tag; ?></li>
+                                               <?php } ?>
+                                           </ul>
+                                        </section>
+                                        <?php } ?>  
+
+                                          <?php if(!empty($socail_acc) AND $socail_acc[0]->link !=""){ ?>
+                                            <br>                                            
+                                        <section>                                         
+                                           <header><h2>Socia Links</h2></header>                                           
+                                           <ul class="list-inline">
+                                            <?php foreach($socail_acc as $social) {?>  
+                                            <?php
+                                            $social_class= "";
+                                                if($social->social_acc_id == 1)
+                                                {
+                                                    $social_class = 'fa-facebook';
+                                                }
+                                                else if($social->social_acc_id == 2)
+                                                {
+                                                    $social_class = 'fa-twitter';
+                                                }
+                                                else if($social->social_acc_id == 3)
+                                                {
+                                                    $social_class = 'fa-instagram';
+                                                }
+                                                else if($social->social_acc_id == 4)
+                                                {
+                                                    $social_class = 'fa-google-plus';
+                                                }
+                                                else if($social->social_acc_id == 5)
+                                                {
+                                                    $social_class = 'fa-snapchat';
+                                                }
+                                                else if($social->social_acc_id == 6)
+                                                {
+                                                    $social_class = 'fa-youtube';
+                                                }
+                                                else if($social->social_acc_id == 7)
+                                                {
+                                                    $social_class = 'fa-pinterest';
+                                                }
+                                                else if($social->social_acc_id == 8)
+                                                {
+                                                    $social_class = 'fa-flickr';
+                                                }
+                                                else if($social->social_acc_id == 9)
+                                                {
+                                                    $social_class = 'fa-tumblr';
+                                                }
+                                            ?>
+                                            <li><a href="<?php echo $social->link; ?>" target="_blank"><i class="fa <?php echo $social_class; ?>"></i></a></li>                                  
+                                            <?php } ?>
+                                           </ul>                                       
+                                        </section>
+                                            <?php } ?>
+                                          
+                                          
+                                       
                                     </aside>
                                     <!--end Detail Sidebar-->
                                     <!--Content-->
                                     <div class="col-md-8 col-sm-8">
-                                        <section>
+                                        <section>  
+
+                                            <header class="page-title">
+                                                <div class="title">
+                                                    <h1><?php if(!empty($restaurant_detail->name)) { echo $restaurant_detail->name; } ?> </h1>                                      
+                                                </div>                                   
+                                            </header>
+
+                                            <div class="restaurant-logo" style="margin-bottom: 20px;">
+                                                <?php
+                                                $logo_image = "";                                                
+                                                if (!empty($restaurant_detail->logo_url)) {
+                                                    $logo_image = $restaurant_detail->logo_url;
+                                                } else {    
+                                                    $logo_image = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                                                }
+                                                ?>
+                                                <img src="<?php echo $logo_image; ?>" alt="logo" width="200" height="150">
+                                            </div>
+                                      
+
+                                           
+                                            <?php if(!empty($promotion_banners)){ ?>
                                             <article class="item-gallery">
+                                                
+                                            <div id="cage"> 
                                                 <div class="owl-carousel item-slider">
-                                                    <div class="slide"><img src="assets/img/items/1.jpg" data-hash="1" alt=""></div>
-                                                    <div class="slide"><img src="assets/img/items/2.jpg" data-hash="2" alt=""></div>
-                                                    <div class="slide"><img src="assets/img/items/3.jpg" data-hash="3" alt=""></div>
-                                                    <div class="slide"><img src="assets/img/items/4.jpg" data-hash="4" alt=""></div>
-                                                    <div class="slide"><img src="assets/img/items/5.jpg" data-hash="5" alt=""></div>
-                                                    <div class="slide"><img src="assets/img/items/6.jpg" data-hash="6" alt=""></div>
-                                                    <div class="slide"><img src="assets/img/items/7.jpg" data-hash="7" alt=""></div>
+                                                    <?php
+                                                    $count_banner=1;
+                                                    foreach($promotion_banners as $banner){ ?>
+                                                    <div class="slide"><img src="<?php echo $banner->image_url; ?>" data-hash="<?php echo $count_banner; ?>" alt=""></div>
+<!--                                                <div class="slide"><img src="assets/img/items/2.jpg" data-hash="2" alt=""></div> -->
+                                                    <?php 
+                                                    $count_banner++; 
+                                                    }//end foreach
+                                                    ?>
                                                 </div>
+                                            </div> 
+
                                                 <!-- /.item-slider -->
                                                 <div class="thumbnails">
+                                                <?php if($promotion_banners >= 5){ ?>
                                                     <span class="expand-content btn framed icon" data-expand="#gallery-thumbnails" >More<i class="fa fa-plus"></i></span>
+                                                <?php } ?>    
                                                     <div class="expandable-content height collapsed show-70" id="gallery-thumbnails">
                                                         <div class="content">
-                                                            <a href="#1" id="thumbnail-1" class="active"><img src="assets/img/items/1.jpg" alt=""></a>
-                                                            <a href="#2" id="thumbnail-2"><img src="assets/img/items/2.jpg" alt=""></a>
-                                                            <a href="#3" id="thumbnail-3"><img src="assets/img/items/3.jpg" alt=""></a>
-                                                            <a href="#4" id="thumbnail-4"><img src="assets/img/items/4.jpg" alt=""></a>
-                                                            <a href="#5" id="thumbnail-5"><img src="assets/img/items/5.jpg" alt=""></a>
-                                                            <a href="#6" id="thumbnail-6"><img src="assets/img/items/6.jpg" alt=""></a>
-                                                            <a href="#7" id="thumbnail-7"><img src="assets/img/items/7.jpg" alt=""></a>
+                                                    <?php
+                                                    $count_banner=1;
+                                                    foreach($promotion_banners as $banner){ ?>
+                                                            <a href="#<?php echo $count_banner; ?>" onclick="show_logo()" id="thumbnail-<?php echo $count_banner;?>" <?php if($count_banner==1){ ?>class="active"<?php } ?>><img src="<?php echo $banner->image_url; ?>" alt="" width="85" height="65"></a>
+                                                        <!--<a href="#2" id="thumbnail-2"><img src="assets/img/items/2.jpg" alt=""></a> -->
+                                                            
+                                                       <?php 
+                                                       $count_banner++;
+                                                       }//end foreach ?>
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <script type="text/javascript">
+                                                function show_logo(){
+                                                    $(".restaurant-logo").hide(); 
+                                                    $("#cage").show();                                                     
+                                                }
+                                                </script>
+                                                
                                             </article>
+                                            <?php } //end if condition for banners ?>
+                                            
                                             <!-- /.item-gallery -->
+                                            
+                                            <?php if(!empty($restaurant_detail->description)){ ?>
                                             <article class="block">
                                                 <header><h2>Description</h2></header>
-                                                <p>
-                                                    Curabitur odio nibh, luctus non pulvinar a, ultricies ac diam.
-                                                    Donec neque massa, viverra interdum eros ut, imperdiet pellentesque mauris.
-                                                    Proin sit amet scelerisque risus. Donec semper semper erat ut mollis.
-                                                    Curabitur suscipit, justo eu dignissim lacinia, ante sapien pharetra duin
-                                                    consectetur eros augue sed ex. Donec a odio rutrum, hendrerit sapien vitae,
-                                                    euismod arcu. Suspendisse potenti. Integer ut diam venenatis, pellentesque
-                                                    felis eget, elementum enim. Suspendisse sit amet massa commodo nulla iaculis
-                                                    fermentum. Integer eget tincidunt est, in imperdiet risus.
-                                                    Morbi sit amet urna purus.
-                                                </p>
+                                                <p><?php echo $restaurant_detail->description; ?></p>
                                             </article>
+                                            <?php } ?>
+                                            
                                             <!-- /.block -->
-                                            <article class="block">
+<!--                                            <article class="block">
                                                 <header><h2>Daily Menu</h2></header>
                                                 <div class="list-slider owl-carousel">
                                                     <div class="slide">
@@ -182,7 +247,7 @@
                                                             </div>
                                                             <div class="right">$4.50</div>
                                                         </div>
-                                                        <!-- /.list-item -->
+                                                         /.list-item 
                                                         <div class="list-item">
                                                             <div class="left">
                                                                 <h4>Mushroom ragout</h4>
@@ -190,7 +255,7 @@
                                                             </div>
                                                             <div class="right">$3.60</div>
                                                         </div>
-                                                        <!-- /.list-item -->
+                                                         /.list-item 
                                                         <div class="list-item">
                                                             <div class="left">
                                                                 <h4>Nice salad with tuna, beans and hard-boiled egg</h4>
@@ -198,9 +263,9 @@
                                                             </div>
                                                             <div class="right">$1.20</div>
                                                         </div>
-                                                        <!-- /.list-item -->
+                                                         /.list-item 
                                                     </div>
-                                                    <!-- /.slide -->
+                                                     /.slide 
                                                     <div class="slide">
                                                         <header>
                                                             <h3><i class="fa fa-calendar"></i>Tuesday</h3>
@@ -212,7 +277,7 @@
                                                             </div>
                                                             <div class="right">$4.50</div>
                                                         </div>
-                                                        <!-- /.list-item -->
+                                                         /.list-item 
                                                         <div class="list-item">
                                                             <div class="left">
                                                                 <h4>Mushroom ragout</h4>
@@ -220,7 +285,7 @@
                                                             </div>
                                                             <div class="right">$3.60</div>
                                                         </div>
-                                                        <!-- /.list-item -->
+                                                         /.list-item 
                                                         <div class="list-item">
                                                             <div class="left">
                                                                 <h4>Nice salad with tuna, beans and hard-boiled egg</h4>
@@ -228,120 +293,68 @@
                                                             </div>
                                                             <div class="right">$1.20</div>
                                                         </div>
-                                                        <!-- /.list-item -->
+                                                         /.list-item 
                                                     </div>
-                                                    <!-- /.slide -->
+                                                     /.slide 
                                                 </div>
-                                                <!-- /.list-slider -->
-                                            </article>
+                                                 /.list-slider 
+                                            </article>-->
                                             <!-- /.block -->
+                                            
+
                                             <article class="block">
-                                                <header><h2>Features</h2></header>
+                                                <?php if(!empty($most_used_tags)){ ?>
+                                                <header><h2>Features Tags</h2></header>
                                                 <ul class="bullets">
-                                                    <li>Free Parking</li>
-                                                    <li>Cards Accepted</li>
-                                                    <li>Wi-Fi</li>
-                                                    <li>Air Condition</li>
-                                                    <li>Reservations</li>
-                                                    <li>Teambuildings</li>
-                                                    <li>Places to seat</li>
-                                                    <li>Winery</li>
-                                                    <li>Draft Beer</li>
-                                                    <li>LCD</li>
-                                                    <li>Saloon</li>
-                                                    <li>Free Access</li>
-                                                    <li>Terrace</li>
-                                                    <li>Minigolf</li>
+                                                   <?php foreach($most_used_tags as $row) { ?>
+                                                    <li><?php echo $row->tag_name; ?></li>                                                    
+                                                   <?php }//end foreach ?>
                                                 </ul>
+                                                <?php }//End if condition ?>
                                             </article>
-                                            <!-- /.block -->
-                                            <article class="block">
-                                                <header><h2>Opening Hours</h2></header>
-                                                <dl class="lines">
-                                                    <dt>Monday</dt>
-                                                    <dd>08:00 am - 11:00 pm</dd>
-                                                    <dt>Tuesday</dt>
-                                                    <dd>08:00 am - 11:00 pm</dd>
-                                                    <dt>Wednesday</dt>
-                                                    <dd>08:00 am - 11:00 pm</dd>
-                                                    <dt>Thursday</dt>
-                                                    <dd>08:00 am - 11:00 pm</dd>
-                                                    <dt>Friday</dt>
-                                                    <dd>08:00 am - 11:00 pm</dd>
-                                                    <dt>Saturday</dt>
-                                                    <dd>08:00 am - 11:00 pm</dd>
-                                                </dl>
-                                            </article>
-                                            <!-- /.block -->
+
                                         </section>
+                                        
+                                           <?php // echo "<pre>"; print_r($restaurant_branch); exit; ?>                                     
                                         <!--Reviews-->
                                         <section class="block" id="reviews">
                                             <header class="clearfix">
                                                 <h2 class="pull-left">Reviews</h2>
                                                 <a href="#write-review" class="btn framed icon pull-right roll">Write a review <i class="fa fa-pencil"></i></a>
                                             </header>
-                                            <article class="clearfix overall-rating">
-                                                <strong class="pull-left">Over Rating</strong>
-                                                <figure class="rating big color pull-right" data-rating="4"></figure>
-                                                <!-- /.rating -->
-                                            </article><!-- /.overall-rating-->
+                                      
                                             <section class="reviews">
+                                                
+                                            <?php if(!empty($restaurant_review)){ ?>  
+                                                <?php foreach($restaurant_review as $review){ ?>
                                                 <article class="review">
                                                     <figure class="author">
-                                                        <img src="assets/img/default-avatar.png" alt="">
-                                                        <div class="date">12.05.2014</div>
+                                                        <?php if($review->user_image != 'NULL' AND "") { ?>
+                                                        <img src="<?php echo $review->user_image; ?>" alt="">
+                                                        <?php } else { ?>
+                                                        <img src="<?php echo base_url(); ?>assets/img/default-avatar.png" alt="">
+                                                        <?php } ?>
+                                                        <?php
+                                                        $doc= $review->coments_date;
+                                                        $date = date('d-M-Y h:i A', strtotime($doc));
+                                                        ?>
+                                                        <div class="date" style="width: 130px; margin-top: 2px;"><?php echo $date; ?></div>
                                                     </figure>
                                                     <!-- /.author-->
                                                     <div class="wrapper">
-                                                        <h5>Catherine Brown</h5>
-                                                        <figure class="rating big color" data-rating="4"></figure>
-                                                        <p>
-                                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                            Nulla vestibulum, sem ut sollicitudin consectetur, augue diam ornare massa,
-                                                            ac vehicula leo turpis eget purus. Nunc pellentesque vestibulum mauris,
-                                                            eget suscipit mauris imperdiet vel. Nulla et massa metus.
-                                                        </p>
-                                                        <div class="individual-rating">
-                                                            <span>Value</span>
-                                                            <figure class="rating" data-rating="4"></figure>
-                                                        </div>
-                                                        <!-- /.user-rating -->
-                                                        <div class="individual-rating">
-                                                            <span>Service</span>
-                                                            <figure class="rating" data-rating="4"></figure>
-                                                        </div>
-                                                        <!-- /.user-rating -->
+                                                        <h5><?php echo $review->first_name." ".$review->last_name;  ?></h5>
+                                                        <figure class="rating big color" data-rating="<?php if(!empty($review->user_rating)){ echo $review->user_rating; } ?>"></figure>
+                                                        
+                                                        <p style="margin-top:17px;"><?php echo $review->rec_comments; ?></p>    
                                                     </div>
                                                     <!-- /.wrapper-->
                                                 </article>
-                                                <!-- /.review -->
-                                                <article class="review">
-                                                    <figure class="author">
-                                                        <img src="assets/img/default-avatar.png" alt="">
-                                                        <div class="date">10.05.2014</div>
-                                                    </figure>
-                                                    <!-- /.author-->
-                                                    <div class="wrapper">
-                                                        <h5>John Doe</h5>
-                                                        <figure class="rating big color" data-rating="5"></figure>
-                                                        <p>
-                                                            Nunc pellentesque vestibulum mauris, eget suscipit mauris
-                                                            imperdiet vel. Nulla et massa metus. Nam porttitor quam eget ante
-                                                        </p>
-                                                        <div class="individual-rating">
-                                                            <span>Value</span>
-                                                            <figure class="rating" data-rating="5"></figure>
-                                                        </div>
-                                                        <!-- /.user-rating -->
-                                                        <div class="individual-rating">
-                                                            <span>Service</span>
-                                                            <figure class="rating" data-rating="5"></figure>
-                                                        </div>
-                                                        <!-- /.user-rating -->
-                                                    </div>
-                                                    <!-- /.wrapper-->
-                                                </article>
-                                                <!-- /.review -->
+                                                <?php }//End foreach ?>
+                                            <?php } else { //start Else condition ?>
+                                                <p>No Comment in Found in This Restaurant</p>
+                                            <?php } //end else and if condition ?>
+                                                
+                                                                                               
                                             </section>
                                             <!-- /.reviews-->
                                         </section>
@@ -352,38 +365,30 @@
                                             <header>
                                                 <h2>Write a Review</h2>
                                             </header>
-                                            <form id="form-review" role="form" method="post" action="?" class="background-color-white">
+                                            
+                                            <form id="form-review" role="form" name="user_restaurant_review" method="post" action="<?php echo base_url(); ?>restaurant/add_user_review" class="background-color-white">
+                                                <input type="hidden" id="user_id" name="user_id" value="30">
+                                                <input type="hidden" id="date" name="date" value="<?php echo date("Y-m-d h:i:s"); ?>">
+                                                <input type="hidden" id="restaurant_id" name="restaurant_id" value="<?php echo $restaurant_detail->id; ?>">
                                                 <div class="row">
                                                     <div class="col-md-8">
-                                                        <div class="form-group">
-                                                            <label for="form-review-name">Name</label>
-                                                            <input type="text" class="form-control" id="form-review-name" name="form-review-name" required="">
-                                                        </div>
-                                                        <!-- /.form-group -->
-                                                        <div class="form-group">
-                                                            <label for="form-review-email">Email</label>
-                                                            <input type="email" class="form-control" id="form-review-email" name="form-review-email" required="">
-                                                        </div>
-                                                        <!-- /.form-group -->
+                                                                                                                
                                                         <div class="form-group">
                                                             <label for="form-review-message">Message</label>
-                                                            <textarea class="form-control" id="form-review-message" name="form-review-message"  rows="3" required=""></textarea>
+                                                            <textarea class="form-control" id="review_message" name="review_message"  rows="3" required=""></textarea>
                                                         </div>
                                                         <!-- /.form-group -->
                                                         <div class="form-group">
-                                                            <button type="submit" class="btn btn-default">Submit Review</button>
+                                                            <input type="submit" class="btn btn-default" id="submit_comment" name="submit_comment" value="Submit Review">
                                                         </div>
                                                         <!-- /.form-group -->
                                                     </div>
                                                     <div class="col-md-4">
                                                         <aside class="user-rating">
-                                                            <label>Value</label>
-                                                            <figure class="rating active" data-name="value"></figure>
+                                                            <label>Your Rating</label>
+                                                            <figure class="rating active" id="rating" data-name="value"></figure>
                                                         </aside>
-                                                        <aside class="user-rating">
-                                                            <label>Service</label>
-                                                            <figure class="rating active" data-name="score"></figure>
-                                                        </aside>
+                                                        
                                                     </div>
                                                 </div>
                                             </form>
@@ -399,85 +404,78 @@
                         </div>
                         <!-- /.col-md-8-->
                         <!--Sidebar-->
-                        <div class="col-md-3">
+                        <div class="col-md-3" style="margin-top: 50px;">
                             <aside id="sidebar">
+                                                                
+                               <!-- Featured Restaurant start-->    
+                               <?php if(!empty($featured_restaurant)){ ?>
                                 <section>
-                                    <header><h2>New Places</h2></header>
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Cash Cow Restaurante</h3>
-                                        <figure>63 Birch Street</figure>
+                                    <header><h2>Featured Restaurant</h2></header>
+                                    <?php foreach($featured_restaurant as $featured_res) { ?>
+                                    <a href="<?= base_url() ?>restaurant/restaurant_detail/<?php echo $featured_res->restaurant_id; ?>" class="item-horizontal small">
+                                        <h3><?php echo $featured_res->restaurant_name; ?></h3>
+                                        <figure><?php echo $featured_res->city_name .", ". $featured_res->country_name; ?></figure>
                                         <div class="wrapper">
-                                            <div class="image"><img src="assets/img/items/1.jpg" alt=""></div>
+                                            <?php
+                                                $imagename = "";
+                                                $url = @getimagesize($featured_res->logo_url);
+                                                if (@!is_array($url)) {
+                                                    $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                                                } else {
+                                                    $imagesname = $featured_res->logo_url;
+                                                }
+                                            ?>
+                                            <div class="image"><img src="<?php echo $imagesname; ?>" alt=""></div>
                                             <div class="info">
                                                 <div class="type">
-                                                    <i><img src="assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
+                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                    <span><?php echo $featured_res->cousine_name; ?></span>
                                                 </div>
                                                 <div class="rating" data-rating="4"></div>
                                             </div>
                                         </div>
                                     </a>
-                                    <!--/.item-horizontal small-->
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Blue Chilli</h3>
-                                        <figure>2476 Whispering Pines Circle</figure>
-                                        <div class="wrapper">
-                                            <div class="image"><img src="assets/img/items/2.jpg" alt=""></div>
-                                            <div class="info">
-                                                <div class="type">
-                                                    <i><img src="assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
-                                                </div>
-                                                <div class="rating" data-rating="3"></div>
+                                    <?php }// end foreach ?>                           
+                                </section>    
+                               <?php } ?>
+                    <!-- Featured Restaurant End-->
+                    
+                    
+                    
+                    
+                    <!-- Featured Reviews Start-->
+                    <?php if(!empty($user_reviews)){ ?>
+                            <section>
+                                <header><h2>Featured Review</h2></header>
+                                <?php foreach($user_reviews as $featured_rev ){ ?>
+                            <?php
+                            $user_image = "";
+                            $url = @getimagesize($featured_rev->user_image);
+                            if (@!is_array($url)) {
+                                $user_image = base_url()."uploads/profile_images/member-3t.jpg"; // The image doesn't exist
+                            } else {
+                                $user_image = $featured_rev->user_image;
+                            }
+                            ?>
+                                <a href="#" class="item-horizontal small">
+                                    <h3><?php echo $featured_rev->first_name ." ". $featured_rev->last_name; ?></h3>
+                                     <figure><?php echo $featured_rev->country_name; ?></figure>
+                                    <div class="wrapper">
+                                        <div class="image"><img src="<?php echo $user_image; ?>" alt=""></div>
+                                        <div class="info">
+                                            <div class="type">                                               
+                                                <span><?php echo $featured_rev->user_comments; ?> Reviews</span>
                                             </div>
+                                            <div class="rating" data-rating="4"></div>
+                                            
                                         </div>
-                                    </a>
-                                    <!--/.item-horizontal small-->
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Eddie’s Fast Food</h3>
-                                        <figure>4365 Bruce Street</figure>
-                                        <div class="wrapper">
-                                            <div class="image"><img src="assets/img/items/3.jpg" alt=""></div>
-                                            <div class="info">
-                                                <div class="type">
-                                                    <i><img src="assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
-                                                </div>
-                                                <div class="rating" data-rating="5"></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <!--/.item-horizontal small-->
-                                </section>
-                                <section>
-                                    <a href="#"><img src="assets/img/ad-banner-sidebar.png" alt=""></a>
-                                </section>
-                                <section>
-                                    <header><h2>Categories</h2></header>
-                                    <ul class="bullets">
-                                        <li><a href="#" >Restaurant</a></li>
-                                        <li><a href="#" >Steak House & Grill</a></li>
-                                        <li><a href="#" >Fast Food</a></li>
-                                        <li><a href="#" >Breakfast</a></li>
-                                        <li><a href="#" >Winery</a></li>
-                                        <li><a href="#" >Bar & Lounge</a></li>
-                                        <li><a href="#" >Pub</a></li>
-                                    </ul>
-                                </section>
-                                <section>
-                                    <header><h2>Events</h2></header>
-                                    <div class="form-group">
-                                        <select class="framed" name="events">
-                                            <option value="">Select Your City</option>
-                                            <option value="1">London</option>
-                                            <option value="2">New York</option>
-                                            <option value="3">Barcelona</option>
-                                            <option value="4">Moscow</option>
-                                            <option value="5">Tokyo</option>
-                                        </select>
                                     </div>
-                                    <!-- /.form-group -->
-                                </section>
+                                </a>  
+                                <?php } ?>
+                            </section>
+                    <?php } //end if ?>
+                    <!-- Featured Reviews End-->
+                                                      
                             </aside>
                             <!-- /#sidebar-->
                         </div>
@@ -488,3 +486,37 @@
                 <!-- /.container-->
             </div>
 <!-- end Page Content-->
+
+<script>
+    /*
+$(document).ready(function(){
+$("#submit_comment").click(function(){
+var user_id = $("#user_id").val();
+var date = $("#date").val();
+var restaurant_id = $("#restaurant_id").val();
+var review_message = $("#review_message").val();
+var rating = $("#rating").val();
+// Returns successful data submission message when the entered information is stored in database.
+var dataString = 'name1='+ user_id + '&email1='+ date + '&password1='+ restaurant_id + '&contact1='+ review_message + '&contact1='+ rating;
+if(name==''||email==''||password==''||contact=='')
+{
+alert("Please Fill All Fields");
+}
+else
+{
+// AJAX Code To Submit Form.
+$.ajax({
+type: "POST",
+url: "ajaxsubmit.php",
+data: dataString,
+cache: false,
+success: function(result){
+alert(result);
+}
+});
+}
+return false;
+});
+});
+*/
+</script>

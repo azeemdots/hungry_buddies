@@ -15,7 +15,7 @@
                                 <li><a href="<?php echo base_url(); ?>login">Sign In</a></li>
                                 <li><a href="<?php echo base_url(); ?>main/register"><strong>Register</strong></a></li>
                             </ul>
-                        <a href="submit.html" class="submit-item">
+                        <a href="#" class="submit-item">
                             <div class="content"><span>Submit Your Item</span></div>
                             <div class="icon">
                                 <i class="fa fa-plus"></i>

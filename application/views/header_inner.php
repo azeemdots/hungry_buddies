@@ -1,5 +1,4 @@
 <body onunload="" class="page-subpage page-listing-grid navigation-off-canvas" id="page-top">
-
 <!-- Outer Wrapper-->
 <div id="outer-wrapper">
     <!-- Inner Wrapper -->
@@ -35,5 +34,25 @@
             </div>
         </div>
         <!-- end Navigation-->
+        
+         <!--Sub Header-->
+            <section class="sub-header">
+                <div class="search-bar horizontal collapse" id="redefine-search-form"></div>
+                <!-- /.search-bar -->
+                <div class="breadcrumb-wrapper">
+                    <div class="container">                       
+                        <ol class="breadcrumb">
+                            <li><a href="<?php echo base_url(); ?>main"><i class="fa fa-home"></i></a></li>
+                            <li class="active">Detail</li>
+                        </ol>
+                        <!-- /.breadcrumb-->
+                    </div>
+                    <!-- /.container-->
+                </div>
+                <!-- /.breadcrumb-wrapper-->
+            </section>
+            <!--end Sub Header-->
+            
         <!-- Page Canvas-->
         <div id="page-canvas">
+            
