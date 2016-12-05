@@ -82,9 +82,9 @@
                                                         <dt>Like</dt>
                                                         <dd>2</dd>
                                                         <dt>Profile Visit</dt>
-                                                        <dd><?php echo $rows->restaurant_page_visit; ?></dd>
+                                                        <dd>2</dd>
                                                         <dt>Profile Visit</dt>
-                                                        <dd><?php echo $rows->restaurant_page_share; ?></dd>
+                                                        <dd>3</dd>
                                                         <dt>Comments</dt>
                                                         <dd><?php echo $rows->restaurant_reviews; ?></dd>
                                                     </dl>
@@ -156,8 +156,8 @@
                                             </div>
                                             <div class="item-specific">
                                                 <span title="Like"><img src="assets/img/bedrooms.png" alt="">2</span>
-                                                <span title="Bookmarks"><img src="assets/img/bathrooms.png" alt=""><?php echo $row->restaurant_page_visit; ?></span>
-                                                <span title="tried"><img src="assets/img/area.png" alt=""><?php echo $row->restaurant_page_share; ?></span>
+                                                <span title="Bookmarks"><img src="assets/img/bathrooms.png" alt="">2</span>
+                                                <span title="tried"><img src="assets/img/area.png" alt="">3</span>
                                                 <span title="comments"><img src="assets/img/garages.png" alt=""><?php echo $row->restaurant_reviews; ?></span>
                                             </div>
                                             <div class="icon">

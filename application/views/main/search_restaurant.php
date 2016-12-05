@@ -900,80 +900,93 @@
                         <div class="col-md-3" style="margin-top:100px;">
                             <aside id="sidebar">
                                 <section>
-                                    <header><h2>New Places</h2></header>
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Cash Cow Restaurante</h3>
-                                        <figure>63 Birch Street</figure>
+                                    <header><h2>Popular Restaurant</h2></header>
+                                    <?php if (!empty($popular_restaurant)) {
+    foreach ($popular_restaurant as $rest) { ?>
+                                    <?php
+                            $imagename = "";
+                            $url = @getimagesize($rest->logo_url);
+                            if (@!is_array($url)) {
+                                $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                            } else {
+                                $imagesname = $rest->logo_url;
+                            }
+                            ?>
+                                    
+                                    <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $rest->restaurant_id ?>" class="item-horizontal small">
+                                        <h3><?php echo  $rest->restaurant_name;?></h3>
+                                        <figure><?php echo $rest->city_name.",".$rest->country_name; ?></figure>
                                         <div class="wrapper">
-                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/1.jpg" alt=""></div>
+                                            <div class="image"><img src="<?php echo $imagesname; ?>" alt=""></div>
                                             <div class="info">
                                                 <div class="type">
                                                     <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
+                                                   
                                                 </div>
                                                 <div class="rating" data-rating="4"></div>
                                             </div>
                                         </div>
                                     </a>
-                                    <!--/.item-horizontal small-->
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Blue Chilli</h3>
-                                        <figure>2476 Whispering Pines Circle</figure>
+                                    
+                                    <?php }
+} ?>
+
+                                  
+                                </section>
+                                
+                                
+                                <section>
+                                    <header><h2>Most Reviewed Users </h2></header>
+                                    <?php if (!empty($user_reviews)) {
+    foreach ($user_reviews as $user_row) { ?>
+                                    <?php
+                            $user_image = "";
+                            $url = @getimagesize($user_row->user_image);
+                            if (@!is_array($url)) {
+                                $user_image = base_url()."uploads/profile_images/member-3t.jpg"; // The image doesn't exist
+                            } else {
+                                $user_image = $user_row->user_image;
+                            }
+                            ?>
+                                    
+                                    <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $rest->restaurant_id ?>" class="item-horizontal small">
+                                        <h3><?php echo ucwords($user_row->first_name)."  ".ucwords($user_row->last_name); ?></h3>
+                                        <figure><?php echo $user_row->country_name; ?></figure>
                                         <div class="wrapper">
-                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/2.jpg" alt=""></div>
+                                            <div class="image"><img src="<?php echo $user_image; ?>" alt=""></div>
                                             <div class="info">
                                                 <div class="type">
                                                     <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
+                                                   
                                                 </div>
-                                                <div class="rating" data-rating="3"></div>
+                                                <div class="rating" data-rating="4"></div>
                                             </div>
                                         </div>
                                     </a>
-                                    <!--/.item-horizontal small-->
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Eddieâ€™s Fast Food</h3>
-                                        <figure>4365 Bruce Street</figure>
-                                        <div class="wrapper">
-                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/3.jpg" alt=""></div>
-                                            <div class="info">
-                                                <div class="type">
-                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
-                                                </div>
-                                                <div class="rating" data-rating="5"></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <!--/.item-horizontal small-->
+                                    
+                                    <?php }
+} ?>
+
+                                  
                                 </section>
                                 <section>
                                     <a href="#"><img src="<?php echo base_url(); ?>assets/img/ad-banner-sidebar.png" alt=""></a>
                                 </section>
                                 <section>
-                                    <header><h2>Categories</h2></header>
+                                    <header><h2>Most Review Users Categories</h2></header>
                                     <ul class="bullets">
-                                        <li><a href="#" >Restaurant</a></li>
-                                        <li><a href="#" >Steak House & Grill</a></li>
-                                        <li><a href="#" >Fast Food</a></li>
-                                        <li><a href="#" >Breakfast</a></li>
-                                        <li><a href="#" >Winery</a></li>
-                                        <li><a href="#" >Bar & Lounge</a></li>
-                                        <li><a href="#" >Pub</a></li>
+                                        <?php
+if (!empty($cusine_type)) {
+    foreach ($cusine_type as $category) {
+        ?>
+                                    <li><a href="#"><?= $category->tag_name; ?></a></li>
+    <?php }
+} ?>
                                     </ul>
                                 </section>
                                 <section>
-                                    <header><h2>Events</h2></header>
-                                    <div class="form-group">
-                                        <select class="framed" name="events">
-                                            <option value="">Select Your City</option>
-                                            <option value="1">London</option>
-                                            <option value="2">New York</option>
-                                            <option value="3">Barcelona</option>
-                                            <option value="4">Moscow</option>
-                                            <option value="5">Tokyo</option>
-                                        </select>
-                                    </div>
+                                    
+                                    
                                     <!-- /.form-group -->
                                 </section>
                             </aside>
@@ -1103,80 +1116,93 @@
                         <div class="col-md-3" style="margin-top:100px;">
                             <aside id="sidebar">
                                 <section>
-                                    <header><h2>New Places</h2></header>
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Cash Cow Restaurante</h3>
-                                        <figure>63 Birch Street</figure>
+                                    <header><h2>Popular Restaurant</h2></header>
+                                    <?php if (!empty($popular_restaurant)) {
+    foreach ($popular_restaurant as $rest) { ?>
+                                    <?php
+                            $imagename = "";
+                            $url = @getimagesize($rest->logo_url);
+                            if (@!is_array($url)) {
+                                $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                            } else {
+                                $imagesname = $rest->logo_url;
+                            }
+                            ?>
+                                    
+                                    <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $rest->restaurant_id ?>" class="item-horizontal small">
+                                        <h3><?php echo  $rest->restaurant_name;?></h3>
+                                        <figure><?php echo $rest->city_name.",".$rest->country_name; ?></figure>
                                         <div class="wrapper">
-                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/1.jpg" alt=""></div>
+                                            <div class="image"><img src="<?php echo $imagesname; ?>" alt=""></div>
                                             <div class="info">
                                                 <div class="type">
                                                     <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
+                                                   
                                                 </div>
                                                 <div class="rating" data-rating="4"></div>
                                             </div>
                                         </div>
                                     </a>
-                                    <!--/.item-horizontal small-->
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Blue Chilli</h3>
-                                        <figure>2476 Whispering Pines Circle</figure>
+                                    
+                                    <?php }
+} ?>
+
+                                  
+                                </section>
+                                
+                                
+                                <section>
+                                    <header><h2>Most Reviewed Users </h2></header>
+                                    <?php if (!empty($user_reviews)) {
+    foreach ($user_reviews as $user_row) { ?>
+                                    <?php
+                            $user_image = "";
+                            $url = @getimagesize($user_row->user_image);
+                            if (@!is_array($url)) {
+                                $user_image = base_url()."uploads/profile_images/member-3t.jpg"; // The image doesn't exist
+                            } else {
+                                $user_image = $user_row->user_image;
+                            }
+                            ?>
+                                    
+                                    <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $rest->restaurant_id ?>" class="item-horizontal small">
+                                        <h3><?php echo ucwords($user_row->first_name)."  ".ucwords($user_row->last_name); ?></h3>
+                                        <figure><?php echo $user_row->country_name; ?></figure>
                                         <div class="wrapper">
-                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/2.jpg" alt=""></div>
+                                            <div class="image"><img src="<?php echo $user_image; ?>" alt=""></div>
                                             <div class="info">
                                                 <div class="type">
                                                     <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
+                                                   
                                                 </div>
-                                                <div class="rating" data-rating="3"></div>
+                                                <div class="rating" data-rating="4"></div>
                                             </div>
                                         </div>
                                     </a>
-                                    <!--/.item-horizontal small-->
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Eddieâ€™s Fast Food</h3>
-                                        <figure>4365 Bruce Street</figure>
-                                        <div class="wrapper">
-                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/3.jpg" alt=""></div>
-                                            <div class="info">
-                                                <div class="type">
-                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
-                                                </div>
-                                                <div class="rating" data-rating="5"></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <!--/.item-horizontal small-->
+                                    
+                                    <?php }
+} ?>
+
+                                  
                                 </section>
                                 <section>
                                     <a href="#"><img src="<?php echo base_url(); ?>assets/img/ad-banner-sidebar.png" alt=""></a>
                                 </section>
                                 <section>
-                                    <header><h2>Categories</h2></header>
+                                    <header><h2>Most Review Users Categories</h2></header>
                                     <ul class="bullets">
-                                        <li><a href="#" >Restaurant</a></li>
-                                        <li><a href="#" >Steak House & Grill</a></li>
-                                        <li><a href="#" >Fast Food</a></li>
-                                        <li><a href="#" >Breakfast</a></li>
-                                        <li><a href="#" >Winery</a></li>
-                                        <li><a href="#" >Bar & Lounge</a></li>
-                                        <li><a href="#" >Pub</a></li>
+                                        <?php
+if (!empty($cusine_type)) {
+    foreach ($cusine_type as $category) {
+        ?>
+                                    <li><a href="#"><?= $category->tag_name; ?></a></li>
+    <?php }
+} ?>
                                     </ul>
                                 </section>
                                 <section>
-                                    <header><h2>Events</h2></header>
-                                    <div class="form-group">
-                                        <select class="framed" name="events">
-                                            <option value="">Select Your City</option>
-                                            <option value="1">London</option>
-                                            <option value="2">New York</option>
-                                            <option value="3">Barcelona</option>
-                                            <option value="4">Moscow</option>
-                                            <option value="5">Tokyo</option>
-                                        </select>
-                                    </div>
+                                    
+                                    
                                     <!-- /.form-group -->
                                 </section>
                             </aside>
@@ -1309,80 +1335,93 @@
                         <div class="col-md-3" style="margin-top:100px;">
                             <aside id="sidebar">
                                 <section>
-                                    <header><h2>New Places</h2></header>
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Cash Cow Restaurante</h3>
-                                        <figure>63 Birch Street</figure>
+                                    <header><h2>Popular Restaurant</h2></header>
+                                    <?php if (!empty($popular_restaurant)) {
+    foreach ($popular_restaurant as $rest) { ?>
+                                    <?php
+                            $imagename = "";
+                            $url = @getimagesize($rest->logo_url);
+                            if (@!is_array($url)) {
+                                $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                            } else {
+                                $imagesname = $rest->logo_url;
+                            }
+                            ?>
+                                    
+                                    <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $rest->restaurant_id ?>" class="item-horizontal small">
+                                        <h3><?php echo  $rest->restaurant_name;?></h3>
+                                        <figure><?php echo $rest->city_name.",".$rest->country_name; ?></figure>
                                         <div class="wrapper">
-                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/1.jpg" alt=""></div>
+                                            <div class="image"><img src="<?php echo $imagesname; ?>" alt=""></div>
                                             <div class="info">
                                                 <div class="type">
                                                     <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
+                                                   
                                                 </div>
                                                 <div class="rating" data-rating="4"></div>
                                             </div>
                                         </div>
                                     </a>
-                                    <!--/.item-horizontal small-->
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Blue Chilli</h3>
-                                        <figure>2476 Whispering Pines Circle</figure>
+                                    
+                                    <?php }
+} ?>
+
+                                  
+                                </section>
+                                
+                                
+                                <section>
+                                    <header><h2>Most Reviewed Users </h2></header>
+                                    <?php if (!empty($user_reviews)) {
+    foreach ($user_reviews as $user_row) { ?>
+                                    <?php
+                            $user_image = "";
+                            $url = @getimagesize($user_row->user_image);
+                            if (@!is_array($url)) {
+                                $user_image = base_url()."uploads/profile_images/member-3t.jpg"; // The image doesn't exist
+                            } else {
+                                $user_image = $user_row->user_image;
+                            }
+                            ?>
+                                    
+                                    <a href="<?=base_url() ?>restaurant/restaurant_detail/<?php echo $rest->restaurant_id ?>" class="item-horizontal small">
+                                        <h3><?php echo ucwords($user_row->first_name)."  ".ucwords($user_row->last_name); ?></h3>
+                                        <figure><?php echo $user_row->country_name; ?></figure>
                                         <div class="wrapper">
-                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/2.jpg" alt=""></div>
+                                            <div class="image"><img src="<?php echo $user_image; ?>" alt=""></div>
                                             <div class="info">
                                                 <div class="type">
                                                     <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
+                                                   
                                                 </div>
-                                                <div class="rating" data-rating="3"></div>
+                                                <div class="rating" data-rating="4"></div>
                                             </div>
                                         </div>
                                     </a>
-                                    <!--/.item-horizontal small-->
-                                    <a href="item-detail.html" class="item-horizontal small">
-                                        <h3>Eddieâ€™s Fast Food</h3>
-                                        <figure>4365 Bruce Street</figure>
-                                        <div class="wrapper">
-                                            <div class="image"><img src="<?php echo base_url(); ?>assets/img/items/3.jpg" alt=""></div>
-                                            <div class="info">
-                                                <div class="type">
-                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                                    <span>Restaurant</span>
-                                                </div>
-                                                <div class="rating" data-rating="5"></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <!--/.item-horizontal small-->
+                                    
+                                    <?php }
+} ?>
+
+                                  
                                 </section>
                                 <section>
                                     <a href="#"><img src="<?php echo base_url(); ?>assets/img/ad-banner-sidebar.png" alt=""></a>
                                 </section>
                                 <section>
-                                    <header><h2>Categories</h2></header>
+                                    <header><h2>Most Review Users Categories</h2></header>
                                     <ul class="bullets">
-                                        <li><a href="#" >Restaurant</a></li>
-                                        <li><a href="#" >Steak House & Grill</a></li>
-                                        <li><a href="#" >Fast Food</a></li>
-                                        <li><a href="#" >Breakfast</a></li>
-                                        <li><a href="#" >Winery</a></li>
-                                        <li><a href="#" >Bar & Lounge</a></li>
-                                        <li><a href="#" >Pub</a></li>
+                                        <?php
+if (!empty($cusine_type)) {
+    foreach ($cusine_type as $category) {
+        ?>
+                                    <li><a href="#"><?= $category->tag_name; ?></a></li>
+    <?php }
+} ?>
                                     </ul>
                                 </section>
                                 <section>
-                                    <header><h2>Events</h2></header>
-                                    <div class="form-group">
-                                        <select class="framed" name="events">
-                                            <option value="">Select Your City</option>
-                                            <option value="1">London</option>
-                                            <option value="2">New York</option>
-                                            <option value="3">Barcelona</option>
-                                            <option value="4">Moscow</option>
-                                            <option value="5">Tokyo</option>
-                                        </select>
-                                    </div>
+                                    
+                                    
                                     <!-- /.form-group -->
                                 </section>
                             </aside>

@@ -617,4 +617,21 @@ class Restaurant_search extends CI_Model{
         }   //end condition   
     }
     
+    public function get_most_use_tags_side()
+    {
+            $this->db->select('cuisine_type.id AS tag_id,cuisine_type.name AS tag_name,count(restaurant_cuisine_type.cuisine_type_id) as total_tags');
+            $this->db->from('cuisine_type');
+            $this->db->join("restaurant_cuisine_type", "cuisine_type.id=restaurant_cuisine_type.cuisine_type_id", "LEFT");
+            $this->db->group_by('cuisine_type.id');
+            $this->db->order_by('total_tags', 'desc');  
+            $this->db->limit(10,0);
+            $query = $this->db->get();
+
+            if ($query->num_rows() < 1) {
+                return null;
+            } else {
+                return $query->result();
+            }
+    }
+    
 }
