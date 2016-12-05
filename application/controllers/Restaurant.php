@@ -13,7 +13,8 @@ class restaurant extends CI_Controller {
         $this->load->helper(array('form', 'url'));
 
         $this->load->library('session');
-
+        $this->load->model('hb_countries_model');
+        $this->load->model('restaurant_model');
 
         $this->load->helper('date');
     }
@@ -330,5 +331,123 @@ class restaurant extends CI_Controller {
                 echo "coment not inserted";
             }
     }
+    
+    public function add_new_restaurant()
+    {
+        $data['folder_name'] = 'restaurant';
+        $data['file_name'] = 'add_restaurant';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header';  // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $data['all_countries'] = $this->hb_countries_model->get_all();
+        $this->load->view('index', $data);
+    }
+    
+    public function suggest_restaurant()
+    {
+        $data['folder_name'] = 'restaurant';
+        $data['file_name'] = 'suggest_restaurant';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header';  // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $data['all_countries'] = $this->hb_countries_model->get_all();
+        $this->load->view('index', $data);
+    } 
+    
+    public function check_user_exist()
+	{
+		$username= $_POST["u_name"];
+		$this->load->model('restaurant_model');
+		$result=$this->restaurant_model->user_exist($username);
+
+		if(!empty($username)) {
+		  if($result>0) {
+		      echo "<p class='text-danger'>Username Already Exist.</p>";
+		  }else{
+		      echo "<p class='muted'>Username Available.</p>";
+		  }
+		}
+	}
+	
+	public function check_name_exist()
+	{
+		$name= $_POST["name"];
+		$this->load->model('restaurant_model');
+		$result=$this->restaurant_model->restaurant_name_exist($name);
+
+		if(!empty($name)) {
+		  if($result>0) {
+		      echo "<p class='text-danger'> Restautrant Name is Exist.</p>";
+		  }else{
+		      echo "<p class='muted'> Name Available.</p>";
+		  }
+		}
+	}//check restaurant username exits end	
+    
+        public function restaurant_add()
+        {
+		// Logo Image Insert
+		$config= [
+			'upload_path'	   =>   './uploads/restaurantimages',
+			'allowed_types'    =>   'gif|png|jpg|jpeg',
+		];
+                $this->upload->initialize($config);
+		$this->load->library('upload', $config);
+		$logo= $this->upload->do_upload('logo_image_url');
+		$data_logo= $this->upload->data();
+		$image['logo']= base_url("uploads/restaurantimages/" . $data_logo['raw_name'] . $data_logo['file_ext']);
+
+
+		// Cover Image Insert
+		if( !empty( $_FILES['cover_image_url']['name'] )){
+		$config= [
+			'upload_path'	   =>   './uploads/restaurantimages',
+			'allowed_types'    =>   'gif|png|jpg|jpeg',
+		];
+		$this->upload->initialize($config);
+		$this->load->library('upload', $config);
+		$cover= $this->upload->do_upload('cover_image_url');
+		$data_cover= $this->upload->data();
+		$image['cover']= base_url("uploads/restaurantimages/" . $data_cover['raw_name'] . $data_cover['file_ext']);
+		} else{
+			$image['cover'] = '';
+		}
+
+		$post= $this->input->post();
+		
+//                echo $image['logo'];
+//                echo "<br>";
+//                echo $image['cover'];
+//                exit;
+
+		if( $this->restaurant_model->add_restaurant($post, $image) )
+		{			
+                    redirect('restaurant/thankyou');
+		}else{
+			//echo "Error";
+			 //echo $this->upload->display_errors();
+			 $this->session->set_flashdata('feedback', "Restaurant failed To Add... try Again Later");
+			 $this->session->set_flashdata('feedback_class', 'alert-danger');
+		}
+		//redirect('restaurant/add_new_restaurant');            
+        }
+        
+        public function thankyou()
+        {
+            $data['folder_name'] = 'restaurant';
+            $data['file_name'] = 'restaurant_success';
+            $data['header_name'] = 'header';
+            $data['nav_name'] = 'nav_main';
+
+            $this->load->view('index', $data);
+        }
 
 }

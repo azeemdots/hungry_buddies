@@ -1,13 +1,12 @@
-
-            <!--Sub Header-->
+ <!--Sub Header-->
             <section class="sub-header">
                 <div class="search-bar horizontal collapse" id="redefine-search-form"></div>
                 <!-- /.search-bar -->
                 <div class="breadcrumb-wrapper">
-                    <div class="container">
+                    <div class="container">                       
                         <ol class="breadcrumb">
-                            <li><a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i></a></li>
-                            <li class="active">About</li>
+                            <li><a href="<?php echo base_url(); ?>main"><i class="fa fa-home"></i></a></li>
+                            <li class="active">Faqs</li>
                         </ol>
                         <!-- /.breadcrumb-->
                     </div>
@@ -15,13 +14,12 @@
                 </div>
                 <!-- /.breadcrumb-wrapper-->
             </section>
-            <!--end Sub Header-->
-
-            <!--Page Content-->
+            <!--end Sub Header--> 
+<!--Page Content-->
             <div id="page-content">
                 <section class="container">
                     <header>
-                        <h1 class="page-title">About Us</h1>
+                        <h1 class="page-title">Faqs</h1>
                     </header>
                 </section>
                 <!--/.container-->

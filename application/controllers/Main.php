@@ -214,7 +214,7 @@ class main extends CI_Controller {
         $data['folder_name'] = 'main';
         $data['file_name'] = 'about_us';
         if ($this->ion_auth->logged_in()) {
-            $data['header_name'] = 'header_user';
+            $data['header_name'] = 'header'; // we will change in future header user.php
         } else {
             $data['header_name'] = 'header';
         }
@@ -260,7 +260,7 @@ class main extends CI_Controller {
         $data['folder_name'] = 'main';
         $data['file_name'] = 'contact';
         if ($this->ion_auth->logged_in()) {
-            $data['header_name'] = 'header_user';
+            $data['header_name'] = 'header'; // we will change in future header user.php
         } else {
             $data['header_name'] = 'header';
         }
@@ -394,10 +394,6 @@ class main extends CI_Controller {
             $this->load->view('index', $data); 
                                        
     }
-    
-    
-    
-
 
     public function restaurants_sort()
     {
@@ -429,8 +425,6 @@ class main extends CI_Controller {
             $this->load->view('index', $data); 
     }
 
-    
-
      public function restaurant_sort()
     { 
        $this->load->model('restaurant_search');
@@ -440,7 +434,49 @@ class main extends CI_Controller {
        $data['header_name'] = 'header_inner';
        $data['nav_name'] = 'nav_main'; 
        $view=$this->load->view('index', $data,True); 
-      
-      
+            
     }
+    
+    public function faqs()
+    {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'faqs';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header'; // we will change in future header_user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
+    
+    public function help()
+    {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'help';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header'; // we will change in future header_user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
+    
+    public function feedback()
+    {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'feedback';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header'; // we will change in future header_user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
+    
 }

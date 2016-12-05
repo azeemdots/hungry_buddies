@@ -342,18 +342,95 @@ class Restaurant_model extends CI_Model {
     }
     
     function get_restaurant_branches_by_id($id)
- {
-  $this->db->select('*');
-  $this->db->from('restaurant_branches');
-  $this->db->where('restaurant_id', $id);
-  $query = $this->db->get();
+    {
+        $this->db->select('*');
+        $this->db->from('restaurant_branches');
+        $this->db->where('restaurant_id', $id);
+        $query = $this->db->get();
 
-  if($query->num_rows()<1){
-   return null;
-  }
-  else{
-   return $query->result();
-  }
- }
+        if($query->num_rows()<1){
+         return null;
+        }
+        else{
+         return $query->result();
+        }
+    }
+    
+    	public function user_exist($username)
+	{
+		$query= $this->db->select(array('user_name'))
+			         ->from('restaurant')
+			         ->where('user_name', $username)
+			         ->get();
+		//return $result= $query->first_row();
+		return $result= $query->num_rows(); 
+
+	}
+
+	public function restaurant_name_exist($name)
+	{
+		$query= $this->db->select(array('name'))
+			         ->from('restaurant')
+			         ->where('name', $name)
+			         ->get();
+		//return $result= $query->first_row();
+		return $result= $query->num_rows(); 
+	}
+        
+        public function add_restaurant($post, $image)
+	{
+		$name= $this->input->post('name');
+		$description= $this->input->post('description');
+		$country_id= $this->input->post('country');
+		$city_id= $this->input->post('city');
+		$user_name= $this->input->post('u_name');
+		$web_address= $this->input->post('website_address');
+                $phone= $this->input->post('phone');
+                $mobile= $this->input->post('mobile');
+                $email= $this->input->post('email');
+
+                
+		$data = array(
+		'name'=>$name,
+		'logo_url' =>  $image['logo'] != 'http://localhost/hungry_buddies/uploads/restaurantimages' ? $image['logo'] : 'NULL',
+		'cover_image_url' => $image['cover'] ? $image['cover'] : 'NULL',
+		'description'=>$description,
+		'website_address'=> $web_address,
+		'country_id'=> $country_id,
+		'city_id'=> $city_id != "" ? $city_id : 0,
+		'user_name'=> $user_name,
+		'created_datetime' => date("Y-m-d H:i:s")
+		);
+		
+                //echo "<pre>";
+                //print_r($data);
+                //exit();
+		
+		//Add First Entry to Resturant Table
+		$query= $this->db->insert('restaurant', $data);
+		$last_id = $this->db->insert_id();
+		
+		//Add Email Address
+                if(!empty($email)){
+		$query= $this->db->insert('restaurant_email', array('restaurant_id' => $last_id, 'email' => $email ));
+                }
+		//End email Add
+                
+                if(!empty($phone)){
+		$query= $this->db->insert('restaurant_phone_no', array('restaurant_id' => $last_id, 'phone_no' => $phone ));
+                }
+                //end phone number
+
+		//Add Mobile Number
+                if(!empty($mobile)){
+		$query= $this->db->insert('restaurant_mobile_no', array('restaurant_id' => $last_id, 'mobile_no' => $mobile ));
+                 }
+                //end add mobile
+					
+		return $query;		
+		
+	}//Add function End
+	
+
     
 }

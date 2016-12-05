@@ -164,14 +164,23 @@
 
                                             <div class="restaurant-logo" style="margin-bottom: 20px;">
                                                 <?php
-                                                $logo_image = "";                                                
-                                                if (!empty($restaurant_detail->logo_url)) {
-                                                    $logo_image = $restaurant_detail->logo_url;
-                                                } else {    
-                                                    $logo_image = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
-                                                }
+//                                                $logo_image = "";                                                
+//                                                if (!empty($restaurant_detail->logo_url)) {
+//                                                    $logo_image = $restaurant_detail->logo_url;
+//                                                } else {    
+//                                                    $logo_image = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+//                                                }
                                                 ?>
-                                                <img src="<?php echo $logo_image; ?>" alt="logo" width="200" height="150">
+                                                <?php
+                                            $imagename = "";
+                                            $url = @getimagesize($row->logo_url);
+                                            if (@!is_array($url)) {
+                                                $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                                            } else {
+                                                $imagesname = $row->logo_url;
+                                            }
+                                            ?>
+                                                <img src="<?php echo $imagename; ?>" alt="logo" width="200" height="150">
                                             </div>
                                       
 
