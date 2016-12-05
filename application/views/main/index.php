@@ -81,10 +81,10 @@
                                                     <dl>
                                                         <dt>Like</dt>
                                                         <dd>2</dd>
-                                                        <dt>Tried</dt>
-                                                        <dd>2</dd>
-                                                        <dt>Bookmark</dt>
-                                                        <dd>2</dd>
+                                                        <dt>Profile Visit</dt>
+                                                        <dd><?php echo $rows->restaurant_page_visit; ?></dd>
+                                                        <dt>Profile Visit</dt>
+                                                        <dd><?php echo $rows->restaurant_page_share; ?></dd>
                                                         <dt>Comments</dt>
                                                         <dd><?php echo $rows->restaurant_reviews; ?></dd>
                                                     </dl>
