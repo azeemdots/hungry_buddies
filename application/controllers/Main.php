@@ -13,12 +13,18 @@ class main extends CI_Controller {
         $this->load->model('user_selected_tags_model');
         $this->load->model('restaurant_search');
         $this->load->model('hb_countries_model');
+        $this->load->model('user_friend_list_model');
+        $this->load->model('feeds_model');
+        $this->load->model('feed_images_model');
+        $this->load->model('feed_details_model');
+        $this->load->library('session');
     }
 
     public function index() {        
+        
+        
         $data['folder_name'] = 'main';
         $data['file_name'] = 'index';
-        $data['header_name'] = 'header';
         $data['nav_name'] = 'nav_main';
         $data['restaurant'] = $this->restaurant_model->get_featured_restaurant_location();
         $data['cusine_type'] = $this->restaurant_model->get_most_use_tags();
@@ -28,6 +34,12 @@ class main extends CI_Controller {
         $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews();
         $data['all_countries'] = $this->hb_countries_model->get_all();
         //$data['categories'] = $this->cuisine_type_model->get_all();
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+            redirect('dashboard');
+        } else {
+            $data['header_name'] = 'header';
+        }
         $this->load->view('index', $data);
     }
 
@@ -210,11 +222,248 @@ class main extends CI_Controller {
         }
     }
 
+    
+
+    public function search_result() {
+        
+            $data['keyword']= $this->input->post('keyword_search');
+            $data['location']= $this->input->post('search_location');
+            $data['folder_name'] = 'main';
+            $data['file_name'] = 'search_restaurant';
+            $data['nav_name'] = 'nav_main';  
+            
+             if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+            } else {
+            $data['header_name'] = 'header';
+            }
+            if(isset($data['keyword'])) {
+            $data['restaurant_keyword']= $this->restaurant_search->get_restaurant_by_keyword($data['keyword']);
+            $data['latest_restaurant']= $this->restaurant_search->get_latest_restaurant_by_keyword($data['keyword']);
+            $data['old_restaurant']= $this->restaurant_search->get_oldest_restaurant_by_keyword($data['keyword']);
+            $data['open_restaurant']= $this->restaurant_search->get_open_restaurant_by_keyword($data['keyword']);
+            $data['discount_restaurant']= $this->restaurant_search->get_discount_restaurant_by_keyword($data['keyword']);
+            $data['near_restaurant']= $this->restaurant_search->get_near_restaurant_by_keyword($data['keyword']);
+            $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location();
+            $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews();
+            $data['cusine_type'] = $this->restaurant_search->get_most_use_tags_side();
+            }
+            
+            if($data['location']){
+            $data['restaurant_keyword']= $this->restaurant_search->get_restaurant_by_location($data['location']);
+            $data['latest_restaurant']= $this->restaurant_search->get_latest_restaurant_by_location($data['location']);
+            $data['old_restaurant']= $this->restaurant_search->get_oldest_restaurant_by_location($data['location']);
+            $data['open_restaurant']= $this->restaurant_search->get_open_restaurant_by_location($data['location']);
+            $data['discount_restaurant']= $this->restaurant_search->get_discount_restaurant_by_location($data['location']);
+            $data['near_restaurant']= $this->restaurant_search->get_near_restaurant_by_location($data['location']);
+            $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location();
+            $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews();
+            $data['cusine_type'] = $this->restaurant_search->get_most_use_tags_side();
+            }
+            if (isset($data['keyword']) AND isset($data['location'])){
+            $data['restaurant_keyword']= $this->restaurant_search->get_restaurant_by_name_location( $data['keyword'], $data['location'] );
+            $data['latest_restaurant']= $this->restaurant_search->get_latest_restaurant_by_keylocation($data['keyword'], $data['location']);
+            $data['old_restaurant']= $this->restaurant_search->get_oldest_restaurant_by_keylocation($data['keyword'], $data['location']);
+            $data['open_restaurant']= $this->restaurant_search->get_open_restaurant_by_keylocation($data['keyword'], $data['location']);
+            $data['discount_restaurant']= $this->restaurant_search->get_discount_restaurant_by_keylocation($data['keyword'], $data['location']);
+            $data['near_restaurant']= $this->restaurant_search->get_near_restaurant_by_keylocation($data['keyword'], $data['location']);
+            $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location();
+            $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews();
+            $data['cusine_type'] = $this->restaurant_search->get_most_use_tags_side();
+            }
+            $data['restaurants_places'] = $this->restaurant_model->get_restaurants();
+            $data['categories'] = $this->cuisine_type_model->get_all();
+            $data['user_id'] = $this->session->userdata('user_id');
+            $data['user_data'] = $this->ion_auth->user()->row();
+            $images = array();
+            $data['session_id'] = $this->session->userdata('user_id');
+            $user_id = $this->session->userdata('user_id');
+            $friends_data = $this->user_friend_list_model->get_by_logged_id($user_id);
+
+           if (!empty($friends_data)) {
+            foreach ($friends_data as $row) {
+                $follow_list[] = $row->friend_user_id;
+            }
+
+            $friends_list =implode(',',$follow_list);
+
+        }else {
+            $friends_list = '';
+        }
+
+        $data['feeds']= $this->feeds_model->get_all_feeds_by_firnd_ids($friends_list);
+
+        for ($i = 0; $i < sizeof($data['feeds']); $i++) {
+            $images[] = $this->feed_images_model->get_by_id($data['feeds'][$i]->id);
+        }
+        $data['feed_images'] = $images;
+            $this->load->view('index', $data); 
+                                       
+    }
+
+    public function restaurants_sort()
+    {
+        $keyword= $this->input->post('restaurant_sort');
+            
+        if($keyword==1)
+        {
+           $data['restaurant_search']= $this->restaurant_search->get_latest_restaurant();
+        }
+        else if($keyword==2)
+        {
+           
+            $data['restaurant_search']= $this->restaurant_search->get_oldest_restaurant();
+        }
+      else if($keyword==3)
+        {
+        
+            $data['restaurant_search']= $this->restaurant_search->get_maxprice_restaurant();
+        }
+       else if($keyword==4)
+        {
+           $data['restaurant_search']= $this->restaurant_search->get_minprice_restaurant();
+        } 
+        
+            $data['folder_name'] = 'main';
+            $data['file_name'] = 'search_restaurant';
+            $data['header_name'] = 'header_inner';
+            $data['nav_name'] = 'nav_main'; 
+            $this->load->view('index', $data); 
+    }
+
+     public function restaurant_sort()
+    { 
+       $this->load->model('restaurant_search');
+       $data['restaurant_keyword']= $this->restaurant_search->get_latest_restaurant();
+       $data['folder_name'] = 'main';
+       $data['file_name'] = 'search_restaurant';
+       $data['header_name'] = 'header_inner';
+       $data['nav_name'] = 'nav_main'; 
+       $view=$this->load->view('index', $data,True); 
+            
+    }
+    
+    public function faqs()
+    {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'faqs';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
+    
+    public function help()
+    {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'help';
+        if ($this->ion_auth->logged_in()) {
+          $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
+    
+    public function feedback()
+    {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'feedback';
+        if ($this->ion_auth->logged_in()) {
+           $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
+    
+    
+    public function claim_your_listing()
+    {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'claim_your_listing';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
+    
+    
+    public function advertise()
+    {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'advertise';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
+    
+    public function guidelines()
+    {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'guidelines';
+        if ($this->ion_auth->logged_in()) {
+           $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
+    
+    
+    public function developers()
+    {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'developers';
+        if ($this->ion_auth->logged_in()) {
+           $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
+    
+    public function mobile_app()
+    {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'mobile_app';
+        if ($this->ion_auth->logged_in()) {
+           $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
+    
+    
     public function about_us() {
         $data['folder_name'] = 'main';
         $data['file_name'] = 'about_us';
         if ($this->ion_auth->logged_in()) {
-            $data['header_name'] = 'header'; // we will change in future header user.php
+           $data['header_name'] = 'header_user'; // we will change in future header user.php
         } else {
             $data['header_name'] = 'header';
         }
@@ -228,7 +477,7 @@ class main extends CI_Controller {
         $data['folder_name'] = 'main';
         $data['file_name'] = 'cogralate_us';
         if ($this->ion_auth->logged_in()) {
-            $data['header_name'] = 'header_user';
+           $data['header_name'] = 'header_user'; // we will change in future header user.php
         } else {
             $data['header_name'] = 'header';
         }
@@ -260,7 +509,7 @@ class main extends CI_Controller {
         $data['folder_name'] = 'main';
         $data['file_name'] = 'contact';
         if ($this->ion_auth->logged_in()) {
-            $data['header_name'] = 'header'; // we will change in future header user.php
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
         } else {
             $data['header_name'] = 'header';
         }
@@ -355,94 +604,12 @@ class main extends CI_Controller {
         $data['nav_name'] = 'nav_main';
         $this->load->view('index', $data);
     }
-
-    public function search_result() {
-        
-            $data['keyword']= $this->input->post('keyword_search');
-            $data['location']= $this->input->post('search_location');
-            $data['folder_name'] = 'main';
-            $data['file_name'] = 'search_restaurant';
-            $data['header_name'] = 'header_inner';
-            $data['nav_name'] = 'nav_main';  
-            
-            if(isset($data['keyword'])) {
-            $data['restaurant_keyword']= $this->restaurant_search->get_restaurant_by_keyword($data['keyword']);
-            $data['latest_restaurant']= $this->restaurant_search->get_latest_restaurant_by_keyword($data['keyword']);
-            $data['old_restaurant']= $this->restaurant_search->get_oldest_restaurant_by_keyword($data['keyword']);
-            $data['open_restaurant']= $this->restaurant_search->get_open_restaurant_by_keyword($data['keyword']);
-            $data['discount_restaurant']= $this->restaurant_search->get_discount_restaurant_by_keyword($data['keyword']);
-            $data['near_restaurant']= $this->restaurant_search->get_near_restaurant_by_keyword($data['keyword']);
-            }
-            
-            if($data['location']){
-            $data['restaurant_keyword']= $this->restaurant_search->get_restaurant_by_location($data['location']);
-            $data['latest_restaurant']= $this->restaurant_search->get_latest_restaurant_by_location($data['location']);
-            $data['old_restaurant']= $this->restaurant_search->get_oldest_restaurant_by_location($data['location']);
-            $data['open_restaurant']= $this->restaurant_search->get_open_restaurant_by_location($data['location']);
-            $data['discount_restaurant']= $this->restaurant_search->get_discount_restaurant_by_location($data['location']);
-            $data['near_restaurant']= $this->restaurant_search->get_near_restaurant_by_location($data['location']);
-            }
-            if (isset($data['keyword']) AND isset($data['location'])){
-            $data['restaurant_keyword']= $this->restaurant_search->get_restaurant_by_name_location( $data['keyword'], $data['location'] );
-            $data['latest_restaurant']= $this->restaurant_search->get_latest_restaurant_by_keylocation($data['keyword'], $data['location']);
-            $data['old_restaurant']= $this->restaurant_search->get_oldest_restaurant_by_keylocation($data['keyword'], $data['location']);
-            $data['open_restaurant']= $this->restaurant_search->get_open_restaurant_by_keylocation($data['keyword'], $data['location']);
-            $data['discount_restaurant']= $this->restaurant_search->get_discount_restaurant_by_keylocation($data['keyword'], $data['location']);
-            $data['near_restaurant']= $this->restaurant_search->get_near_restaurant_by_keylocation($data['keyword'], $data['location']);
-            }
-            
-            $this->load->view('index', $data); 
-                                       
-    }
-
-    public function restaurants_sort()
-    {
-        $keyword= $this->input->post('restaurant_sort');
-            
-        if($keyword==1)
-        {
-           $data['restaurant_search']= $this->restaurant_search->get_latest_restaurant();
-        }
-        else if($keyword==2)
-        {
-           
-            $data['restaurant_search']= $this->restaurant_search->get_oldest_restaurant();
-        }
-      else if($keyword==3)
-        {
-        
-            $data['restaurant_search']= $this->restaurant_search->get_maxprice_restaurant();
-        }
-       else if($keyword==4)
-        {
-           $data['restaurant_search']= $this->restaurant_search->get_minprice_restaurant();
-        } 
-        
-            $data['folder_name'] = 'main';
-            $data['file_name'] = 'search_restaurant';
-            $data['header_name'] = 'header_inner';
-            $data['nav_name'] = 'nav_main'; 
-            $this->load->view('index', $data); 
-    }
-
-     public function restaurant_sort()
-    { 
-       $this->load->model('restaurant_search');
-       $data['restaurant_keyword']= $this->restaurant_search->get_latest_restaurant();
-       $data['folder_name'] = 'main';
-       $data['file_name'] = 'search_restaurant';
-       $data['header_name'] = 'header_inner';
-       $data['nav_name'] = 'nav_main'; 
-       $view=$this->load->view('index', $data,True); 
-            
-    }
     
-    public function faqs()
-    {
+    public function sitemap() {
         $data['folder_name'] = 'utility';
-        $data['file_name'] = 'faqs';
+        $data['file_name'] = 'sitemap';
         if ($this->ion_auth->logged_in()) {
-            $data['header_name'] = 'header'; // we will change in future header_user.php
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
         } else {
             $data['header_name'] = 'header';
         }
@@ -451,12 +618,12 @@ class main extends CI_Controller {
         $this->load->view('index', $data);
     }
     
-    public function help()
-    {
+    
+    public function security() {
         $data['folder_name'] = 'utility';
-        $data['file_name'] = 'help';
+        $data['file_name'] = 'security';
         if ($this->ion_auth->logged_in()) {
-            $data['header_name'] = 'header'; // we will change in future header_user.php
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
         } else {
             $data['header_name'] = 'header';
         }
@@ -465,12 +632,12 @@ class main extends CI_Controller {
         $this->load->view('index', $data);
     }
     
-    public function feedback()
-    {
+    
+    public function csr() {
         $data['folder_name'] = 'utility';
-        $data['file_name'] = 'feedback';
+        $data['file_name'] = 'csr';
         if ($this->ion_auth->logged_in()) {
-            $data['header_name'] = 'header'; // we will change in future header_user.php
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
         } else {
             $data['header_name'] = 'header';
         }
@@ -479,4 +646,29 @@ class main extends CI_Controller {
         $this->load->view('index', $data);
     }
     
+    public function term_condition() {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'term_condition';
+        if ($this->ion_auth->logged_in()) {
+           $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
+    
+    public function privacy() {
+        $data['folder_name'] = 'utility';
+        $data['file_name'] = 'privacy';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        $data['nav_name'] = 'nav_main';
+        $data['user_data'] = $this->ion_auth->user()->row();
+        $this->load->view('index', $data);
+    }
 }

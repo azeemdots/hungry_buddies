@@ -31,21 +31,21 @@ $page_name = $file_name;
   <div class="col-md-2">
    <ul style="list-style: none;">
     <li><strong>Business</strong></li>
-    <li>Add a Restaurant</li>
-    <li>Claim your Listing</li>
-    <li>Business Login</li>
-    <li>Guidelines</li>
-    <li>Advertise</li>
+    <li><a href="<?=base_url() ?>restaurant/add_new_restaurant">Add a Restaurant</a></li>
+    <li><a href="<?=base_url() ?>main/claim_your_listing">Claim your Listing</a></li>
+    <li><a href="http://bitesup.com/masterbites/login">Business Login</a></li>
+    <li><a href="<?=base_url() ?>main/guidelines">Guidelines</a></li>
+    <li><a href="<?=base_url() ?>main/advertise">Advertise</a></li>
    </ul>
   </div>
   <div class="col-md-2">
    <ul style="list-style: none;">
     <li><strong>About (Bitesup)</strong></li>
-    <li>Bitesup (About us)</li>
-    <li>Mobile Apps</li>
-    <li>Developers</li>
-    <li>Bitesup Blog</li>
-    <li>Feedback</li>
+    <li><a href="<?=base_url() ?>main/about_us">Bitesup (About us)</a></li>
+    <li><a href="<?=base_url() ?>main/mobile_app">Mobile Apps</a></li>
+    <li><a href="<?=base_url() ?>main/developers">Developers</a></li>
+    <li><a href="">Bitesup Blog</a></li>
+    <li><a href="<?=base_url() ?>main/feedback">Feedback</a></li>
     
     
    </ul>
@@ -72,12 +72,12 @@ $page_name = $file_name;
  <div class="row">
   <div class="col-md-12">
    <ul class="list-inline" style="list-style: none;">
-    <li><strong>Privacy</strong> </li>
-    <li><strong>Term</strong></li>
-    <li><strong>CSR</strong></li>
-    <li><strong>Security</strong></li>
-    <li><strong>Sitemap </strong></li>
-    <li><strong>Contact Us</strong></li>
+       <li><a href="<?=base_url() ?>main/privacy"><strong>Privacy</strong></a> </li>
+    <li><a href="<?=base_url() ?>main/term_condition"><strong>Term</strong></a></li>
+    <li><a href="<?=base_url() ?>main/csr"><strong>CSR</strong></a></li>
+    <li><a href="<?=base_url() ?>main/security"><strong>Security</strong></a></li>
+    <li><a href="<?=base_url() ?>main/sitemap"><strong>Sitemap </strong></a></li>
+    <li><a href="<?=base_url() ?>main/contact"><strong>Contact Us</strong></a></li>
    
    </ul>
   </div><!-- col-12 -->

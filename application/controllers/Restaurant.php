@@ -38,8 +38,13 @@ class restaurant extends CI_Controller {
 
         $data['folder_name'] = 'restaurant';
         $data['file_name'] = 'my_restaurant';
-        $data['header_name'] = 'header_user';
         $data['nav_name'] = 'nav_main';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
+        
         $this->load->view('index', $data);
     }
 
@@ -87,8 +92,13 @@ class restaurant extends CI_Controller {
         $data['restaurant_id'] = $restaurant_id;
         $data['folder_name'] = 'restaurant';
         $data['file_name'] = 'add_menu';
-        $data['header_name'] = 'header_user';
+      
         $data['nav_name'] = 'nav_main';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
         $this->load->view('index', $data);
     }
 
@@ -128,8 +138,12 @@ class restaurant extends CI_Controller {
         $data['restaurant_categories'] = $this->user_menu_categories_model->get_by_restaurant_id($restaurant_id);
         $data['folder_name'] = 'restaurant';
         $data['file_name'] = 'add_cat_items';
-        $data['header_name'] = 'header_user';
         $data['nav_name'] = 'nav_main';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
         $this->load->view('index', $data);
     }
 
@@ -191,8 +205,13 @@ class restaurant extends CI_Controller {
         $data['item_detail'] = $this->restaurant_menu_items_model->get_by_item_id($item_id);
         $data['folder_name'] = 'restaurant';
         $data['file_name'] = 'add_item_attr';
-        $data['header_name'] = 'header_user';
+   
         $data['nav_name'] = 'nav_main';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
         $this->load->view('index', $data);
     }
 
@@ -233,8 +252,13 @@ class restaurant extends CI_Controller {
 
         $data['folder_name'] = 'restaurant';
         $data['file_name'] = 'restaurant_detail';
-        $data['header_name'] = 'header_inner';
         $data['nav_name'] = 'nav_main';
+        
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
         $this->load->view('index', $data);
     }
 
@@ -250,8 +274,12 @@ class restaurant extends CI_Controller {
         $data['categories_itmes'] = $this->user_menu_categories_model->get_category_item_by_id($category_id);
         $data['folder_name'] = 'restaurant';
         $data['file_name'] = 'category_detail';
-        $data['header_name'] = 'header_user';
         $data['nav_name'] = 'nav_main';
+     if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
         $this->load->view('index', $data);
     }
 
@@ -266,8 +294,13 @@ class restaurant extends CI_Controller {
 
         $data['folder_name'] = 'restaurant';
         $data['file_name'] = 'category_listing';
-        $data['header_name'] = 'header_user';
+
         $data['nav_name'] = 'nav_main';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
         $this->load->view('index', $data);
     }
 
@@ -302,8 +335,13 @@ class restaurant extends CI_Controller {
         $data['item_id'] = $item_id;
         $data['folder_name'] = 'restaurant';
         $data['file_name'] = 'item_detail';
-        $data['header_name'] = 'header_user';
+
         $data['nav_name'] = 'nav_main';
+        if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
         $this->load->view('index', $data);
     }
 
@@ -337,7 +375,7 @@ class restaurant extends CI_Controller {
         $data['folder_name'] = 'restaurant';
         $data['file_name'] = 'add_restaurant';
         if ($this->ion_auth->logged_in()) {
-            $data['header_name'] = 'header';  // we will change in future header user.php
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
         } else {
             $data['header_name'] = 'header';
         }
@@ -352,7 +390,7 @@ class restaurant extends CI_Controller {
         $data['folder_name'] = 'restaurant';
         $data['file_name'] = 'suggest_restaurant';
         if ($this->ion_auth->logged_in()) {
-            $data['header_name'] = 'header';  // we will change in future header user.php
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
         } else {
             $data['header_name'] = 'header';
         }
@@ -444,9 +482,12 @@ class restaurant extends CI_Controller {
         {
             $data['folder_name'] = 'restaurant';
             $data['file_name'] = 'restaurant_success';
-            $data['header_name'] = 'header';
             $data['nav_name'] = 'nav_main';
-
+            if ($this->ion_auth->logged_in()) {
+            $data['header_name'] = 'header_user'; // we will change in future header user.php
+        } else {
+            $data['header_name'] = 'header';
+        }
             $this->load->view('index', $data);
         }
 

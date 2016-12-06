@@ -183,17 +183,19 @@
                         <label for="profile_setting">Profile Privacy</label>
                         <select name="profile_setting" id="profile_setting">
                             <option value="">Select </option>
-                            <option value="1"<?php if ($user_preference_data->profile_setting == 1) echo 'selected="selected"'; ?> >Public</option>
-                            <option value="2" <?php if ($user_preference_data->profile_setting == 2) echo 'selected="selected"'; ?>>Private</option>
+                            <option value="1"<?php if (!empty($user_preference_data->request_setting) AND ($user_preference_data->profile_setting == 'Public')) echo 'selected="selected"'; ?> >Public</option>
+                            <option value="2" <?php if (!empty($user_preference_data->request_setting) AND ($user_preference_data->profile_setting == 'Private')) echo 'selected="selected"'; ?>>Private</option>
                         </select>
                     </div>
                     <!--/.form-group-->
+                    
+                   
                     <div class="form-group">
                         <label for="request_setting">Request Setting</label>
                         <select name="request_setting" id="request_setting"  >
                             <option value="">Select </option>
-                            <option value="1"<?php if ($user_preference_data->request_setting == 1) echo 'selected="selected"'; ?> >Auto</option>
-                            <option value="2" <?php if ($user_preference_data->request_setting == 2) echo 'selected="selected"'; ?>>Requested</option>
+                            <option value="1"<?php  if (!empty($user_preference_data->request_setting) and ($user_preference_data->request_setting == 'Auto')) echo 'selected="selected"'; ?> >Auto</option>
+                            <option value="2" <?php if (!empty($user_preference_data->request_setting) and ($user_preference_data->request_setting == 'Requested')) echo 'selected="selected"'; ?>>Requested</option>
                         </select>
                     </div>
                     <!--/.form-group-->

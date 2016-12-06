@@ -15,12 +15,22 @@ class dashboard extends CI_Controller {
         $this->load->library('session');
 
         $this->load->helper('date');
+        $this->load->model('restaurant_model');
+        $this->load->model('cuisine_type_model');
+        $this->load->model('user_friend_list_model');
+        $this->load->model('feeds_model');
+        $this->load->model('feed_images_model');
+        $this->load->model('feed_details_model');
+        $this->load->model('user_preference_model');
+        $this->load->model('user_selected_tags_model');
+        $this->load->model('restaurant_search');
+        $this->load->model('hb_countries_model');
+    
     }
 
     function index() {
 
-        $this->load->model('restaurant_model');
-        $this->load->model('cuisine_type_model');
+        
         $data['folder_name'] = 'main';
         $data['file_name'] = 'index';
         $data['header_name'] = 'header_user';
@@ -30,11 +40,14 @@ class dashboard extends CI_Controller {
         $data['categories'] = $this->cuisine_type_model->get_all();
         $data['user_id'] = $this->session->userdata('user_id');
         $data['user_data'] = $this->ion_auth->user()->row();
-
-        $this->load->model('user_friend_list_model');
-        $this->load->model('feeds_model');
-        $this->load->model('feed_images_model');
-        $this->load->model('feed_details_model');
+        $data['restaurant'] = $this->restaurant_model->get_featured_restaurant_location();
+        $data['cusine_type'] = $this->restaurant_model->get_most_use_tags();
+        $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location();
+        $data['popular_restaurants'] = $this->restaurant_model->get_popular_restaurants_location();
+        $data['restaurants_places'] = $this->restaurant_model->get_restaurants();
+        $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews();
+        $data['all_countries'] = $this->hb_countries_model->get_all();
+       
         $images = array();
         $data['session_id'] = $this->session->userdata('user_id');
         $user_id = $this->session->userdata('user_id');
@@ -209,5 +222,8 @@ class dashboard extends CI_Controller {
 
 
     }
+    
+    
+   
 
 }

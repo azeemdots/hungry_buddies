@@ -17,7 +17,7 @@ class User_preference_model extends CI_Model {
     }
 
     function get_by_id($id) {
-        $this->db->select('*');
+        $this->db->select('user_preference.profile_setting as profile_setting');
         $this->db->from('user_preference');
         $this->db->where('user_id', $id);
         $query = $this->db->get();

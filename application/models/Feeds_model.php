@@ -101,7 +101,7 @@ class Feeds_model extends CI_Model {
     }
 
     function get_all_feeds_by_firnd_ids($friends_ids) {
-        $this->db->select('feed_details.like,feed_details.tried,feed_details.wish,feeds.id,feeds.title,feeds.item,feeds.item,feeds.desc,feeds.datetime,users.first_name,users.last_name,users.user_image_url');
+        $this->db->select('feed_details.like,feed_details.tried,feed_details.wish,feeds.id,feeds.title,feeds.desc,feeds.datetime,users.first_name,users.last_name,users.user_image_url');
         $this->db->from('feed_details');
         $this->db->join('feeds', 'feeds.id = feed_details.feed_id ','left');
         $this->db->join('users','feeds.user_id = users.id','left');
@@ -116,7 +116,7 @@ class Feeds_model extends CI_Model {
     }
 
     function get_all_feeeds($id) {
-        $this->db->select('feed_details.like,feed_details.tried,feed_details.wish,feeds.id,feeds.title,feeds.item,feeds.item,feeds.desc,feeds.datetime,users.first_name,users.last_name,users.user_image_url');
+        $this->db->select('feed_details.like,feed_details.tried,feed_details.wish,feeds.id,feeds.title,feeds.desc,feeds.datetime,users.first_name,users.last_name,users.user_image_url');
         $this->db->from('feeds');
         $this->db->join('feed_details','feeds.id = feed_details.feed_id','left');
         $this->db->join('users','feed_details.user_id = users.id','left');
