@@ -33,7 +33,6 @@ class restaurant extends CI_Controller {
             $this->load->model('restaurant_branches_model');
             $restaurants = $this->restaurant_branches_model->get_near_branches($lat, $lng);
             $data['my_restaurant'] = $restaurants;
-
         }
 
         $data['folder_name'] = 'restaurant';

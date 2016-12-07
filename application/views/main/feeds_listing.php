@@ -5,14 +5,8 @@
     <!-- /.search-bar -->
     <div class="breadcrumb-wrapper">
         <div class="container">
-            <div class="redefine-search">
-                <a href="#redefine-search-form" class="inner" data-toggle="collapse" aria-expanded="false" aria-controls="redefine-search-form">
-                    <span class="icon"></span>
-                    <span>Redefine Search</span>
-                </a>
-            </div>
             <ol class="breadcrumb">
-                <li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
+                <li><a href=""><i class="fa fa-home"></i></a></li>
                 <li><a href="#">Page</a></li>
                 <li class="active">Detail</li>
             </ol>
@@ -53,7 +47,7 @@
 
                         <header>
 
-                            <a href="blog-detail.html"><h3 style="font-size: 18px;margin-bottom: 0px;"><img style="height: 65px;width: 65px;border-radius: 50px;margin-right: 10px;"  src="<?php echo $row->user_image_url; ?>" alt=""><?php echo $row->first_name ?>&nbsp;<?php echo $row->last_name ?></h3></a></header>
+                            <a href=""><h3 style="font-size: 18px;margin-bottom: 0px;"><img style="height: 65px;width: 65px;border-radius: 50px;margin-right: 10px;"  src="<?php echo $row->user_image_url; ?>" alt=""><?php echo $row->first_name ?>&nbsp;<?php echo $row->last_name ?></h3></a></header>
 
 
 
@@ -136,7 +130,7 @@
 
 
                         <figure class="meta">
-                            <a href="#" class="link-icon"><i class="fa fa-user"></i>Admin</a>
+                           
                             <a href="#" class="link-icon"><i class="fa fa-calendar"></i><?php echo $row->datetime ?></a>
 
                                                         <div class="tags">

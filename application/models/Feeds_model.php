@@ -9,11 +9,9 @@ class Feeds_model extends CI_Model {
     function create_with_rest_id($item, $restaurant_id) {
 
         $data = array(
-            'item' => $item['item'],
             'desc' => $item['desc'],
             'location' => $item['location'],
             'user_id' => $item['user_id'],
-            'branch_id' => $item['near_by_branch'],
 //			'feed_location_id' => $item['feed_location_id'],
 //			'share_counter' => $item['share_counter'],
             'restaurant_id' => $restaurant_id,
@@ -27,12 +25,10 @@ class Feeds_model extends CI_Model {
 
     function create($item) {
         $data = array(
-            'item' => $item['item'],
             'desc' => $item['desc'],
             'location' => $item['location'],
             'user_id' => $item['user_id'],
             'title' => $item['title'],
-            'branch_id' => $item['near_by_branch'],
             'restaurant_id' => $item['restaurant_id']
         );
         $this->db->set('datetime', 'NOW()', FALSE);
@@ -120,7 +116,7 @@ class Feeds_model extends CI_Model {
         $this->db->from('feeds');
         $this->db->join('feed_details','feeds.id = feed_details.feed_id','left');
         $this->db->join('users','feed_details.user_id = users.id','left');
-        $this->db->where('feed_details.user_id',$id);
+        $this->db->where('feeds.user_id',$id);
 
         $query = $this->db->get();
        // echo $this->db->last_query();

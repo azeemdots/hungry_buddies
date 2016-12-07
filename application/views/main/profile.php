@@ -5,12 +5,7 @@
     <!-- /.search-bar -->
     <div class="breadcrumb-wrapper">
         <div class="container">
-            <div class="redefine-search">
-                <a href="#redefine-search-form" class="inner" data-toggle="collapse" aria-expanded="false" aria-controls="redefine-search-form">
-                    <span class="icon"></span>
-                    <span>Redefine Search</span>
-                </a>
-            </div>
+            
             <ol class="breadcrumb">
                 <li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
                 <li><a href="#">Page</a></li>
@@ -28,8 +23,8 @@
     <section class="container">
         <header>
             <ul class="nav nav-pills">
-                <li class="active"><a href="profile.html"><h1 class="page-title"><?php echo $user_data->first_name ?>&nbsp;&nbsp;<?php echo $user_data->last_name ?></h1></a></li>
-                <li><a href="my-items.html"><h1 class="page-title">My Items</h1></a></li>
+                <li class="active"><?php echo $user_data->first_name ?>&nbsp;&nbsp;<?php echo $user_data->last_name ?></h1></li>
+               
             </ul>
         </header>
         <div class="row">
