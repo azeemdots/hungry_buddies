@@ -8,6 +8,8 @@ class Feeds extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->lang->load('auth');
+        $this->load->model('restaurant_model');
+        $this->load->model('restaurant_selected_tags_model');
     }
 
     function index() {
@@ -21,6 +23,9 @@ class Feeds extends CI_Controller {
         $data['user_data'] = $this->ion_auth->user()->row();
 
         $data['feeds'] = $this->feeds_model->get_all_feeeds($data['user_data']->id);
+        $data['most_used_tags'] =$this->restaurant_selected_tags_model->get_most_use_tags(); //For sidebar
+        $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews(); //For sidebar
+        $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location(); //For Sidebar 
 
 
         for ($i = 0; $i < sizeof($data['feeds']); $i++) {
@@ -202,7 +207,14 @@ class Feeds extends CI_Controller {
         $this->load->model('user_preference_model');
         $id = $this->session->userdata('user_id');
         $data = $_POST;
-        $this->user_preference_model->update($id, $data);
+        $user_profile=$this->user_preference_model->get_profile_setting($id);
+        if($user_profile)
+        {
+          $this->user_preference_model->update($id, $data);
+        } else {
+            $this->user_preference_model->created_user_profile($id, $data);
+        }
+        
     }
 
     public function get_restaurants() {

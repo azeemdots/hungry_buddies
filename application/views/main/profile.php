@@ -177,25 +177,25 @@
             </div>
             <!--Password-->
             <div class="col-md-3">
-                <h3><i class="fa fa-asterisk"></i>Profile Setting</h3>
+                <h3><i class="fa fa-asterisk"></i>Profile Setting  </h3>
                 <form role="form" method="post" action="" >
                     <div class="form-group">
                         <label for="profile_setting">Profile Privacy</label>
                         <select name="profile_setting" id="profile_setting">
                             <option value="">Select </option>
-                            <option value="Public"<?php if (!empty($user_preference_data->request_setting) AND ($user_preference_data->profile_setting == 'Public')) echo 'selected="selected"'; ?> >Public</option>
-                            <option value="Private" <?php if (!empty($user_preference_data->request_setting) AND ($user_preference_data->profile_setting == 'Private')) echo 'selected="selected"'; ?>>Private</option>
+                            <option value="Public"<?php if (!empty($user_preference_data->profile_setting) AND  ($user_preference_data->profile_setting == 'Public')){?> selected="selected" <?php }?> >Public</option>
+                            <option value="Private" <?php if (!empty($user_preference_data->profile_setting) AND ($user_preference_data->profile_setting == 'Private')){?> selected="selected" <?php }?>>Private</option>
                         </select>
                     </div>
                     <!--/.form-group-->
                     
                    
                     <div class="form-group">
-                        <label for="request_setting">Request Setting</label>
+                        <label for="request_setting">Request Setting </label>
                         <select name="request_setting" id="request_setting"  >
                             <option value="">Select </option>
-                            <option value="Auto"<?php  if (!empty($user_preference_data->request_setting) and ($user_preference_data->request_setting == 'Auto')) echo 'selected="selected"'; ?> >Auto</option>
-                            <option value="Requested" <?php if (!empty($user_preference_data->request_setting) and ($user_preference_data->request_setting == 'Requested')) echo 'selected="selected"'; ?>>Requested</option>
+                            <option value="Auto"<?php  if (!empty($user_preference_data->request_setting) AND ($user_preference_data->request_setting == 'Auto')) {?> selected="selected" <?php }?> >Auto</option>
+                            <option value="Requested" <?php if (!empty($user_preference_data->request_setting) AND ($user_preference_data->request_setting == 'Requested')) {?> selected="selected" <?php }?>>Requested</option>
                         </select>
                     </div>
                     <!--/.form-group-->
@@ -208,7 +208,6 @@
                     <!-- /.form-group -->
                 </form>
             </div>
-            <!-- /.col-md-3-->
         </div>
     </section>
 </div>

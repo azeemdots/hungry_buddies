@@ -18,6 +18,7 @@ class main extends CI_Controller {
         $this->load->model('feed_images_model');
         $this->load->model('feed_details_model');
         $this->load->library('session');
+        $this->load->model('restaurant_selected_tags_model');
     }
 
     public function index() {        
@@ -116,6 +117,11 @@ class main extends CI_Controller {
         $data['session_id'] = $this->session->userdata('user_id');
         $data['user_data'] = $this->ion_auth->user()->row();
         $data['requests_user'] = $this->user_friend_request_model->get_friend_request($id);
+        
+        $data['most_used_tags'] =$this->restaurant_selected_tags_model->get_most_use_tags(); //For sidebar
+        $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews(); //For sidebar
+        $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location(); //For Sidebar
+        
         $this->load->view('index', $data);
     }
 
@@ -148,6 +154,10 @@ class main extends CI_Controller {
         }
         $data['users_data'] = $this->ion_auth->users()->result();
         $data['user_data'] = $this->ion_auth->user()->row();
+        
+        $data['most_used_tags'] =$this->restaurant_selected_tags_model->get_most_use_tags(); //For sidebar
+        $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews(); //For sidebar
+        $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location(); //For Sidebar 
 
         $this->load->view('index', $data);
     }
@@ -559,6 +569,10 @@ class main extends CI_Controller {
 
         $data['users_data'] = $this->ion_auth->users()->result();
         $data['user_data'] = $this->ion_auth->user()->row();
+        
+        $data['most_used_tags'] =$this->restaurant_selected_tags_model->get_most_use_tags(); //For sidebar
+        $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews(); //For sidebar
+        $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location(); //For Sidebar
 
         $this->load->view('index', $data);
     }

@@ -33,10 +33,7 @@
 <div id="page-content">
     <section class="container">
         <div class="row">
-            <div class="col-md-9">
-                <header>
-                    <h1 class="page-title">Blog</h1>
-                </header>
+            <div class="col-md-9">               
 
                 <!--Company Members-->
                 <section>
@@ -48,7 +45,7 @@
                                 
                             } else {
                                 ?>
-                                <div class="col-md-3 col-sm-3">
+                                <div class="col-md-3 col-sm-3" id="member-<?php echo $row->id ?>">
                                     <div class="member">
                                         <?php
                                             $imagename = "";
@@ -106,85 +103,87 @@
                 </nav>
                 <!--end Pagination-->
             </div>
-            <div class="col-md-3">
-                <aside id="sidebar">
-                    <section>
-                        <header><h2>New Places</h2></header>
-                        <a href="item-detail.html" class="item-horizontal small">
-                            <h3>Cash Cow Restaurante</h3>
-                            <figure>63 Birch Street</figure>
-                            <div class="wrapper">
-                                <div class="image"><img src="<?=base_url()?>assets/img/items/1.jpg" alt=""></div>
-                                <div class="info">
-                                    <div class="type">
-                                        <i><img src="<?=base_url()?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                        <span>Restaurant</span>
+                  <div class="col-md-3" style="margin-top:45px;">
+                <aside id="sidebar">                   
+                                <!-- Popular Restaurant start-->    
+                               <?php if(!empty($popular_restaurant)){ ?>
+                                <section>
+                                    <header><h2>Popular Restaurant</h2></header>
+                                    <?php foreach($popular_restaurant as $popular_res) { ?>
+                                    <a href="<?= base_url() ?>restaurant/restaurant_detail/<?php echo $popular_res->restaurant_id; ?>" class="item-horizontal small">
+                                        <h3><?php echo $popular_res->restaurant_name; ?></h3>
+                                        <figure><?php echo $popular_res->city_name .", ". $popular_res->country_name; ?></figure>
+                                        <div class="wrapper">
+                                            <?php
+                                                $imagename = "";
+                                                $url = @getimagesize($popular_res->logo_url);
+                                                if (@!is_array($url)) {
+                                                    $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                                                } else {
+                                                    $imagesname = $popular_res->logo_url;
+                                                }
+                                            ?>
+                                            <div class="image"><img src="<?php echo $imagesname; ?>" alt=""></div>
+                                            <div class="info">
+                                                <div class="type">
+                                                    <i><img src="<?php echo base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                    <span><?php echo $popular_res->cousine_name; ?></span>
+                                                </div>
+                                                <div class="rating" data-rating="4"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <?php }// end foreach ?>                           
+                                </section>    
+                               <?php } ?>
+                    <!-- Popular Restaurant End-->
+                                               
+
+                    
+                 <!-- Featured Reviews Start-->
+                    <?php if(!empty($user_reviews)){ ?>
+                            <section>
+                                <header><h2>Featured Users</h2></header>
+                                <?php foreach($user_reviews as $featured_rev ){ ?>
+                            <?php
+                            $user_image = "";
+                            $url = @getimagesize($featured_rev->user_image);
+                            if (@!is_array($url)) {
+                                $user_image = base_url()."uploads/profile_images/member-3t.jpg"; // The image doesn't exist
+                            } else {
+                                $user_image = $featured_rev->user_image;
+                            }
+                            ?>
+                                <a href="#" class="item-horizontal small">
+                                    <h3><?php echo $featured_rev->first_name ." ". $featured_rev->last_name; ?></h3>
+                                     <figure><?php echo $featured_rev->country_name; ?></figure>
+                                    <div class="wrapper">
+                                        <div class="image"><img src="<?php echo $user_image; ?>" alt=""></div>
+                                        <div class="info">
+                                            <div class="type">                                               
+                                                <span><?php echo $featured_rev->user_comments; ?> Reviews</span>
+                                            </div>
+                                            <div class="rating" data-rating="4"></div>
+                                            
+                                        </div>
                                     </div>
-                                    <div class="rating" data-rating="4"></div>
-                                </div>
-                            </div>
-                        </a>
-                        <!--/.item-horizontal small-->
-                        <a href="item-detail.html" class="item-horizontal small">
-                            <h3>Blue Chilli</h3>
-                            <figure>2476 Whispering Pines Circle</figure>
-                            <div class="wrapper">
-                                <div class="image"><img src="<?=base_url()?>assets/img/items/2.jpg" alt=""></div>
-                                <div class="info">
-                                    <div class="type">
-                                        <i><img src="<?=base_url()?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                        <span>Restaurant</span>
-                                    </div>
-                                    <div class="rating" data-rating="3"></div>
-                                </div>
-                            </div>
-                        </a>
-                        <!--/.item-horizontal small-->
-                        <a href="item-detail.html" class="item-horizontal small">
-                            <h3>Eddie’s Fast Food</h3>
-                            <figure>4365 Bruce Street</figure>
-                            <div class="wrapper">
-                                <div class="image"><img src="<?=base_url()?>assets/img/items/3.jpg" alt=""></div>
-                                <div class="info">
-                                    <div class="type">
-                                        <i><img src="<?=base_url()?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
-                                        <span>Restaurant</span>
-                                    </div>
-                                    <div class="rating" data-rating="5"></div>
-                                </div>
-                            </div>
-                        </a>
-                        <!--/.item-horizontal small-->
-                    </section>
+                                </a>  
+                                <?php } ?>
+                            </section>
+                    <?php } //end if ?>
+                    <!-- Featured Reviews End-->
+                    
                     <section>
-                        <a href="#"><img src="<?=base_url()?>assets/img/ad-banner-sidebar.png" alt=""></a>
-                    </section>
-                    <section>
-                        <header><h2>Categories</h2></header>
+                        <?php if(!empty($most_used_tags)){ ?>
+                        <header><h2>Features Categories</h2></header>
                         <ul class="bullets">
-                            <li><a href="#" >Restaurant</a></li>
-                            <li><a href="#" >Steak House & Grill</a></li>
-                            <li><a href="#" >Fast Food</a></li>
-                            <li><a href="#" >Breakfast</a></li>
-                            <li><a href="#" >Winery</a></li>
-                            <li><a href="#" >Bar & Lounge</a></li>
-                            <li><a href="#" >Pub</a></li>
+                           <?php foreach($most_used_tags as $row) { ?>
+                            <li><?php echo $row->tag_name; ?></li>                                                    
+                           <?php }//end foreach ?>
                         </ul>
+                        <?php }//End if condition ?>
                     </section>
-                    <section>
-                        <header><h2>Events</h2></header>
-                        <div class="form-group">
-                            <select class="framed" name="events">
-                                <option value="">Select Your City</option>
-                                <option value="1">London</option>
-                                <option value="2">New York</option>
-                                <option value="3">Barcelona</option>
-                                <option value="4">Moscow</option>
-                                <option value="5">Tokyo</option>
-                            </select>
-                        </div>
-                        <!-- /.form-group -->
-                    </section>
+                    
                 </aside>
                 <!-- /#sidebar-->
             </div>
@@ -233,3 +232,8 @@
     });
 </script>
 
+<script>
+ $(document).ready(function() {
+ $("#member-1").remove();
+});
+</script>

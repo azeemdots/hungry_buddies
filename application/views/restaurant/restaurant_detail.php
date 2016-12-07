@@ -448,7 +448,7 @@
                     <!-- Featured Reviews Start-->
                     <?php if(!empty($user_reviews)){ ?>
                             <section>
-                                <header><h2>Featured Review</h2></header>
+                                <header><h2>Featured Users</h2></header>
                                 <?php foreach($user_reviews as $featured_rev ){ ?>
                             <?php
                             $user_image = "";
