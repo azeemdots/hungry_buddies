@@ -36,7 +36,7 @@
                                                               endif;?>
                                                     
                                                     <?php if(!empty($restaurant_detail->website_address)): ?>
-                                                    <div class="info">
+                                                    <div class="info" style="width: 290px;">
                                                         <i class="fa fa-globe"></i>
                                                         <a href="<?php echo $restaurant_detail->website_address; ?>" target="_blank"><?php echo $restaurant_detail->website_address; ?></a>     
                                                     </div>
@@ -163,24 +163,17 @@
                                             </header>
 
                                             <div class="restaurant-logo" style="margin-bottom: 20px;">
-                                                <?php
-//                                                $logo_image = "";                                                
-//                                                if (!empty($restaurant_detail->logo_url)) {
-//                                                    $logo_image = $restaurant_detail->logo_url;
-//                                                } else {    
-//                                                    $logo_image = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
-//                                                }
-                                                ?>
-                                                <?php
+                               
+                                            <?php
                                             $imagename = "";
-                                            $url = @getimagesize($row->logo_url);
+                                            $url = @getimagesize($restaurant_detail->logo_url);
                                             if (@!is_array($url)) {
-                                                $imagesname = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
+                                                $imagelogo = "http://www.bitesup.com/masterbites/uploads/restaurantimages/2ibkt.jpg"; // The image doesn't exist
                                             } else {
-                                                $imagesname = $row->logo_url;
+                                                $imagelogo = $restaurant_detail->logo_url;
                                             }
                                             ?>
-                                                <img src="<?php echo $imagename; ?>" alt="logo" width="200" height="150">
+                                                <img src="<?php echo $imagelogo; ?>" alt="logo" width="200" height="150">
                                             </div>
                                       
 
@@ -324,7 +317,7 @@
 
                                         </section>
                                         
-                                           <?php // echo "<pre>"; print_r($restaurant_branch); exit; ?>                                     
+                                                                                
                                         <!--Reviews-->
                                         <section class="block" id="reviews">
                                             <header class="clearfix">

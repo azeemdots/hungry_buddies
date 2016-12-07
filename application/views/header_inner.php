@@ -1,5 +1,4 @@
 <body onunload="" class="page-subpage page-listing-grid navigation-off-canvas" id="page-top">
-
 <!-- Outer Wrapper-->
 <div id="outer-wrapper">
     <!-- Inner Wrapper -->
