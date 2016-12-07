@@ -13,7 +13,7 @@
                 <li><a href="<?php echo base_url(); ?>main/users">Users</a></li>             
                 <li><a href="<?php echo base_url(); ?>restaurant/index">Restaurants</a></li>
                 <li><a href="#">Managing</a></li>
-                <li><a href="<?php echo base_url(); ?>main/user_friend_list/35">My Buddies</a></li>  
+                <li><a href="<?php echo base_url(); ?>main/user_friend_list/<?php echo $user_id; ?>">My Buddies</a></li>  
                 <li><a href="<?php echo base_url(); ?>login/logout">Logout</a></li>               
             </ol>
             <!-- /.breadcrumb-->

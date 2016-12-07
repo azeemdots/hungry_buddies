@@ -21,7 +21,8 @@ class Feeds extends CI_Controller {
         $this->load->model('feed_images_model');
         $images = array();
         $data['user_data'] = $this->ion_auth->user()->row();
-
+        $data['user_id']= $data['user_data']->id;
+        //print_r($data['user_id']); exit; 
         $data['feeds'] = $this->feeds_model->get_all_feeeds($data['user_data']->id);
         $data['most_used_tags'] =$this->restaurant_selected_tags_model->get_most_use_tags(); //For sidebar
         $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews(); //For sidebar

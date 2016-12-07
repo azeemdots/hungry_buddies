@@ -23,6 +23,7 @@ class restaurant extends CI_Controller {
         $this->load->model('restaurant_model');
         $this->load->model('restaurant_branches_model');
         $user_id = $this->session->userdata('user_id');
+        $data['user_id'] = $this->session->userdata('user_id');
         $data['user_data'] = $this->ion_auth->user()->row();
 
         $lat = $this->input->post('lat');

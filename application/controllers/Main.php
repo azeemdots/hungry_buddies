@@ -114,6 +114,7 @@ class main extends CI_Controller {
         $data['nav_name'] = 'nav_main';
         $this->load->model('user_friend_request_model');
         $id = $this->session->userdata('user_id');
+        $data['user_id'] = $this->session->userdata('user_id');
         $data['session_id'] = $this->session->userdata('user_id');
         $data['user_data'] = $this->ion_auth->user()->row();
         $data['requests_user'] = $this->user_friend_request_model->get_friend_request($id);
@@ -133,6 +134,7 @@ class main extends CI_Controller {
         $this->load->model('user_friend_list_model');
         $this->load->model('user_friend_request_model');
         $user_id = $this->session->userdata('user_id');
+        $data['user_id'] = $this->session->userdata('user_id');
         $data['session_id'] = $this->session->userdata('user_id');
         $friends_request_data = $this->user_friend_request_model->get_by_logged_id($user_id);
         if (!empty($friends_request_data)) {
@@ -157,7 +159,8 @@ class main extends CI_Controller {
         
         $data['most_used_tags'] =$this->restaurant_selected_tags_model->get_most_use_tags(); //For sidebar
         $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews(); //For sidebar
-        $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location(); //For Sidebar 
+        $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location(); //For Sidebar
+        
 
         $this->load->view('index', $data);
     }

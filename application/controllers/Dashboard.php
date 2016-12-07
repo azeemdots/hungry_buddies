@@ -85,6 +85,7 @@ class dashboard extends CI_Controller {
         $data['nav_name'] = 'nav_main';
         $this->load->model('user_preference_model');
         $pref_id = $this->session->userdata('user_id');
+        $data['user_id'] = $pref_id;
         $data['user_preference_data']=$this->user_preference_model->get_by_id($pref_id);
         if ($this->input->post('form-profile')) {
             $id = $this->session->userdata('user_id');
