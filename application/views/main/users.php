@@ -51,12 +51,12 @@
                                             $imagename = "";
                                             $url = @getimagesize($row->user_image_url);
                                             if (@!is_array($url)) {
-                                                $imageuser = "http://www.bitesup.com/masterbites/uploads/restaurantimages/default-anonymous.png"; // The image doesn't exist
+                                                $imageuser = base_url()."uploads/userimages/member-3.jpg"; // The image doesn't exist
                                             } else {
                                                 $imageuser = $row->user_image_url;
                                             }
                                         ?>
-                                            <img src="<?php echo $imageuser; ?>" alt="" width="189" hieght="189">
+                                        <img src="<?php echo $imageuser; ?>" alt="" style="width:110px !important; height: 110px !important;">
                                         
 
                                         <h4 style="width: 150px; height:70px; "><a href="<?= base_url() ?>main/user_detail/<?php echo $row->id ?>"><?php echo $row->first_name ?> <?php echo $row->last_name ?></a></h4>

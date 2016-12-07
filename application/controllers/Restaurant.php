@@ -20,12 +20,17 @@ class restaurant extends CI_Controller {
     }
 
     public function index() {
+        
+    if ($this->ion_auth->logged_in()) {     
         $this->load->model('restaurant_model');
         $this->load->model('restaurant_branches_model');
         $user_id = $this->session->userdata('user_id');
         $data['user_id'] = $this->session->userdata('user_id');
         $data['user_data'] = $this->ion_auth->user()->row();
-
+        $user_data= $this->ion_auth->user()->row()->country;
+        //print_r($this->get_country_by_ip());
+        //exit;
+        
         $lat = $this->input->post('lat');
         $lng = $this->input->post('lng');
         $lat = !empty($lat) && is_numeric($lat) ? $lat : 'NULL';
@@ -46,7 +51,13 @@ class restaurant extends CI_Controller {
         }
         
         $this->load->view('index', $data);
-    }
+        } 
+        else {
+                redirect('login');
+             }
+        
+   }
+    
 
 
 
@@ -491,4 +502,32 @@ class restaurant extends CI_Controller {
             $this->load->view('index', $data);
         }
 
+        public function get_country_by_ip()
+        {
+            $ip_address=$_SERVER['REMOTE_ADDR'];
+
+            /*Get user ip address details with geoplugin.net*/
+            $geopluginURL='http://www.geoplugin.net/php.gp?ip='.$ip_address;
+            $addrDetailsArr = unserialize(file_get_contents($geopluginURL)); 
+
+            /*Get City name by return array*/
+            $city = $addrDetailsArr['geoplugin_city']; 
+
+            /*Get Country name by return array*/
+            $country = $addrDetailsArr['geoplugin_countryName'];
+
+            /*Comment out these line to see all the posible details*/
+            /*echo '<pre>';
+            print_r($addrDetailsArr);
+            die();*/
+
+            if(!$city){
+               $city='Not Define';
+            }if(!$country){
+               $country='Not Define';
+            }
+            return $country;
+     }
+        
+        
 }

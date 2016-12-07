@@ -30,7 +30,7 @@ class dashboard extends CI_Controller {
 
     function index() {
 
-        
+      if ($this->ion_auth->logged_in()) {  
         $data['folder_name'] = 'main';
         $data['file_name'] = 'index';
         $data['header_name'] = 'header_user';
@@ -74,11 +74,17 @@ class dashboard extends CI_Controller {
 
         $this->load->view('index', $data);
 
-
-
+    } 
+    else {
+          redirect('login');
+         }
+         
     }
 
     public function profile() {
+        
+    if ($this->ion_auth->logged_in()) {        
+        
         $data['folder_name'] = 'main';
         $data['file_name'] = 'profile';
         $data['header_name'] = 'header_user';
@@ -93,9 +99,13 @@ class dashboard extends CI_Controller {
             $this->ion_auth->update($id, $data);
             $this->session->set_flashdata('success', 'Data added');
             redirect('/dashboard/profile/');
-}
+        }
         $data['user_data'] = $this->ion_auth->user()->row();
         $this->load->view('index', $data);
+        } 
+        else {
+            redirect('login');
+        }
     }
 
     public function update_profile_pic() {

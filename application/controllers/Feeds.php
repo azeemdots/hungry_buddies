@@ -13,6 +13,9 @@ class Feeds extends CI_Controller {
     }
 
     function index() {
+        
+    if ($this->ion_auth->logged_in()) {     
+        
         $data['folder_name'] = 'main';
         $data['header_name'] = 'header_user';
         $data['nav_name'] = 'nav_main';
@@ -35,6 +38,9 @@ class Feeds extends CI_Controller {
         $data['feed_images'] = $images;
 
         $this->load->view('index', $data);
+        } else {
+            redirect('login');
+        }
     }
 
     function edit_feeds() {

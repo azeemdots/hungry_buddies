@@ -108,6 +108,7 @@ class main extends CI_Controller {
     }
 
     public function requests() {
+        if ($this->ion_auth->logged_in()) {
         $data['folder_name'] = 'main';
         $data['file_name'] = 'requests';
         $data['header_name'] = 'header_user';
@@ -123,10 +124,17 @@ class main extends CI_Controller {
         $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews(); //For sidebar
         $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location(); //For Sidebar
         
-        $this->load->view('index', $data);
+        $this->load->view('index', $data); 
+            
+        } else {
+           redirect('login');
+        }       
     }
 
     public function users() {
+        
+    if ($this->ion_auth->logged_in()) {
+          
         $data['folder_name'] = 'main';
         $data['file_name'] = 'users';
         $data['header_name'] = 'header_user';
@@ -163,7 +171,12 @@ class main extends CI_Controller {
         
 
         $this->load->view('index', $data);
-    }
+    } else {
+           redirect('login');
+        } 
+        
+        }
+    
 
     public function user_detail() {
         $data['folder_name'] = 'main';
@@ -549,6 +562,8 @@ class main extends CI_Controller {
     }
 
     public function user_friend_list(){
+        
+    if ($this->ion_auth->logged_in()) {         
         $data['folder_name'] = 'main';
         $data['file_name'] = 'my_buddies';
         $data['header_name'] = 'header_user';
@@ -578,7 +593,11 @@ class main extends CI_Controller {
         $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location(); //For Sidebar
 
         $this->load->view('index', $data);
+    } 
+    else {
+        redirect('login');
     }
+}
 
 
     public function unfollow_user_friend(){
