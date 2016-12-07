@@ -54,10 +54,16 @@
     <!-- /.search-bar -->
     <div class="breadcrumb-wrapper">
         <div class="container">
-            <ol class="breadcrumb">
-                <li><a href=""><i class="fa fa-home"></i></a></li>
-                <li><a href="#">Page</a></li>
-                <li class="active">Detail</li>
+              <ol class="breadcrumb">
+                <li><a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i></a></li>
+                <li><a href="<?php echo base_url(); ?>dashboard/profile">Profile</a></li>
+                <li class="active">Feeds</li>
+                <li><a href="<?php echo base_url(); ?>main/users">Users</a></li>
+                <li><a href="<?php echo base_url(); ?>main/requests">Requests</a></li>
+                <li><a href="<?php echo base_url(); ?>restaurant/index">Restaurants</a></li>
+                <li><a href="#">Managing</a></li>
+                <li><a href="<?php echo base_url(); ?>main/user_friend_list/35">My Buddies</a></li>  
+                <li><a href="<?php echo base_url(); ?>login/logout">Logout</a></li>                
             </ol>
             <!-- /.breadcrumb-->
         </div>

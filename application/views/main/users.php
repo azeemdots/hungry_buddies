@@ -9,16 +9,17 @@
     <!-- /.search-bar -->
     <div class="breadcrumb-wrapper">
         <div class="container">
-            <div class="redefine-search">
-                <a href="#redefine-search-form" class="inner" data-toggle="collapse" aria-expanded="false" aria-controls="redefine-search-form">
-                    <span class="icon"></span>
-                    <span>Redefine Search</span>
-                </a>
-            </div>
             <ol class="breadcrumb">
-                <li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
-                <li><a href="#">Page</a></li>
-                <li class="active">Detail</li>
+                <li><a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i></a></li>
+                <li><a href="<?php echo base_url(); ?>dashboard/profile">Profile</a></li>
+                <li><a href="<?php echo base_url(); ?>feeds">Feeds</a></li>
+                <li class="active">Users</li>
+                <li><a href="<?php echo base_url(); ?>main/requests">Requests</a></li>
+                <li><a href="<?php echo base_url(); ?>restaurant/index">Restaurants</a></li>
+                <li><a href="#">Managing</a></li>
+                <li><a href="<?php echo base_url(); ?>main/user_friend_list/35">My Buddies</a></li>  
+                <li><a href="<?php echo base_url(); ?>login/logout">Logout</a></li>
+                
             </ol>
             <!-- /.breadcrumb-->
         </div>
@@ -49,11 +50,17 @@
                                 ?>
                                 <div class="col-md-3 col-sm-3">
                                     <div class="member">
-                                        <?php if (!empty($row->user_image_url)) { ?>
-                                            <img src="<?php echo $row->user_image_url ?>" alt="">
-                                        <?php } else { ?>
-                                            <img src="<?php echo base_url() ?>images/default.gif" alt="">
-                                        <?php } ?>
+                                        <?php
+                                            $imagename = "";
+                                            $url = @getimagesize($row->user_image_url);
+                                            if (@!is_array($url)) {
+                                                $imageuser = "http://www.bitesup.com/masterbites/uploads/restaurantimages/default-anonymous.png"; // The image doesn't exist
+                                            } else {
+                                                $imageuser = $row->user_image_url;
+                                            }
+                                        ?>
+                                            <img src="<?php echo $imageuser; ?>" alt="" width="189" hieght="189">
+                                        
 
                                         <h4 style="width: 150px; height:70px; "><a href="<?= base_url() ?>main/user_detail/<?php echo $row->id ?>"><?php echo $row->first_name ?> <?php echo $row->last_name ?></a></h4>
                                         <!--<figure>Company CEO</figure>-->

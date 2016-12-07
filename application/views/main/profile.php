@@ -7,9 +7,14 @@
         <div class="container">
             
             <ol class="breadcrumb">
-                <li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
-                <li><a href="#">Page</a></li>
-                <li class="active">Detail</li>
+                <li><a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i></a></li>
+                <li class="active">Profile</li>
+                <li><a href="<?php echo base_url(); ?>feeds">Feeds</a></li>
+                <li><a href="<?php echo base_url(); ?>main/users">Users</a></li>             
+                <li><a href="<?php echo base_url(); ?>restaurant/index">Restaurants</a></li>
+                <li><a href="#">Managing</a></li>
+                <li><a href="<?php echo base_url(); ?>main/user_friend_list/35">My Buddies</a></li>  
+                <li><a href="<?php echo base_url(); ?>login/logout">Logout</a></li>               
             </ol>
             <!-- /.breadcrumb-->
         </div>
@@ -178,8 +183,8 @@
                         <label for="profile_setting">Profile Privacy</label>
                         <select name="profile_setting" id="profile_setting">
                             <option value="">Select </option>
-                            <option value="1"<?php if (!empty($user_preference_data->request_setting) AND ($user_preference_data->profile_setting == 'Public')) echo 'selected="selected"'; ?> >Public</option>
-                            <option value="2" <?php if (!empty($user_preference_data->request_setting) AND ($user_preference_data->profile_setting == 'Private')) echo 'selected="selected"'; ?>>Private</option>
+                            <option value="Public"<?php if (!empty($user_preference_data->request_setting) AND ($user_preference_data->profile_setting == 'Public')) echo 'selected="selected"'; ?> >Public</option>
+                            <option value="Private" <?php if (!empty($user_preference_data->request_setting) AND ($user_preference_data->profile_setting == 'Private')) echo 'selected="selected"'; ?>>Private</option>
                         </select>
                     </div>
                     <!--/.form-group-->
@@ -189,8 +194,8 @@
                         <label for="request_setting">Request Setting</label>
                         <select name="request_setting" id="request_setting"  >
                             <option value="">Select </option>
-                            <option value="1"<?php  if (!empty($user_preference_data->request_setting) and ($user_preference_data->request_setting == 'Auto')) echo 'selected="selected"'; ?> >Auto</option>
-                            <option value="2" <?php if (!empty($user_preference_data->request_setting) and ($user_preference_data->request_setting == 'Requested')) echo 'selected="selected"'; ?>>Requested</option>
+                            <option value="Auto"<?php  if (!empty($user_preference_data->request_setting) and ($user_preference_data->request_setting == 'Auto')) echo 'selected="selected"'; ?> >Auto</option>
+                            <option value="Requested" <?php if (!empty($user_preference_data->request_setting) and ($user_preference_data->request_setting == 'Requested')) echo 'selected="selected"'; ?>>Requested</option>
                         </select>
                     </div>
                     <!--/.form-group-->
