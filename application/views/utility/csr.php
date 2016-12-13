@@ -3,7 +3,8 @@
                 <div class="search-bar horizontal collapse" id="redefine-search-form"></div>
                 <!-- /.search-bar -->
                 <div class="breadcrumb-wrapper">
-                    <div class="container">                       
+                    <div class="container">   
+                        
                         <ol class="breadcrumb">
                             <li><a href="<?php echo base_url(); ?>main"><i class="fa fa-home"></i></a></li>
                             <li class="active">CSR</li>

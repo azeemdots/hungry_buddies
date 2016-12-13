@@ -6,7 +6,7 @@ $page_name = $file_name;
 <html lang="en-US">
     <head>
         <?php include 'top.php'; ?>
-        <title>Hungry Buddies</title>
+        <title>Bitesup</title>
     </head>
     <!-- Navigation-->
     <?php include $header_name . '.php'; ?>

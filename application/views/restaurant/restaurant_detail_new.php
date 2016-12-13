@@ -1,3 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="<?php echo base_url(); ?>assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap-select.min.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/owl.carousel.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/user.style.css" type="text/css">
+
+    <title>Spotter - Universal Directory Listing HTML Template</title>
+
+</head>
+
+<body onunload="" class="page-subpage page-item-detail navigation-off-canvas" id="page-top">
+
+<!-- Outer Wrapper-->
+<div id="outer-wrapper">
+    <!-- Inner Wrapper -->
+    <div id="inner-wrapper">
+        <!-- Navigation-->
+        <div class="header">
+            <div class="wrapper">
+                <div class="brand">
+                    <a href="<?php base_url(); ?>"><img src="assets/img/logo-restaurant.png" alt="logo"></a>
+                </div>
+                <nav class="navigation-items">
+                    <div class="wrapper">
+                        <ul class="main-navigation navigation-top-header"></ul>
+                        <ul class="user-area">
+                            <li><a href="sign-in.html">Sign In</a></li>
+                            <li><a href="register.html"><strong>Register</strong></a></li>
+                        </ul>
+                        <a href="submit.html" class="submit-item">
+                            <div class="content"><span>Submit Your Item</span></div>
+                            <div class="icon">
+                                <i class="fa fa-plus"></i>
+                            </div>
+                        </a>
+                        <div class="toggle-navigation">
+                            <div class="icon">
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- end Navigation-->
+        <!-- Page Canvas-->
+        <div id="page-canvas">
+            <!--Off Canvas Navigation-->
+            <nav class="off-canvas-navigation">
+                <header>Navigation</header>
+                <div class="main-navigation navigation-off-canvas"></div>
+            </nav>
+            <!--end Off Canvas Navigation-->
+            <!--Sub Header-->
             <section class="sub-header">
                 <div class="search-bar horizontal collapse" id="redefine-search-form"></div>
                 <!-- /.search-bar -->
@@ -10,7 +75,8 @@
                             </a>
                         </div>
                         <ol class="breadcrumb">
-                            <li><a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i></a></li>                            
+                            <li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
+                            <li><a href="#">Page</a></li>
                             <li class="active">Detail</li>
                         </ol>
                         <!-- /.breadcrumb-->
@@ -18,12 +84,13 @@
                     <!-- /.container-->
                 </div>
                 <!-- /.breadcrumb-wrapper-->
-            </section> 
-    <!--Page Content-->
+            </section>
+            <!--end Sub Header-->
 
-<div id="page-content">
+            <!--Page Content-->
+            <div id="page-content">
 
-               
+                <div id="map-detail"></div>
                 <section class="container">
                     <div class="row">
                         <!--Item Detail Content-->
@@ -31,12 +98,12 @@
                             <section class="block" id="main-content">
                                 <header class="page-title">
                                     <div class="title">
-                                        <h1><?php if(!empty($restaurant_detail->name)) { echo $restaurant_detail->name; } ?></h1>
-                                        <figure><?php if(!empty($restaurant_detail->country_name)) { echo $restaurant_detail->country_name; } ?></figure>
+                                        <h1>Max Five Lounge</h1>
+                                        <figure>63 Birch Street</figure>
                                     </div>
                                     <div class="info">
                                         <div class="type">
-                                            <i><img src="<?php echo  base_url(); ?>assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                            <i><img src="assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
                                             <span>Restaurant</span>
                                         </div>
                                     </div>
@@ -125,10 +192,6 @@
                                         <section>
                                             <article class="item-gallery">
                                                 <div class="owl-carousel item-slider">
-                                                   <?php if(!empty($promotion_banners)){ ?> 
-                                                    <?php
-                                                    $count_banner=1;
-                                                    foreach($promotion_banners as $banner){ ?>
                                                     <div class="slide"><img src="assets/img/items/1.jpg" data-hash="1" alt=""></div>
                                                     <div class="slide"><img src="assets/img/items/2.jpg" data-hash="2" alt=""></div>
                                                     <div class="slide"><img src="assets/img/items/3.jpg" data-hash="3" alt=""></div>
@@ -136,12 +199,6 @@
                                                     <div class="slide"><img src="assets/img/items/5.jpg" data-hash="5" alt=""></div>
                                                     <div class="slide"><img src="assets/img/items/6.jpg" data-hash="6" alt=""></div>
                                                     <div class="slide"><img src="assets/img/items/7.jpg" data-hash="7" alt=""></div>
-                                                <?php 
-                                                    $count_banner++; 
-                                                    }
-                                                   }
-//end foreach
-                                                    ?>
                                                 </div>
                                                 <!-- /.item-slider -->
                                                 <div class="thumbnails">
@@ -494,44 +551,178 @@
                 </section>
                 <!-- /.container-->
             </div>
+            <!-- end Page Content-->
+        </div>
+        <!-- end Page Canvas-->
+        <!--Page Footer-->
+        <footer id="page-footer">
+            <div class="inner">
+                <div class="footer-top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-4">
+                                <!--New Items-->
+                                <section>
+                                    <h2>New Items</h2>
+                                    <a href="item-detail.html" class="item-horizontal small">
+                                        <h3>Cash Cow Restaurante</h3>
+                                        <figure>63 Birch Street</figure>
+                                        <div class="wrapper">
+                                            <div class="image"><img src="assets/img/items/1.jpg" alt=""></div>
+                                            <div class="info">
+                                                <div class="type">
+                                                    <i><img src="assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                    <span>Restaurant</span>
+                                                </div>
+                                                <div class="rating" data-rating="4"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!--/.item-horizontal small-->
+                                    <a href="item-detail.html" class="item-horizontal small">
+                                        <h3>Blue Chilli</h3>
+                                        <figure>2476 Whispering Pines Circle</figure>
+                                        <div class="wrapper">
+                                            <div class="image"><img src="assets/img/items/2.jpg" alt=""></div>
+                                            <div class="info">
+                                                <div class="type">
+                                                    <i><img src="assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                    <span>Restaurant</span>
+                                                </div>
+                                                <div class="rating" data-rating="3"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!--/.item-horizontal small-->
+                                </section>
+                                <!--end New Items-->
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <!--Recent Reviews-->
+                                <section>
+                                    <h2>Recent Reviews</h2>
+                                    <a href="item-detail.html#reviews" class="review small">
+                                        <h3>Max Five Lounge</h3>
+                                        <figure>4365 Bruce Street</figure>
+                                        <div class="info">
+                                            <div class="rating" data-rating="4"></div>
+                                            <div class="type">
+                                                <i><img src="assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                <span>Restaurant</span>
+                                            </div>
+                                        </div>
+                                        <p>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec non suscipit felis, sed sagittis tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras ac placerat mauris.
+                                        </p>
+                                    </a><!--/.review-->
+                                    <a href="item-detail.html#reviews" class="review small">
+                                        <h3>Saguaro Tavern</h3>
+                                        <figure>2476 Whispering Pines Circle</figure>
+                                        <div class="info">
+                                            <div class="rating" data-rating="5"></div>
+                                            <div class="type">
+                                                <i><img src="assets/icons/restaurants-bars/restaurants/restaurant.png" alt=""></i>
+                                                <span>Restaurant</span>
+                                            </div>
+                                        </div>
+                                        <p>
+                                            Pellentesque mauris. Proin sit amet scelerisque risus. Donec semper semper erat ut mollis curabitur
+                                        </p>
+                                    </a>
+                                    <!--/.review-->
+                                </section>
+                                <!--end Recent Reviews-->
+                            </div>
+                            <div class="col-md-4 col-sm-4">
+                                <section>
+                                    <h2>About Us</h2>
+                                    <address>
+                                        <div>Max Five Lounge</div>
+                                        <div>63 Birch Street</div>
+                                        <div>Granada Hills, CA 91344</div>
+                                        <figure>
+                                            <div class="info">
+                                                <i class="fa fa-mobile"></i>
+                                                <span>818-832-5258</span>
+                                            </div>
+                                            <div class="info">
+                                                <i class="fa fa-phone"></i>
+                                                <span>+1 123 456 789</span>
+                                            </div>
+                                            <div class="info">
+                                                <i class="fa fa-globe"></i>
+                                                <a href="#">www.maxfivelounge.com</a>
+                                            </div>
+                                        </figure>
+                                    </address>
+                                    <div class="social">
+                                        <a href="#" class="social-button"><i class="fa fa-twitter"></i></a>
+                                        <a href="#" class="social-button"><i class="fa fa-facebook"></i></a>
+                                        <a href="#" class="social-button"><i class="fa fa-pinterest"></i></a>
+                                    </div>
+
+                                    <a href="contact.html" class="btn framed icon">Contact Us<i class="fa fa-angle-right"></i></a>
+                                </section>
+                            </div>
+                            <!--/.col-md-4-->
+                        </div>
+                        <!--/.row-->
+                    </div>
+                    <!--/.container-->
+                </div>
+                <!--/.footer-top-->
+                <div class="footer-bottom">
+                    <div class="container">
+                        <span class="left">(C) ThemeStarz, All rights reserved</span>
+                            <span class="right">
+                                <a href="#page-top" class="to-top roll"><i class="fa fa-angle-up"></i></a>
+                            </span>
+                    </div>
+                </div>
+                <!--/.footer-bottom-->
+            </div>
+        </footer>
+        <!--end Page Footer-->
+    </div>
+    <!-- end Inner Wrapper -->
+</div>
+<!-- end Outer Wrapper-->
 
 
-
-
-
-            
-<!-- end Page Content-->
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/before.load.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/richmarker-compiled.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/smoothscroll.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.hotkeys.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/custom.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/maps.js"></script>
 
 <script>
-    /*
-$(document).ready(function(){
-$("#submit_comment").click(function(){
-var user_id = $("#user_id").val();
-var date = $("#date").val();
-var restaurant_id = $("#restaurant_id").val();
-var review_message = $("#review_message").val();
-var rating = $("#rating").val();
-// Returns successful data submission message when the entered information is stored in database.
-var dataString = 'name1='+ user_id + '&email1='+ date + '&password1='+ restaurant_id + '&contact1='+ review_message + '&contact1='+ rating;
-if(name==''||email==''||password==''||contact=='')
-{
-alert("Please Fill All Fields");
-}
-else
-{
-// AJAX Code To Submit Form.
-$.ajax({
-type: "POST",
-url: "ajaxsubmit.php",
-data: dataString,
-cache: false,
-success: function(result){
-alert(result);
-}
-});
-}
-return false;
-});
-});
-*/
+    var itemID = 1;
+    $.getJSON("<?php echo base_url(); ?>assets/json/items.json.txt")
+        .done(function(json) {
+                $.each(json.data, function(a) {
+                    if( json.data[a].id == itemID ) {
+                        itemDetailMap(json.data[a]);
+                    }
+                });
+        })
+        .fail(function( jqxhr, textStatus, error ) {
+            console.log(error);
+        })
+    ;
+    $(window).load(function(){
+        var rtl = false; // Use RTL
+        initializeOwl(rtl);
+    });
 </script>
+
+<!--[if lte IE 9]>
+<script type="text/javascript" src="assets/js/ie-scripts.js"></script>
+<![endif]-->
+</body>
+</html>

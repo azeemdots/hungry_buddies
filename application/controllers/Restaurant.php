@@ -268,7 +268,7 @@ class restaurant extends CI_Controller {
         if ($this->ion_auth->logged_in()) {
             $data['header_name'] = 'header_user'; // we will change in future header user.php
         } else {
-            $data['header_name'] = 'header';
+            $data['header_name'] = 'header_inner';
         }
         $this->load->view('index', $data);
     }

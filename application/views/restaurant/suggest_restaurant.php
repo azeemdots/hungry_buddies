@@ -1,13 +1,18 @@
-
 <!--Sub Header-->
 <section class="sub-header">
     <!--    <div class="search-bar horizontal collapse" id="redefine-search-form"></div>-->
     <!-- /.search-bar -->
     <div class="breadcrumb-wrapper">
         <div class="container">
+                <div class="redefine-search">
+                    <a href="#redefine-search-form" class="inner" data-toggle="collapse" aria-expanded="false" aria-controls="redefine-search-form">
+                        <span class="icon"></span>
+                        <span>Redefine Search</span>
+                    </a>
+                </div>
             <ol class="breadcrumb">
                 <li><a href="<?= base_url(); ?>main"><i class="fa fa-home"></i></a></li>
-                <li><a href="#">Suggest Restaurant </a></li>
+                <li class="active">Suggest Restaurant</li>
             </ol>
             <!-- /.breadcrumb-->
         </div>

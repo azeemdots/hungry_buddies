@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/jquery.nouislider.min.css" type="text/css">
 <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/colors/brown.css" type="text/css">
 <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/dropzone.css" type="text/css">
-<link rel="stylesheet" href="<?php echo base_url() ?>assets/css/user.style.css" type="text/css">
 <link rel="stylesheet" href="<?php echo base_url() ?>assets/css/style.css" type="text/css">
 <link href="<?php echo base_url() ?>assets/css/jquery.filer.css" type="text/css" rel="stylesheet" />
 <link href="<?php echo base_url() ?>assets/css/themes/jquery.filer-dragdropbox-theme.css" type="text/css" rel="stylesheet" />

@@ -18,8 +18,7 @@
                 </a>
             </div>
             <ol class="breadcrumb">
-                <li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
-                <li><a href="#">Restaurant</a></li>
+                <li><a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i></a></li>
                 <li class="active">Add Restaurant Menu Items</li>
             </ol>
             <!-- /.breadcrumb-->

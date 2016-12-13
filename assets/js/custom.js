@@ -106,7 +106,7 @@ $(document).ready(function($) {
 
 // Set width for inputs in horizontal search bar -----------------------------------------------------------------------
 
-    $( "#redefine-search-form" ).load( "http://localhost/bitbucket/hungry_buddies/assets/external/_search-bar.html", function() {
+    $( "#redefine-search-form" ).load( "http://localhost/hungry_buddies/assets/external/_search-bar.php", function() {
         setInputsWidth();
         //autoComplete();
     });

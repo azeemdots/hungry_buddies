@@ -1,18 +1,23 @@
-
 <!--Sub Header-->
 <section class="sub-header">
     <div class="search-bar horizontal collapse" id="redefine-search-form"></div>
     <!-- /.search-bar -->
     <div class="breadcrumb-wrapper">
         <div class="container">
-               <ol class="breadcrumb">
+            <div class="redefine-search">
+                <a href="#redefine-search-form" class="inner" data-toggle="collapse" aria-expanded="false" aria-controls="redefine-search-form">
+                    <span class="icon"></span>
+                    <span>Redefine Search</span>
+                </a>
+            </div>
+            <ol class="breadcrumb">
                 <li><a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i></a></li>
                 <li><a href="<?php echo base_url(); ?>dashboard/profile">Profile</a></li>
                 <li class="active">Feeds</li>
-                <li><a href="<?php echo base_url(); ?>main/users">Users</a></li>
+<!--                <li><a href="main/users">Users</a></li>-->
                 <li><a href="<?php echo base_url(); ?>main/requests">Requests</a></li>
                 <li><a href="<?php echo base_url(); ?>restaurant/index">Restaurants</a></li>
-                <li><a href="#">Managing</a></li>
+<!--                <li><a href="#">Managing</a></li>-->
                 <li><a href="<?php echo base_url(); ?>main/user_friend_list/<?php echo $user_id; ?>">My Buddies</a></li>  
                 <li><a href="<?php echo base_url(); ?>login/logout">Logout</a></li>                
             </ol>
@@ -52,8 +57,18 @@
                     <article class="blog-post">
 
                         <header>
+                            
+                            <?php
+                            $imagename = "";
+                            $url = @getimagesize($row->user_image_url);
+                            if (@!is_array($url)) {
+                                $imagesname = base_url()."uploads/userimages/member-3.jpg"; // The image doesn't exist
+                            } else {
+                                $imagesname = $row->user_image_url;
+                            }
+                            ?>
 
-                            <a href=""><h3 style="font-size: 18px;margin-bottom: 0px;"><img style="height: 65px;width: 65px;border-radius: 50px;margin-right: 10px;"  src="<?php echo $row->user_image_url; ?>" alt=""><?php echo $row->first_name ?>&nbsp;<?php echo $row->last_name ?></h3></a></header>
+                            <a href=""><h3 style="font-size: 18px;margin-bottom: 0px;"><img style="height: 65px;width: 65px;border-radius: 50px;margin-right: 10px;"  src="<?php echo $imagesname; ?>" alt=""><?php echo $row->first_name ?>&nbsp;<?php echo $row->last_name ?></h3></a></header>
 
 
 
@@ -62,7 +77,7 @@
                                 <?php for ($j = 0; $j < sizeof($feed_images[$iterator]); $j++) { ?>
                                 <div class="slide"><h4><img style="height: 400px;width: 900px;"  src="<?php echo $feed_images[$iterator][$j]->image_url; ?>" alt="">
                                         <div class="carousel-caption" style="padding-bottom: 0px;padding-top:0px;left: 0%;right:0%;opacity:0.6;padding-left: 25px;background-color: white;">
-                                            <div class="col-sm-6"><img style="padding:8px;width: 78px;border-radius: 50px;float: left;"  src="<?php echo $row->user_image_url; ?>" alt="">
+                                            <div class="col-sm-6"><img style="padding:8px;width: 78px;border-radius: 50px;float: left;"  src="<?php echo $imagesname; ?>" alt="">
                                             <h1 style="text-align: left;color: black;margin-top: 5px;"><?php echo $row->title; ?></h1><br>
                                             <h2 style="text-align: left;color: black;margin-top: -18px;margin-bottom: 10px;"><?php echo $row->title; ?></h2>
                                             </div>

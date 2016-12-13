@@ -23,9 +23,8 @@
                 </a>
             </div>
             <ol class="breadcrumb">
-                <li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
-                <li><a href="#">Page</a></li>
-                <li class="active">Detail</li>
+                <li><a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i></a></li>
+                <li class="active">Item Detail</li>
             </ol>
             <!-- /.breadcrumb-->
         </div>

@@ -54,14 +54,20 @@
     <!-- /.search-bar -->
     <div class="breadcrumb-wrapper">
         <div class="container">
+             <div class="redefine-search">
+                            <a href="#redefine-search-form" class="inner" data-toggle="collapse" aria-expanded="false" aria-controls="redefine-search-form">
+                                <span class="icon"></span>
+                                <span>Redefine Search</span>
+                            </a>
+            </div>
               <ol class="breadcrumb">
                 <li><a href="<?php echo base_url(); ?>"><i class="fa fa-home"></i></a></li>
                 <li><a href="<?php echo base_url(); ?>dashboard/profile">Profile</a></li>
                 <li class="active">Feeds</li>
-                <li><a href="<?php echo base_url(); ?>main/users">Users</a></li>
+<!--                <li><a href="main/users">Users</a></li>-->
                 <li><a href="<?php echo base_url(); ?>main/requests">Requests</a></li>
                 <li><a href="<?php echo base_url(); ?>restaurant/index">Restaurants</a></li>
-                <li><a href="#">Managing</a></li>
+<!--                <li><a href="#">Managing</a></li>-->
                 <li><a href="<?php echo base_url(); ?>main/user_friend_list/35">My Buddies</a></li>  
                 <li><a href="<?php echo base_url(); ?>login/logout">Logout</a></li>                
             </ol>
@@ -115,36 +121,13 @@
                                 </div>
                             </div>
                             <!--/.col-md-4-->
-                            <div class="col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label for="">Near By</label>
-                                </div>
-                                <div class="div_branche" id=""  style=" width:400px ;height:200px;">
-                                    <input id="near_by_branch" type="hidden" name="near_by_branch">
-                                    <?php
-                                    if(!empty($near_branches)){
-                                        foreach($near_branches as $branch){?>
-
-                                                <div class="col-md-6" ><a class="branch_id" href="#"   value="<?=$branch->id?>"><?= ucfirst($branch->name)?> </a></div>
-                                                <div class="col-md-3"><a class="branch_id" href="#" value="<?=$branch->id?>"><input type="image" src="<?=$branch->logo_url?>" style="height:35px;width:35px;" /></a></div>
-                                    <?php }
-                                    }
-                                    ?>
-                                </div>
-                            </div>
+                            
                         </div>
                         <!--/.row-->
                         </br>
                         <div class="row">
 
-                            <div class="col-md-6 col-sm-6 item_div"  >
-                                <div class="form-group" >
-                                    <label for="type">Items</label>
-                                    <select name="item" id="apped_it" title="Select Type" data-live-search="true" class="append_items" >
-                                    </select>
-
-                                </div>
-                            </div>
+                            
 
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group">

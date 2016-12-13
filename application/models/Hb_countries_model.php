@@ -36,6 +36,7 @@ class Hb_countries_model extends CI_Model
 	{
 		$this->db->select('country_id,country_name');
 		$this->db->from('hb_countries');
+                $this->db->order_by('country_name', 'asc');
 		$query = $this->db->get();
 
 		if($query->num_rows()<1){

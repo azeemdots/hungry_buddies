@@ -15,7 +15,7 @@
                         <ul class="main-navigation navigation-top-header"></ul>
                         <ul class="user-area ">
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong><?php if(!empty($user_data)){ echo ucfirst($user_data->username); }?></strong><i class="fa fa-caret-down" aria-hidden="true"></i></a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong><?php if(!empty($user_data)){ echo ucfirst($user_data->username); }?></strong><i class="fa fa-caret-down" aria-hidden="true" style="margin-left: 10px;text-align: center; width: 27px;"></i></a>
                                         <ul class="dropdown-menu" style="margin-top: 19px;">
                                             <li><a href="<?php echo base_url() ?>dashboard/profile">Profile</a></li>
                                             <li><a href="<?php echo base_url() ?>feeds">Feeds</a></li>
@@ -28,7 +28,7 @@
 
                                         </ul>
                                     </li>
-                                <li><a href=""><i class="fa fa-cog"></i></a></li>
+<!--                                <li><a href=""><i class="fa fa-cog"></i></a></li>-->
                             </ul>
 <!--                        <a href="submit.html" class="submit-item">
                             <div class="content"><span>Submit Your Item</span></div>

@@ -252,6 +252,9 @@ class main extends CI_Controller {
 
     public function search_result() {
         
+        $submit= $this->input->post('submit');
+        if(isset($submit)) {
+        
             $data['keyword']= $this->input->post('keyword_search');
             $data['location']= $this->input->post('search_location');
             $data['folder_name'] = 'main';
@@ -326,7 +329,9 @@ class main extends CI_Controller {
             $this->load->view('index', $data); 
                                        
     }
-
+       
+    }
+    
     public function restaurants_sort()
     {
         $keyword= $this->input->post('restaurant_sort');
@@ -541,6 +546,11 @@ class main extends CI_Controller {
         }
         $data['nav_name'] = 'nav_main';
         $data['user_data'] = $this->ion_auth->user()->row();
+        
+        $data['most_used_tags'] =$this->restaurant_selected_tags_model->get_most_use_tags(); //For sidebar
+        $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews(); //For sidebar
+        $data['popular_restaurant'] = $this->restaurant_model->get_papular_restaurant_location(); //For Sidebar
+               
         $this->load->view('index', $data);
     }
 

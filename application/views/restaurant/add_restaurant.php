@@ -5,6 +5,12 @@
     <!-- /.search-bar -->
     <div class="breadcrumb-wrapper">
         <div class="container">
+             <div class="redefine-search">
+                <a href="#redefine-search-form" class="inner" data-toggle="collapse" aria-expanded="false" aria-controls="redefine-search-form">
+                    <span class="icon"></span>
+                    <span>Redefine Search</span>
+                </a>
+            </div>
             <ol class="breadcrumb">
                 <li><a href="<?= base_url(); ?>main"><i class="fa fa-home"></i></a></li>
                 <li><a href="#">Add Your Restaurant </a></li>
@@ -76,19 +82,7 @@
                                     <div class="form-group">
                                         <label for="form-register-password">Phone:</label>
                                         <input type="text" class="form-control" id="phone" name="phone">
-                                    </div><!-- /.form-group -->
-                                    <div class="form-group">
-                                        <label for="form-register-password">Mobile:</label>
-                                        <input type="text" class="form-control" id="mobile" name="mobile">
-                                    </div><!-- /.form-group -->
-                                    <div class="form-group">
-                                        <label for="form-register-password">Email:</label>
-                                        <input type="text" class="form-control" id="email" name="email">
-                                    </div><!-- /.form-group -->
-                                    <div class="form-group">
-                                        <label for="form-register-password">Website:</label>
-                                        <input type="text" class="form-control" id="website_address" name="website_address">
-                                    </div><!-- /.form-group -->
+                                    </div><!-- /.form-group -->                                 
                                     <div class="form-group">
                                         <label for="form-register-date">Restaurant Logo:</label>
                                         <div class="input-group input-append">

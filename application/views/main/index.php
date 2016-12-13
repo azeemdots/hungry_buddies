@@ -13,20 +13,7 @@
                                 <label for="keyword">Keyword</label>
                                 <input type="text" class="form-control" id="keyword" name="keyword_search" placeholder="Enter Keyword">
                             </div>
-                            <!-- /.form-group -->
-                            
-<!--                            <div class="form-group">
-                                <label for="model">Place Type</label>
-                                <select name="model" id="model" multiple title="Any" data-live-search="true">
-                                    <option value="1">Restaurant</option>
-                                    <option value="2">Vegetarian</option>
-                                    <option value="3">Bar</option>
-                                    <option value="4">Night Life</option>
-                                    <option value="5">Breakfast</option>
-                                    <option value="6">Fast Food</option>
-                                    <option value="7">Steak & Grill</option>
-                                </select>
-                            </div>-->
+                            <!-- /.form-group -->                           
 
                             <!-- /.form-group -->
                             <div class="form-group">                                
@@ -145,7 +132,7 @@
                                 <div class="item">
                                     <div class="image">
                                         <div class="quick-view"><i class="fa fa-eye"></i><span>Quick View</span></div>
-                                        <a href="">
+                                        <a href="<?= base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>">
                                             <div class="overlay">
                                                 <div class="inner">
                                                     <div class="content">
@@ -177,7 +164,7 @@
                                         </a>
                                     </div>
                                     <div class="wrapper">
-                                        <a href=""><h3><?php echo $row->restaurant_name; ?></h3></a>
+                                        <a href="<?= base_url() ?>restaurant/restaurant_detail/<?php echo $row->restaurant_id ?>"><h3><?php echo $row->restaurant_name; ?></h3></a>
                                         <figure><?php echo $row->city_name.",".$row->country_name; ?></figure>
                                         <div class="info">
                                             <div class="type">

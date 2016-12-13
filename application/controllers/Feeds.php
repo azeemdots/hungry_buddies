@@ -12,7 +12,7 @@ class Feeds extends CI_Controller {
         $this->load->model('restaurant_selected_tags_model');
     }
 
-    function index() {
+    public function index() {
         
     if ($this->ion_auth->logged_in()) {     
         
@@ -26,6 +26,9 @@ class Feeds extends CI_Controller {
         $data['user_data'] = $this->ion_auth->user()->row();
         $data['user_id']= $data['user_data']->id;
         //print_r($data['user_id']); exit; 
+        
+//        $country_name= $this->get_country_by_ip();
+//        $country_id=$this->hb_countries_model->getCountryByName($country_name);
         $data['feeds'] = $this->feeds_model->get_all_feeeds($data['user_data']->id);
         $data['most_used_tags'] =$this->restaurant_selected_tags_model->get_most_use_tags(); //For sidebar
         $data['user_reviews']= $this->restaurant_model->get_most_user_by_reviews(); //For sidebar
@@ -110,6 +113,7 @@ class Feeds extends CI_Controller {
     }
 
     function feed_detail() {
+      if ($this->ion_auth->logged_in()) {     
         $data['folder_name'] = 'main';
         $data['header_name'] = 'header_user';
         $data['nav_name'] = 'nav_main';
@@ -120,8 +124,14 @@ class Feeds extends CI_Controller {
         $data['feeds'] = $this->feeds_model->get_by_id($feed_id);
         $data['feed_images'] = $this->feed_images_model->get_by_id($feed_id);
         $data['user_data'] = $this->ion_auth->user()->row();
+        $data['user_id'] =$this->ion_auth->user()->row()->id;       
         $this->load->view('index', $data);
+    } else {
+            redirect('login');
+        }
     }
+    
+    
       function delete_feed() {
         $feed_id = $this->uri->segment(3);
         $this->load->model('feeds_model');
